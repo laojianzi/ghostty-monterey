@@ -8,6 +8,7 @@
 import AppKit
 import XCTest
 
+#if compiler(>=6.0)
 final class GhosttyThemeTests: GhosttyCustomConfigCase {
     let windowTitle = "GhosttyThemeTests"
     private func assertTitlebarAppearance(
@@ -157,3 +158,4 @@ final class GhosttyThemeTests: GhosttyCustomConfigCase {
         try assertTitlebarAppearance(.dark, for: app, title: title, colorLocation: CGPoint(x: 5, y: 5))
     }
 }
+#endif

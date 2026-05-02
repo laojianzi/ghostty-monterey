@@ -41,7 +41,7 @@ class QuickTerminalController: BaseTerminalController {
     init(_ ghostty: Ghostty.App,
          position: QuickTerminalPosition = .top,
          baseConfig base: Ghostty.SurfaceConfiguration? = nil,
-         restorationState: QuickTerminalRestorableState? = nil,
+         restorationState: QuickTerminalRestorableState? = nil
     ) {
         self.position = position
         self.derivedConfig = DerivedConfig(ghostty.config)

@@ -1,7 +1,9 @@
+#if compiler(>=6.0)
 import AppKit
 import AppIntents
 
 /// App intent that retrieves details about a specific terminal.
+@available(macOS 13.0, *)
 struct GetTerminalDetailsIntent: AppIntent {
     static var title: LocalizedStringResource = "Get Details of Terminal"
 
@@ -58,6 +60,7 @@ enum TerminalDetail: String {
     case visibleText
 }
 
+@available(macOS 13.0, *)
 extension TerminalDetail: AppEnum {
     static var typeDisplayRepresentation = TypeDisplayRepresentation(name: "Terminal Detail")
 
@@ -69,3 +72,5 @@ extension TerminalDetail: AppEnum {
         .visibleText: .init(title: "Visible Text"),
     ]
 }
+
+#endif

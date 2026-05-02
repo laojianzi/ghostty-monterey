@@ -1,203 +1,181 @@
-<!-- LOGO -->
-<h1>
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/fe853809-ba8b-400b-83ab-a9a0da25be8a" alt="Logo" width="128">
-  <br>Ghostty
-</h1>
-  <p align="center">
-    Fast, native, feature-rich terminal emulator pushing modern features.
-    <br />
-    <a href="#about">About</a>
-    ·
-    <a href="https://ghostty.org/download">Download</a>
-    ·
-    <a href="https://ghostty.org/docs">Documentation</a>
-    ·
-    <a href="CONTRIBUTING.md">Contributing</a>
-    ·
-    <a href="HACKING.md">Developing</a>
-  </p>
-</p>
+# Ghostty macOS 12 Compatibility Build
 
-## About
+This branch provides a macOS 12-compatible Ghostty build for machines that cannot run newer macOS releases. The goal is to keep the macOS app buildable and usable on macOS 12 with all product behavior that macOS 12 can support.
 
-Ghostty is a terminal emulator that differentiates itself by being
-fast, feature-rich, and native. While there are many excellent terminal
-emulators available, they all force you to choose between speed,
-features, or native UIs. Ghostty provides all three.
+## Compatibility Target
 
-In all categories, I am not trying to claim that Ghostty is the
-best (i.e. the fastest, most feature-rich, or most native). But
-Ghostty is competitive in all three categories and Ghostty
-doesn't make you choose between them.
+- Minimum supported macOS version: `12.0`
+- Verified host: macOS 12.7.6
+- Verified toolchain: Xcode 14.1, Apple Swift 5.7.1, macOS 13 SDK, Zig 0.15.2
+- Verified app binaries: universal `x86_64 arm64`, arm64-only, and x86_64-only
+- Signing mode: ad-hoc signed, not notarized
 
-Ghostty also intends to push the boundaries of what is possible with a
-terminal emulator by exposing modern, opt-in features that enable CLI tool
-developers to build more feature rich, interactive applications.
+## Current Status
 
-While aiming for this ambitious goal, our first step is to make Ghostty
-one of the best fully standards compliant terminal emulator, remaining
-compatible with all existing shells and software while supporting all of
-the latest terminal innovations in the ecosystem. You can use Ghostty
-as a drop-in replacement for your existing terminal emulator.
+The macOS 12 compatibility work is complete for the macOS app target.
 
-For more details, see [About Ghostty](https://ghostty.org/docs/about).
+- Zig ReleaseFast macOS framework build passes.
+- Xcode `Release` app build passes.
+- Xcode scheme test build passes under Xcode 14.1.
+- `Ghostty.app` declares `LSMinimumSystemVersion = 12.0`.
+- Mach-O load commands report `minos 12.0`.
+- Codesign verification passes.
+- App icon resources are present in Release builds.
+- Manual product testing passed, including split drag-and-drop.
 
-## Download
+## Release Attachments
 
-See the [download page](https://ghostty.org/download) on the Ghostty website.
+Generated release artifacts are not committed to git. Upload these files as GitHub/GitLab Release attachments:
 
-## Documentation
+- `dist/Ghostty-macos12-universal.zip`
+- `dist/Ghostty-macos12-arm64.zip`
+- `dist/Ghostty-macos12-x86_64.zip`
+- `dist/SHA256SUMS.txt`
 
-See the [documentation](https://ghostty.org/docs) on the Ghostty website.
+Current checksums:
 
-## Contributing and Developing
-
-If you have any ideas, issues, etc. regarding Ghostty, or would like to
-contribute to Ghostty through pull requests, please check out our
-["Contributing to Ghostty"](CONTRIBUTING.md) document. Those who would like
-to get involved with Ghostty's development as well should also read the
-["Developing Ghostty"](HACKING.md) document for more technical details.
-
-## Roadmap and Status
-
-The high-level ambitious plan for the project, in order:
-
-|  #  | Step                                                      | Status |
-| :-: | --------------------------------------------------------- | :----: |
-|  1  | Standards-compliant terminal emulation                    |   ✅   |
-|  2  | Competitive performance                                   |   ✅   |
-|  3  | Basic customizability -- fonts, bg colors, etc.           |   ✅   |
-|  4  | Richer windowing features -- multi-window, tabbing, panes |   ✅   |
-|  5  | Native Platform Experiences (i.e. Mac Preference Panel)   |   ⚠️   |
-|  6  | Cross-platform `libghostty` for Embeddable Terminals      |   ⚠️   |
-|  7  | Windows Terminals (including PowerShell, Cmd, WSL)        |   ❌   |
-|  N  | Fancy features (to be expanded upon later)                |   ❌   |
-
-Additional details for each step in the big roadmap below:
-
-#### Standards-Compliant Terminal Emulation
-
-Ghostty implements enough control sequences to be used by hundreds of
-testers daily for over the past year. Further, we've done a
-[comprehensive xterm audit](https://github.com/ghostty-org/ghostty/issues/632)
-comparing Ghostty's behavior to xterm and building a set of conformance
-test cases.
-
-We believe Ghostty is one of the most compliant terminal emulators available.
-
-Terminal behavior is partially a de jure standard
-(i.e. [ECMA-48](https://ecma-international.org/publications-and-standards/standards/ecma-48/))
-but mostly a de facto standard as defined by popular terminal emulators
-worldwide. Ghostty takes the approach that our behavior is defined by
-(1) standards, if available, (2) xterm, if the feature exists, (3)
-other popular terminals, in that order. This defines what the Ghostty project
-views as a "standard."
-
-#### Competitive Performance
-
-We need better benchmarks to continuously verify this, but Ghostty is
-generally in the same performance category as the other highest performing
-terminal emulators.
-
-For rendering, we have a multi-renderer architecture that uses OpenGL on
-Linux and Metal on macOS. As far as I'm aware, we're the only terminal
-emulator other than iTerm that uses Metal directly. And we're the only
-terminal emulator that has a Metal renderer that supports ligatures (iTerm
-uses a CPU renderer if ligatures are enabled). We can maintain around 60fps
-under heavy load and much more generally -- though the terminal is
-usually rendering much lower due to little screen changes.
-
-For IO, we have a dedicated IO thread that maintains very little jitter
-under heavy IO load (i.e. `cat <big file>.txt`). On benchmarks for IO,
-we're usually within a small margin of other fast terminal emulators.
-For example, reading a dump of plain text is 4x faster compared to iTerm and
-Kitty, and 2x faster than Terminal.app. Alacritty is very fast but we're still
-around the same speed (give or take) and our app experience is much more
-feature rich.
-
-> [!NOTE]
-> Despite being _very fast_, there is a lot of room for improvement here.
-
-#### Richer Windowing Features
-
-The Mac and Linux (build with GTK) apps support multi-window, tabbing, and
-splits.
-
-#### Native Platform Experiences
-
-Ghostty is a cross-platform terminal emulator but we don't aim for a
-least-common-denominator experience. There is a large, shared core written
-in Zig but we do a lot of platform-native things:
-
-- The macOS app is a true SwiftUI-based application with all the things you
-  would expect such as real windowing, menu bars, a settings GUI, etc.
-- macOS uses a true Metal renderer with CoreText for font discovery.
-- The Linux app is built with GTK.
-
-There are more improvements to be made. The macOS settings window is still
-a work-in-progress. Similar improvements will follow with Linux.
-
-#### Cross-platform `libghostty` for Embeddable Terminals
-
-In addition to being a standalone terminal emulator, Ghostty is a
-C-compatible library for embedding a fast, feature-rich terminal emulator
-in any 3rd party project. This library is called `libghostty`.
-
-Due to the scope of this project, we're breaking libghostty down into
-separate actually libraries, starting with `libghostty-vt`. The goal of
-this project is to focus on parsing terminal sequences and maintaining
-terminal state. This is covered in more detail in this
-[blog post](https://mitchellh.com/writing/libghostty-is-coming).
-
-`libghostty-vt` is already available and usable today for Zig and C and
-is compatible for macOS, Linux, Windows, and WebAssembly. At the time of
-writing this, the API isn't stable yet and we haven't tagged an official
-release, but the core logic is well proven (since Ghostty uses it) and
-we're working hard on it now.
-
-The ultimate goal is not hypothetical! The macOS app is a `libghostty` consumer.
-The macOS app is a native Swift app developed in Xcode and `main()` is
-within Swift. The Swift app links to `libghostty` and uses the C API to
-render terminals.
-
-## Crash Reports
-
-Ghostty has a built-in crash reporter that will generate and save crash
-reports to disk. The crash reports are saved to the `$XDG_STATE_HOME/ghostty/crash`
-directory. If `$XDG_STATE_HOME` is not set, the default is `~/.local/state`.
-**Crash reports are _not_ automatically sent anywhere off your machine.**
-
-Crash reports are only generated the next time Ghostty is started after a
-crash. If Ghostty crashes and you want to generate a crash report, you must
-restart Ghostty at least once. You should see a message in the log that a
-crash report was generated.
-
-> [!NOTE]
->
-> Use the `ghostty +crash-report` CLI command to get a list of available crash
-> reports. A future version of Ghostty will make the contents of the crash
-> reports more easily viewable through the CLI and GUI.
-
-Crash reports end in the `.ghosttycrash` extension. The crash reports are in
-[Sentry envelope format](https://develop.sentry.dev/sdk/envelopes/). You can
-upload these to your own Sentry account to view their contents, but the format
-is also publicly documented so any other available tools can also be used.
-The `ghostty +crash-report` CLI command can be used to list any crash reports.
-A future version of Ghostty will show you the contents of the crash report
-directly in the terminal.
-
-To send the crash report to the Ghostty project, you can use the following
-CLI command using the [Sentry CLI](https://docs.sentry.io/cli/installation/):
-
-```shell-session
-SENTRY_DSN=https://e914ee84fd895c4fe324afa3e53dac76@o4507352570920960.ingest.us.sentry.io/4507850923638784 sentry-cli send-envelope --raw <path to ghostty crash>
+```text
+02dc35c36418c71bf7e264ff565ddf2d69231c064520fa6616a272762d5aba3c  dist/Ghostty-macos12-universal.zip
+2621720209168a22db4038f2acb81f7086c46f5406f4a0f0d2824c142033a610  dist/Ghostty-macos12-arm64.zip
+52f4e8a09598a58318b53d57d225ed1fbc6819f32baf63259e01317d78648691  dist/Ghostty-macos12-x86_64.zip
 ```
 
-> [!WARNING]
->
-> The crash report can contain sensitive information. The report doesn't
-> purposely contain sensitive information, but it does contain the full
-> stack memory of each thread at the time of the crash. This information
-> is used to rebuild the stack trace but can also contain sensitive data
-> depending on when the crash occurred.
+Verify downloaded artifacts with:
+
+```sh
+shasum -a 256 -c SHA256SUMS.txt
+```
+
+## User Install Note
+
+These builds are ad-hoc signed and not notarized. macOS may block the first launch with an unidentified developer warning.
+
+To open the app:
+
+1. Right-click `Ghostty.app`.
+2. Choose `Open`.
+3. Confirm `Open` in the macOS dialog.
+
+Alternatively, launch once, then allow the app in System Settings, Privacy & Security.
+
+## Build And Verify
+
+Regenerate the macOS framework:
+
+```sh
+zig build -Demit-macos-app=false -Doptimize=ReleaseFast -Dxcframework-target=universal
+```
+
+Build the universal Release app:
+
+```sh
+xcodebuild \
+  -project macos/Ghostty.xcodeproj \
+  -target Ghostty \
+  -configuration Release \
+  -destination 'platform=macOS,arch=arm64' \
+  SYMROOT="$PWD/macos/build" \
+  ONLY_ACTIVE_ARCH=NO \
+  CODE_SIGN_INJECT_BASE_ENTITLEMENTS=NO \
+  -quiet clean build
+```
+
+Build single-architecture Release apps:
+
+```sh
+xcodebuild \
+  -project macos/Ghostty.xcodeproj \
+  -target Ghostty \
+  -configuration Release \
+  -destination 'platform=macOS,arch=arm64' \
+  SYMROOT="$PWD/macos/build-arm64-only-release" \
+  ARCHS=arm64 \
+  ONLY_ACTIVE_ARCH=NO \
+  CODE_SIGN_INJECT_BASE_ENTITLEMENTS=NO \
+  -quiet clean build
+
+xcodebuild \
+  -project macos/Ghostty.xcodeproj \
+  -target Ghostty \
+  -configuration Release \
+  -destination 'platform=macOS,arch=x86_64' \
+  SYMROOT="$PWD/macos/build-x86_64-only-release" \
+  ARCHS=x86_64 \
+  ONLY_ACTIVE_ARCH=NO \
+  CODE_SIGN_INJECT_BASE_ENTITLEMENTS=NO \
+  -quiet clean build
+```
+
+Verify the universal app bundle:
+
+```sh
+lipo -info macos/build/Release/Ghostty.app/Contents/MacOS/ghostty
+plutil -extract LSMinimumSystemVersion raw macos/build/Release/Ghostty.app/Contents/Info.plist
+xcrun vtool -show-build -arch x86_64 macos/build/Release/Ghostty.app/Contents/MacOS/ghostty
+xcrun vtool -show-build -arch arm64 macos/build/Release/Ghostty.app/Contents/MacOS/ghostty
+codesign --verify --deep --strict macos/build/Release/Ghostty.app
+```
+
+Expected verification highlights:
+
+- `lipo` reports `x86_64 arm64`.
+- `LSMinimumSystemVersion` reports `12.0`.
+- Both `vtool` checks report `minos 12.0`.
+- Codesign verification exits successfully.
+
+Package release attachments:
+
+```sh
+ditto -c -k --keepParent macos/build/Release/Ghostty.app dist/Ghostty-macos12-universal.zip
+ditto -c -k --keepParent macos/build-arm64-only-release/Release/Ghostty.app dist/Ghostty-macos12-arm64.zip
+ditto -c -k --keepParent macos/build-x86_64-only-release/Release/Ghostty.app dist/Ghostty-macos12-x86_64.zip
+shasum -a 256 dist/Ghostty-macos12-universal.zip dist/Ghostty-macos12-arm64.zip dist/Ghostty-macos12-x86_64.zip > dist/SHA256SUMS.txt
+shasum -a 256 -c dist/SHA256SUMS.txt
+```
+
+## Compatibility Work Completed
+
+- Downgraded the Xcode project structure so Xcode 14 can open and build it.
+- Lowered macOS deployment targets to `12.0` across Xcode and Zig build configuration.
+- Added SDK 13 fallbacks for newer CoreVideo pixel format constants.
+- Avoided Objective-C headers that Zig's Xcode 14 `translate-c` path cannot parse.
+- Added a libc++ compatibility shim for the missing `__libcpp_verbose_abort` symbol.
+- Backported or compiler-gated Swift 6 and newer macOS SDK usage.
+- Marked AppIntents declarations with macOS availability gates while keeping them out of the Xcode 14 path.
+- Replaced `CoreTransferable` split drag payload handling with an AppKit pasteboard path compatible with macOS 12.
+- Kept AppKit-only pasteboard APIs out of non-AppKit targets.
+- Restored macOS 12 focus metadata propagation for window title, represented directory, command palette targeting, and resize increments.
+- Aligned shared surface focus timing on `Date` for AppKit and UIKit surface implementations.
+- Added an AppKit fallback for search `Return` and `Shift+Return` navigation on macOS 12.
+- Added a traditional `Ghostty.appiconset` so Xcode 14 generates Release app icons correctly.
+- Compiler-gated Swift Testing and UI test files so Xcode 14 can build the test scheme.
+- Ignored generated Release artifacts and Xcode build directories so they remain Release attachments, not source files.
+
+## Product Coverage
+
+Manual testing passed for the P0 compatibility risks:
+
+- Terminal app launch
+- Window and surface focus behavior
+- Search navigation, including keyboard return handling
+- Command palette targeting
+- Split drag-and-drop
+- Universal and single-architecture Release app generation
+
+No macOS 12-supported product feature is currently known to be intentionally removed.
+
+## Known Limitation
+
+AppIntents and Shortcuts are not supported on macOS 12 because the underlying Apple system APIs start at macOS 13 or newer. Those implementations remain gated for newer macOS and newer Xcode toolchains, but are outside the macOS 12 compatibility target.
+
+## Maintenance Notes
+
+When syncing future upstream changes, check for:
+
+- Xcode project format changes requiring Xcode 15 or 16.
+- New Swift 6-only syntax or standard library APIs.
+- New SwiftUI, AppKit, or AppIntents APIs with macOS 13+ availability.
+- New SDK constants absent from the macOS 13 SDK.
+- New `CoreTransferable` or Swift Testing dependencies in macOS 12 build paths.
+
+After each upstream sync, rerun the build and verification commands above and repeat manual testing for focus, search, command palette, and split drag-and-drop.

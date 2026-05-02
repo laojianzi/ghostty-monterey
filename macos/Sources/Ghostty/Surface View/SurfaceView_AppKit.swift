@@ -105,9 +105,8 @@ extension Ghostty {
         // Cancellable for search state needle changes
         private var searchNeedleCancellable: AnyCancellable?
 
-        // The time this surface last became focused. This is a ContinuousClock.Instant
-        // on supported platforms.
-        @Published var focusInstant: ContinuousClock.Instant?
+        // The time this surface last became focused.
+        @Published var focusInstant: Date?
 
         // Returns sizing information for the surface. This is the raw C
         // structure because I'm lazy.
@@ -460,7 +459,7 @@ extension Ghostty {
 
             if focused {
                 // On macOS 13+ we can store our continuous clock...
-                focusInstant = ContinuousClock.now
+                focusInstant = Date()
 
                 // We unset our bell state if we gained focus
                 bell = false
@@ -596,13 +595,13 @@ extension Ghostty {
                     // Empty means that user wants the title to be set automatically
                     // We also need to reload the config for the "title" property to be
                     // used again by this tab.
-                    let prevTitle = titleFromTerminal ?? "👻"
-                    titleFromTerminal = nil
-                    setTitle(prevTitle)
+                    let prevTitle = self.titleFromTerminal ?? "👻"
+                    self.titleFromTerminal = nil
+                    self.setTitle(prevTitle)
                 } else {
                     // Set the title and prevent it from being changed automatically
-                    titleFromTerminal = title
-                    title = newTitle
+                    self.titleFromTerminal = self.title
+                    self.title = newTitle
                 }
             }
 
@@ -639,15 +638,15 @@ extension Ghostty {
         // MARK: Local Events
 
         private func localEventHandler(_ event: NSEvent) -> NSEvent? {
-            return switch event.type {
+            switch event.type {
             case .keyUp:
-                localEventKeyUp(event)
+                return localEventKeyUp(event)
 
             case .leftMouseDown:
-                localEventLeftMouseDown(event)
+                return localEventLeftMouseDown(event)
 
             default:
-                event
+                return event
             }
         }
 
@@ -1141,11 +1140,7 @@ extension Ghostty {
             // We need to know the keyboard layout before below because some keyboard
             // input events will change our keyboard layout and we don't want those
             // going to the terminal.
-            let keyboardIdBefore: String? = if !markedTextBefore {
-                KeyboardLayout.id
-            } else {
-                nil
-            }
+            let keyboardIdBefore: String? = !markedTextBefore ? KeyboardLayout.id : nil
 
             // If we are in a keyDown then we don't need to redispatch a command-modded
             // key event (see docs for this field) so reset this to nil because
@@ -1710,7 +1705,7 @@ extension Ghostty {
                 // in focusDidChange.
                 if self.focused {
                     Task { @MainActor [weak self] in
-                        try await Task.sleep(for: .seconds(3))
+                        try await Task.sleep(nanoseconds: 3_000_000_000)
                         self?.notificationIdentifiers.remove(uuid)
                         UNUserNotificationCenter.current()
                             .removeDeliveredNotifications(withIdentifiers: [uuid])
@@ -2321,14 +2316,12 @@ class CachedValue<T> {
 
         // We don't have a value (or it expired). Fetch and store.
         let result = fetch()
-        let now = ContinuousClock.now
-        let expires = now + duration
         self.value = result
 
         // Schedule a task to clear the value
         expiryTask = Task { [weak self] in
             do {
-                try await Task.sleep(until: expires)
+                try await Task.sleep(nanoseconds: duration.sleepNanoseconds)
                 self?.value = nil
                 self?.expiryTask = nil
             } catch {

@@ -1,3 +1,4 @@
+#if compiler(>=6.0)
 import AppIntents
 import Cocoa
 
@@ -122,3 +123,5 @@ struct CommandQuery: EntityQuery {
         return appDelegate.ghostty.config.commandPaletteEntries.map { CommandEntity($0, for: terminal) }
     }
 }
+
+#endif

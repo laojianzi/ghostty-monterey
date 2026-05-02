@@ -1,3 +1,7 @@
+#if compiler(>=6.0)
+import AppIntents
+
+@available(macOS 13.0, *)
 enum GhosttyIntentError: Error, CustomLocalizedStringResourceConvertible {
     case appUnavailable
     case surfaceNotFound
@@ -11,3 +15,5 @@ enum GhosttyIntentError: Error, CustomLocalizedStringResourceConvertible {
         }
     }
 }
+
+#endif

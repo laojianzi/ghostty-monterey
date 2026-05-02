@@ -1,7 +1,9 @@
+#if compiler(>=6.0)
 import AppKit
 import AppIntents
 import SwiftUI
 
+@available(macOS 13.0, *)
 struct TerminalEntity: AppEntity {
     let id: UUID
 
@@ -62,6 +64,7 @@ struct TerminalEntity: AppEntity {
     }
 }
 
+@available(macOS 13.0, *)
 extension TerminalEntity {
     enum Kind: String, AppEnum {
         case normal
@@ -76,6 +79,7 @@ extension TerminalEntity {
     }
 }
 
+@available(macOS 13.0, *)
 struct TerminalQuery: EntityStringQuery, EnumerableEntityQuery {
     @MainActor
     func entities(for identifiers: [TerminalEntity.ID]) async throws -> [TerminalEntity] {
@@ -119,3 +123,5 @@ struct TerminalQuery: EntityStringQuery, EnumerableEntityQuery {
         }
     }
 }
+
+#endif

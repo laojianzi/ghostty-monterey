@@ -1,3 +1,4 @@
+#if compiler(>=6.0)
 import AppKit
 import Foundation
 import Testing
@@ -142,3 +143,4 @@ struct ColorizedGhosttyIconTests {
         #expect(lhs != rhs)
     }
 }
+#endif

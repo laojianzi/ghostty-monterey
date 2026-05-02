@@ -48,7 +48,7 @@ class ServiceProvider: NSObject {
 
         for url in directoryURLs {
             var config = Ghostty.SurfaceConfiguration()
-            config.workingDirectory = url.path(percentEncoded: false)
+            config.workingDirectory = url.path
 
             switch target {
             case .window:

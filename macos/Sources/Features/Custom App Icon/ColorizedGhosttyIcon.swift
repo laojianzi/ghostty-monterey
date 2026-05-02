@@ -19,11 +19,16 @@ struct ColorizedGhosttyIcon {
         guard let crt = bundle.image(forResource: "CustomIconCRT") else { return nil }
         guard let gloss = bundle.image(forResource: "CustomIconGloss") else { return nil }
 
-        let baseName = switch frame {
-        case .aluminum: "CustomIconBaseAluminum"
-        case .beige: "CustomIconBaseBeige"
-        case .chrome: "CustomIconBaseChrome"
-        case .plastic: "CustomIconBasePlastic"
+        let baseName: String
+        switch frame {
+        case .aluminum:
+            baseName = "CustomIconBaseAluminum"
+        case .beige:
+            baseName = "CustomIconBaseBeige"
+        case .chrome:
+            baseName = "CustomIconBaseChrome"
+        case .plastic:
+            baseName = "CustomIconBasePlastic"
         }
         guard let base = bundle.image(forResource: baseName) else { return nil }
 

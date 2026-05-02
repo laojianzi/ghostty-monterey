@@ -1,3 +1,4 @@
+#if compiler(>=6.0)
 import Testing
 @testable import Ghostty
 
@@ -45,3 +46,4 @@ struct ShellTests {
         #expect(Ghostty.Shell.quote(input) == expected)
     }
 }
+#endif

@@ -26,6 +26,7 @@ enum BackportKeyPressResult {
 
 extension Backport where Content: View {
     func pointerVisibility(_ v: BackportVisibility) -> some View {
+        #if compiler(>=6.0)
         #if canImport(AppKit)
         if #available(macOS 15, *) {
             return content.pointerVisibility(v.official)
@@ -35,9 +36,13 @@ extension Backport where Content: View {
         #else
         return content
         #endif
+        #else
+        return content
+        #endif
     }
 
     func pointerStyle(_ style: BackportPointerStyle?) -> some View {
+        #if compiler(>=6.0)
         #if canImport(AppKit)
         if #available(macOS 15, *) {
             return content.pointerStyle(style?.official)
@@ -47,10 +52,14 @@ extension Backport where Content: View {
         #else
         return content
         #endif
+        #else
+        return content
+        #endif
     }
 
     /// Backported onKeyPress that works on macOS 14+ and is a no-op on macOS 13.
     func onKeyPress(_ key: KeyEquivalent, action: @escaping (EventModifiers) -> BackportKeyPressResult) -> some View {
+        #if compiler(>=5.9)
         #if canImport(AppKit)
         if #available(macOS 14, *) {
             return content.onKeyPress(key, phases: .down, action: { keyPress in
@@ -62,6 +71,9 @@ extension Backport where Content: View {
         } else {
             return content
         }
+        #else
+        return content
+        #endif
         #else
         return content
         #endif
@@ -97,6 +109,7 @@ enum BackportPointerStyle {
     case resizeUpDown
     case resizeLeftRight
 
+    #if compiler(>=6.0)
     #if canImport(AppKit)
     @available(macOS 15, *)
     var official: PointerStyle {
@@ -116,11 +129,13 @@ enum BackportPointerStyle {
         }
     }
     #endif
+    #endif
 }
 
 enum BackportNSGlassStyle {
     case regular, clear
 
+    #if compiler(>=6.2)
     #if canImport(AppKit)
     @available(macOS 26, *)
     var official: NSGlassEffectView.Style {
@@ -129,5 +144,6 @@ enum BackportNSGlassStyle {
         case .clear: return .clear
         }
     }
+    #endif
     #endif
 }

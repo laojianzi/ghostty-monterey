@@ -5,6 +5,7 @@
 //  Tests for NSPasteboard.PasteboardType MIME type conversion.
 //
 
+#if compiler(>=6.0)
 import Testing
 import AppKit
 @testable import Ghostty
@@ -31,3 +32,4 @@ struct NSPasteboardTypeExtensionTests {
         #expect(pasteboardType == .png)
     }
 }
+#endif

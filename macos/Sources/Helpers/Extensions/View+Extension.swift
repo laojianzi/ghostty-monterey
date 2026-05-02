@@ -19,6 +19,7 @@ extension View {
 
 extension View {
     func pointerStyleFromCursor(_ cursor: NSCursor) -> some View {
+        #if compiler(>=6.0)
         if #available(macOS 15.0, *) {
             return self.pointerStyle(.image(
                 Image(nsImage: cursor.image),
@@ -27,5 +28,8 @@ extension View {
         } else {
             return self
         }
+        #else
+        return self
+        #endif
     }
 }

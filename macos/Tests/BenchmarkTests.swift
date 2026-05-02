@@ -5,6 +5,7 @@
 //  Created by Mitchell Hashimoto on 7/9/25.
 //
 
+#if compiler(>=6.0)
 import Testing
 import GhosttyKit
 
@@ -30,3 +31,4 @@ struct BenchmarkTests {
             "--data=/Users/mitchellh/Documents/ghostty/bug.osc.txt")
     }
 }
+#endif

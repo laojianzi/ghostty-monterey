@@ -1,3 +1,4 @@
+#if compiler(>=6.0)
 import Testing
 @testable import Ghostty
 @testable import GhosttyKit
@@ -242,3 +243,4 @@ class TemporaryConfig: Ghostty.Config {
         try? FileManager.default.removeItem(at: temporaryFile)
     }
 }
+#endif

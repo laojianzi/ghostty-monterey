@@ -1,4 +1,6 @@
+#if compiler(>=6.0)
 import AppIntents
+#endif
 import Cocoa
 import SwiftUI
 import GhosttyKit
@@ -232,14 +234,16 @@ extension Ghostty.Input {
 
         var cAction: ghostty_input_action_e {
             switch self {
-            case .release: GHOSTTY_ACTION_RELEASE
-            case .press: GHOSTTY_ACTION_PRESS
-            case .repeat: GHOSTTY_ACTION_REPEAT
+            case .release: return GHOSTTY_ACTION_RELEASE
+            case .press: return GHOSTTY_ACTION_PRESS
+            case .repeat: return GHOSTTY_ACTION_REPEAT
             }
         }
     }
 }
 
+#if compiler(>=6.0)
+@available(macOS 13.0, *)
 extension Ghostty.Input.Action: AppEnum {
     static var typeDisplayRepresentation = TypeDisplayRepresentation(name: "Key Action")
 
@@ -249,6 +253,7 @@ extension Ghostty.Input.Action: AppEnum {
         .repeat: "Repeat"
     ]
 }
+#endif
 
 // MARK: Ghostty.Input.MouseEvent
 
@@ -345,13 +350,15 @@ extension Ghostty.Input {
 
         var cMouseState: ghostty_input_mouse_state_e {
             switch self {
-            case .release: GHOSTTY_MOUSE_RELEASE
-            case .press: GHOSTTY_MOUSE_PRESS
+            case .release: return GHOSTTY_MOUSE_RELEASE
+            case .press: return GHOSTTY_MOUSE_PRESS
             }
         }
     }
 }
 
+#if compiler(>=6.0)
+@available(macOS 13.0, *)
 extension Ghostty.Input.MouseState: AppEnum {
     static var typeDisplayRepresentation = TypeDisplayRepresentation(name: "Mouse State")
 
@@ -360,6 +367,7 @@ extension Ghostty.Input.MouseState: AppEnum {
         .press: "Press"
     ]
 }
+#endif
 
 // MARK: Ghostty.Input.MouseButton
 
@@ -381,18 +389,18 @@ extension Ghostty.Input {
 
         var cMouseButton: ghostty_input_mouse_button_e {
             switch self {
-            case .unknown: GHOSTTY_MOUSE_UNKNOWN
-            case .left: GHOSTTY_MOUSE_LEFT
-            case .right: GHOSTTY_MOUSE_RIGHT
-            case .middle: GHOSTTY_MOUSE_MIDDLE
-            case .four: GHOSTTY_MOUSE_FOUR
-            case .five: GHOSTTY_MOUSE_FIVE
-            case .six: GHOSTTY_MOUSE_SIX
-            case .seven: GHOSTTY_MOUSE_SEVEN
-            case .eight: GHOSTTY_MOUSE_EIGHT
-            case .nine: GHOSTTY_MOUSE_NINE
-            case .ten: GHOSTTY_MOUSE_TEN
-            case .eleven: GHOSTTY_MOUSE_ELEVEN
+            case .unknown: return GHOSTTY_MOUSE_UNKNOWN
+            case .left: return GHOSTTY_MOUSE_LEFT
+            case .right: return GHOSTTY_MOUSE_RIGHT
+            case .middle: return GHOSTTY_MOUSE_MIDDLE
+            case .four: return GHOSTTY_MOUSE_FOUR
+            case .five: return GHOSTTY_MOUSE_FIVE
+            case .six: return GHOSTTY_MOUSE_SIX
+            case .seven: return GHOSTTY_MOUSE_SEVEN
+            case .eight: return GHOSTTY_MOUSE_EIGHT
+            case .nine: return GHOSTTY_MOUSE_NINE
+            case .ten: return GHOSTTY_MOUSE_TEN
+            case .eleven: return GHOSTTY_MOUSE_ELEVEN
             }
         }
 
@@ -417,6 +425,16 @@ extension Ghostty.Input {
     }
 }
 
+#if compiler(>=6.0)
+extension Ghostty.Input.MouseButton {
+    static var allCases: [Ghostty.Input.MouseButton] = [
+        .left,
+        .right,
+        .middle,
+    ]
+}
+
+@available(macOS 13.0, *)
 extension Ghostty.Input.MouseButton: AppEnum {
     static var typeDisplayRepresentation = TypeDisplayRepresentation(name: "Mouse Button")
 
@@ -426,13 +444,8 @@ extension Ghostty.Input.MouseButton: AppEnum {
         .right: "Right",
         .middle: "Middle"
     ]
-
-    static var allCases: [Ghostty.Input.MouseButton] = [
-        .left,
-        .right,
-        .middle,
-    ]
 }
+#endif
 
 // MARK: Ghostty.Input.ScrollMods
 
@@ -489,18 +502,20 @@ extension Ghostty.Input {
 
         var cMomentum: ghostty_input_mouse_momentum_e {
             switch self {
-            case .none: GHOSTTY_MOUSE_MOMENTUM_NONE
-            case .began: GHOSTTY_MOUSE_MOMENTUM_BEGAN
-            case .stationary: GHOSTTY_MOUSE_MOMENTUM_STATIONARY
-            case .changed: GHOSTTY_MOUSE_MOMENTUM_CHANGED
-            case .ended: GHOSTTY_MOUSE_MOMENTUM_ENDED
-            case .cancelled: GHOSTTY_MOUSE_MOMENTUM_CANCELLED
-            case .mayBegin: GHOSTTY_MOUSE_MOMENTUM_MAY_BEGIN
+            case .none: return GHOSTTY_MOUSE_MOMENTUM_NONE
+            case .began: return GHOSTTY_MOUSE_MOMENTUM_BEGAN
+            case .stationary: return GHOSTTY_MOUSE_MOMENTUM_STATIONARY
+            case .changed: return GHOSTTY_MOUSE_MOMENTUM_CHANGED
+            case .ended: return GHOSTTY_MOUSE_MOMENTUM_ENDED
+            case .cancelled: return GHOSTTY_MOUSE_MOMENTUM_CANCELLED
+            case .mayBegin: return GHOSTTY_MOUSE_MOMENTUM_MAY_BEGIN
             }
         }
     }
 }
 
+#if compiler(>=6.0)
+@available(macOS 13.0, *)
 extension Ghostty.Input.Momentum: AppEnum {
     static var typeDisplayRepresentation = TypeDisplayRepresentation(name: "Scroll Momentum")
 
@@ -514,6 +529,7 @@ extension Ghostty.Input.Momentum: AppEnum {
         .mayBegin: "May Begin"
     ]
 }
+#endif
 
 #if canImport(AppKit)
 import AppKit
@@ -578,7 +594,7 @@ extension Ghostty.Input {
 
 extension Ghostty.Input {
     /// `ghostty_input_key_e`
-    enum Key: String {
+    enum Key: String, CaseIterable {
         // Writing System Keys
         case backquote
         case backslash
@@ -783,195 +799,195 @@ extension Ghostty.Input {
         var cKey: ghostty_input_key_e {
             switch self {
             // Writing System Keys
-            case .backquote: GHOSTTY_KEY_BACKQUOTE
-            case .backslash: GHOSTTY_KEY_BACKSLASH
-            case .bracketLeft: GHOSTTY_KEY_BRACKET_LEFT
-            case .bracketRight: GHOSTTY_KEY_BRACKET_RIGHT
-            case .comma: GHOSTTY_KEY_COMMA
-            case .digit0: GHOSTTY_KEY_DIGIT_0
-            case .digit1: GHOSTTY_KEY_DIGIT_1
-            case .digit2: GHOSTTY_KEY_DIGIT_2
-            case .digit3: GHOSTTY_KEY_DIGIT_3
-            case .digit4: GHOSTTY_KEY_DIGIT_4
-            case .digit5: GHOSTTY_KEY_DIGIT_5
-            case .digit6: GHOSTTY_KEY_DIGIT_6
-            case .digit7: GHOSTTY_KEY_DIGIT_7
-            case .digit8: GHOSTTY_KEY_DIGIT_8
-            case .digit9: GHOSTTY_KEY_DIGIT_9
-            case .equal: GHOSTTY_KEY_EQUAL
-            case .intlBackslash: GHOSTTY_KEY_INTL_BACKSLASH
-            case .intlRo: GHOSTTY_KEY_INTL_RO
-            case .intlYen: GHOSTTY_KEY_INTL_YEN
-            case .a: GHOSTTY_KEY_A
-            case .b: GHOSTTY_KEY_B
-            case .c: GHOSTTY_KEY_C
-            case .d: GHOSTTY_KEY_D
-            case .e: GHOSTTY_KEY_E
-            case .f: GHOSTTY_KEY_F
-            case .g: GHOSTTY_KEY_G
-            case .h: GHOSTTY_KEY_H
-            case .i: GHOSTTY_KEY_I
-            case .j: GHOSTTY_KEY_J
-            case .k: GHOSTTY_KEY_K
-            case .l: GHOSTTY_KEY_L
-            case .m: GHOSTTY_KEY_M
-            case .n: GHOSTTY_KEY_N
-            case .o: GHOSTTY_KEY_O
-            case .p: GHOSTTY_KEY_P
-            case .q: GHOSTTY_KEY_Q
-            case .r: GHOSTTY_KEY_R
-            case .s: GHOSTTY_KEY_S
-            case .t: GHOSTTY_KEY_T
-            case .u: GHOSTTY_KEY_U
-            case .v: GHOSTTY_KEY_V
-            case .w: GHOSTTY_KEY_W
-            case .x: GHOSTTY_KEY_X
-            case .y: GHOSTTY_KEY_Y
-            case .z: GHOSTTY_KEY_Z
-            case .minus: GHOSTTY_KEY_MINUS
-            case .period: GHOSTTY_KEY_PERIOD
-            case .quote: GHOSTTY_KEY_QUOTE
-            case .semicolon: GHOSTTY_KEY_SEMICOLON
-            case .slash: GHOSTTY_KEY_SLASH
+            case .backquote: return GHOSTTY_KEY_BACKQUOTE
+            case .backslash: return GHOSTTY_KEY_BACKSLASH
+            case .bracketLeft: return GHOSTTY_KEY_BRACKET_LEFT
+            case .bracketRight: return GHOSTTY_KEY_BRACKET_RIGHT
+            case .comma: return GHOSTTY_KEY_COMMA
+            case .digit0: return GHOSTTY_KEY_DIGIT_0
+            case .digit1: return GHOSTTY_KEY_DIGIT_1
+            case .digit2: return GHOSTTY_KEY_DIGIT_2
+            case .digit3: return GHOSTTY_KEY_DIGIT_3
+            case .digit4: return GHOSTTY_KEY_DIGIT_4
+            case .digit5: return GHOSTTY_KEY_DIGIT_5
+            case .digit6: return GHOSTTY_KEY_DIGIT_6
+            case .digit7: return GHOSTTY_KEY_DIGIT_7
+            case .digit8: return GHOSTTY_KEY_DIGIT_8
+            case .digit9: return GHOSTTY_KEY_DIGIT_9
+            case .equal: return GHOSTTY_KEY_EQUAL
+            case .intlBackslash: return GHOSTTY_KEY_INTL_BACKSLASH
+            case .intlRo: return GHOSTTY_KEY_INTL_RO
+            case .intlYen: return GHOSTTY_KEY_INTL_YEN
+            case .a: return GHOSTTY_KEY_A
+            case .b: return GHOSTTY_KEY_B
+            case .c: return GHOSTTY_KEY_C
+            case .d: return GHOSTTY_KEY_D
+            case .e: return GHOSTTY_KEY_E
+            case .f: return GHOSTTY_KEY_F
+            case .g: return GHOSTTY_KEY_G
+            case .h: return GHOSTTY_KEY_H
+            case .i: return GHOSTTY_KEY_I
+            case .j: return GHOSTTY_KEY_J
+            case .k: return GHOSTTY_KEY_K
+            case .l: return GHOSTTY_KEY_L
+            case .m: return GHOSTTY_KEY_M
+            case .n: return GHOSTTY_KEY_N
+            case .o: return GHOSTTY_KEY_O
+            case .p: return GHOSTTY_KEY_P
+            case .q: return GHOSTTY_KEY_Q
+            case .r: return GHOSTTY_KEY_R
+            case .s: return GHOSTTY_KEY_S
+            case .t: return GHOSTTY_KEY_T
+            case .u: return GHOSTTY_KEY_U
+            case .v: return GHOSTTY_KEY_V
+            case .w: return GHOSTTY_KEY_W
+            case .x: return GHOSTTY_KEY_X
+            case .y: return GHOSTTY_KEY_Y
+            case .z: return GHOSTTY_KEY_Z
+            case .minus: return GHOSTTY_KEY_MINUS
+            case .period: return GHOSTTY_KEY_PERIOD
+            case .quote: return GHOSTTY_KEY_QUOTE
+            case .semicolon: return GHOSTTY_KEY_SEMICOLON
+            case .slash: return GHOSTTY_KEY_SLASH
 
             // Functional Keys
-            case .altLeft: GHOSTTY_KEY_ALT_LEFT
-            case .altRight: GHOSTTY_KEY_ALT_RIGHT
-            case .backspace: GHOSTTY_KEY_BACKSPACE
-            case .capsLock: GHOSTTY_KEY_CAPS_LOCK
-            case .contextMenu: GHOSTTY_KEY_CONTEXT_MENU
-            case .controlLeft: GHOSTTY_KEY_CONTROL_LEFT
-            case .controlRight: GHOSTTY_KEY_CONTROL_RIGHT
-            case .enter: GHOSTTY_KEY_ENTER
-            case .metaLeft: GHOSTTY_KEY_META_LEFT
-            case .metaRight: GHOSTTY_KEY_META_RIGHT
-            case .shiftLeft: GHOSTTY_KEY_SHIFT_LEFT
-            case .shiftRight: GHOSTTY_KEY_SHIFT_RIGHT
-            case .space: GHOSTTY_KEY_SPACE
-            case .tab: GHOSTTY_KEY_TAB
-            case .convert: GHOSTTY_KEY_CONVERT
-            case .kanaMode: GHOSTTY_KEY_KANA_MODE
-            case .nonConvert: GHOSTTY_KEY_NON_CONVERT
+            case .altLeft: return GHOSTTY_KEY_ALT_LEFT
+            case .altRight: return GHOSTTY_KEY_ALT_RIGHT
+            case .backspace: return GHOSTTY_KEY_BACKSPACE
+            case .capsLock: return GHOSTTY_KEY_CAPS_LOCK
+            case .contextMenu: return GHOSTTY_KEY_CONTEXT_MENU
+            case .controlLeft: return GHOSTTY_KEY_CONTROL_LEFT
+            case .controlRight: return GHOSTTY_KEY_CONTROL_RIGHT
+            case .enter: return GHOSTTY_KEY_ENTER
+            case .metaLeft: return GHOSTTY_KEY_META_LEFT
+            case .metaRight: return GHOSTTY_KEY_META_RIGHT
+            case .shiftLeft: return GHOSTTY_KEY_SHIFT_LEFT
+            case .shiftRight: return GHOSTTY_KEY_SHIFT_RIGHT
+            case .space: return GHOSTTY_KEY_SPACE
+            case .tab: return GHOSTTY_KEY_TAB
+            case .convert: return GHOSTTY_KEY_CONVERT
+            case .kanaMode: return GHOSTTY_KEY_KANA_MODE
+            case .nonConvert: return GHOSTTY_KEY_NON_CONVERT
 
             // Control Pad Section
-            case .delete: GHOSTTY_KEY_DELETE
-            case .end: GHOSTTY_KEY_END
-            case .help: GHOSTTY_KEY_HELP
-            case .home: GHOSTTY_KEY_HOME
-            case .insert: GHOSTTY_KEY_INSERT
-            case .pageDown: GHOSTTY_KEY_PAGE_DOWN
-            case .pageUp: GHOSTTY_KEY_PAGE_UP
+            case .delete: return GHOSTTY_KEY_DELETE
+            case .end: return GHOSTTY_KEY_END
+            case .help: return GHOSTTY_KEY_HELP
+            case .home: return GHOSTTY_KEY_HOME
+            case .insert: return GHOSTTY_KEY_INSERT
+            case .pageDown: return GHOSTTY_KEY_PAGE_DOWN
+            case .pageUp: return GHOSTTY_KEY_PAGE_UP
 
             // Arrow Pad Section
-            case .arrowDown: GHOSTTY_KEY_ARROW_DOWN
-            case .arrowLeft: GHOSTTY_KEY_ARROW_LEFT
-            case .arrowRight: GHOSTTY_KEY_ARROW_RIGHT
-            case .arrowUp: GHOSTTY_KEY_ARROW_UP
+            case .arrowDown: return GHOSTTY_KEY_ARROW_DOWN
+            case .arrowLeft: return GHOSTTY_KEY_ARROW_LEFT
+            case .arrowRight: return GHOSTTY_KEY_ARROW_RIGHT
+            case .arrowUp: return GHOSTTY_KEY_ARROW_UP
 
             // Numpad Section
-            case .numLock: GHOSTTY_KEY_NUM_LOCK
-            case .numpad0: GHOSTTY_KEY_NUMPAD_0
-            case .numpad1: GHOSTTY_KEY_NUMPAD_1
-            case .numpad2: GHOSTTY_KEY_NUMPAD_2
-            case .numpad3: GHOSTTY_KEY_NUMPAD_3
-            case .numpad4: GHOSTTY_KEY_NUMPAD_4
-            case .numpad5: GHOSTTY_KEY_NUMPAD_5
-            case .numpad6: GHOSTTY_KEY_NUMPAD_6
-            case .numpad7: GHOSTTY_KEY_NUMPAD_7
-            case .numpad8: GHOSTTY_KEY_NUMPAD_8
-            case .numpad9: GHOSTTY_KEY_NUMPAD_9
-            case .numpadAdd: GHOSTTY_KEY_NUMPAD_ADD
-            case .numpadBackspace: GHOSTTY_KEY_NUMPAD_BACKSPACE
-            case .numpadClear: GHOSTTY_KEY_NUMPAD_CLEAR
-            case .numpadClearEntry: GHOSTTY_KEY_NUMPAD_CLEAR_ENTRY
-            case .numpadComma: GHOSTTY_KEY_NUMPAD_COMMA
-            case .numpadDecimal: GHOSTTY_KEY_NUMPAD_DECIMAL
-            case .numpadDivide: GHOSTTY_KEY_NUMPAD_DIVIDE
-            case .numpadEnter: GHOSTTY_KEY_NUMPAD_ENTER
-            case .numpadEqual: GHOSTTY_KEY_NUMPAD_EQUAL
-            case .numpadMemoryAdd: GHOSTTY_KEY_NUMPAD_MEMORY_ADD
-            case .numpadMemoryClear: GHOSTTY_KEY_NUMPAD_MEMORY_CLEAR
-            case .numpadMemoryRecall: GHOSTTY_KEY_NUMPAD_MEMORY_RECALL
-            case .numpadMemoryStore: GHOSTTY_KEY_NUMPAD_MEMORY_STORE
-            case .numpadMemorySubtract: GHOSTTY_KEY_NUMPAD_MEMORY_SUBTRACT
-            case .numpadMultiply: GHOSTTY_KEY_NUMPAD_MULTIPLY
-            case .numpadParenLeft: GHOSTTY_KEY_NUMPAD_PAREN_LEFT
-            case .numpadParenRight: GHOSTTY_KEY_NUMPAD_PAREN_RIGHT
-            case .numpadSubtract: GHOSTTY_KEY_NUMPAD_SUBTRACT
-            case .numpadSeparator: GHOSTTY_KEY_NUMPAD_SEPARATOR
-            case .numpadUp: GHOSTTY_KEY_NUMPAD_UP
-            case .numpadDown: GHOSTTY_KEY_NUMPAD_DOWN
-            case .numpadRight: GHOSTTY_KEY_NUMPAD_RIGHT
-            case .numpadLeft: GHOSTTY_KEY_NUMPAD_LEFT
-            case .numpadBegin: GHOSTTY_KEY_NUMPAD_BEGIN
-            case .numpadHome: GHOSTTY_KEY_NUMPAD_HOME
-            case .numpadEnd: GHOSTTY_KEY_NUMPAD_END
-            case .numpadInsert: GHOSTTY_KEY_NUMPAD_INSERT
-            case .numpadDelete: GHOSTTY_KEY_NUMPAD_DELETE
-            case .numpadPageUp: GHOSTTY_KEY_NUMPAD_PAGE_UP
-            case .numpadPageDown: GHOSTTY_KEY_NUMPAD_PAGE_DOWN
+            case .numLock: return GHOSTTY_KEY_NUM_LOCK
+            case .numpad0: return GHOSTTY_KEY_NUMPAD_0
+            case .numpad1: return GHOSTTY_KEY_NUMPAD_1
+            case .numpad2: return GHOSTTY_KEY_NUMPAD_2
+            case .numpad3: return GHOSTTY_KEY_NUMPAD_3
+            case .numpad4: return GHOSTTY_KEY_NUMPAD_4
+            case .numpad5: return GHOSTTY_KEY_NUMPAD_5
+            case .numpad6: return GHOSTTY_KEY_NUMPAD_6
+            case .numpad7: return GHOSTTY_KEY_NUMPAD_7
+            case .numpad8: return GHOSTTY_KEY_NUMPAD_8
+            case .numpad9: return GHOSTTY_KEY_NUMPAD_9
+            case .numpadAdd: return GHOSTTY_KEY_NUMPAD_ADD
+            case .numpadBackspace: return GHOSTTY_KEY_NUMPAD_BACKSPACE
+            case .numpadClear: return GHOSTTY_KEY_NUMPAD_CLEAR
+            case .numpadClearEntry: return GHOSTTY_KEY_NUMPAD_CLEAR_ENTRY
+            case .numpadComma: return GHOSTTY_KEY_NUMPAD_COMMA
+            case .numpadDecimal: return GHOSTTY_KEY_NUMPAD_DECIMAL
+            case .numpadDivide: return GHOSTTY_KEY_NUMPAD_DIVIDE
+            case .numpadEnter: return GHOSTTY_KEY_NUMPAD_ENTER
+            case .numpadEqual: return GHOSTTY_KEY_NUMPAD_EQUAL
+            case .numpadMemoryAdd: return GHOSTTY_KEY_NUMPAD_MEMORY_ADD
+            case .numpadMemoryClear: return GHOSTTY_KEY_NUMPAD_MEMORY_CLEAR
+            case .numpadMemoryRecall: return GHOSTTY_KEY_NUMPAD_MEMORY_RECALL
+            case .numpadMemoryStore: return GHOSTTY_KEY_NUMPAD_MEMORY_STORE
+            case .numpadMemorySubtract: return GHOSTTY_KEY_NUMPAD_MEMORY_SUBTRACT
+            case .numpadMultiply: return GHOSTTY_KEY_NUMPAD_MULTIPLY
+            case .numpadParenLeft: return GHOSTTY_KEY_NUMPAD_PAREN_LEFT
+            case .numpadParenRight: return GHOSTTY_KEY_NUMPAD_PAREN_RIGHT
+            case .numpadSubtract: return GHOSTTY_KEY_NUMPAD_SUBTRACT
+            case .numpadSeparator: return GHOSTTY_KEY_NUMPAD_SEPARATOR
+            case .numpadUp: return GHOSTTY_KEY_NUMPAD_UP
+            case .numpadDown: return GHOSTTY_KEY_NUMPAD_DOWN
+            case .numpadRight: return GHOSTTY_KEY_NUMPAD_RIGHT
+            case .numpadLeft: return GHOSTTY_KEY_NUMPAD_LEFT
+            case .numpadBegin: return GHOSTTY_KEY_NUMPAD_BEGIN
+            case .numpadHome: return GHOSTTY_KEY_NUMPAD_HOME
+            case .numpadEnd: return GHOSTTY_KEY_NUMPAD_END
+            case .numpadInsert: return GHOSTTY_KEY_NUMPAD_INSERT
+            case .numpadDelete: return GHOSTTY_KEY_NUMPAD_DELETE
+            case .numpadPageUp: return GHOSTTY_KEY_NUMPAD_PAGE_UP
+            case .numpadPageDown: return GHOSTTY_KEY_NUMPAD_PAGE_DOWN
 
             // Function Section
-            case .escape: GHOSTTY_KEY_ESCAPE
-            case .f1: GHOSTTY_KEY_F1
-            case .f2: GHOSTTY_KEY_F2
-            case .f3: GHOSTTY_KEY_F3
-            case .f4: GHOSTTY_KEY_F4
-            case .f5: GHOSTTY_KEY_F5
-            case .f6: GHOSTTY_KEY_F6
-            case .f7: GHOSTTY_KEY_F7
-            case .f8: GHOSTTY_KEY_F8
-            case .f9: GHOSTTY_KEY_F9
-            case .f10: GHOSTTY_KEY_F10
-            case .f11: GHOSTTY_KEY_F11
-            case .f12: GHOSTTY_KEY_F12
-            case .f13: GHOSTTY_KEY_F13
-            case .f14: GHOSTTY_KEY_F14
-            case .f15: GHOSTTY_KEY_F15
-            case .f16: GHOSTTY_KEY_F16
-            case .f17: GHOSTTY_KEY_F17
-            case .f18: GHOSTTY_KEY_F18
-            case .f19: GHOSTTY_KEY_F19
-            case .f20: GHOSTTY_KEY_F20
-            case .f21: GHOSTTY_KEY_F21
-            case .f22: GHOSTTY_KEY_F22
-            case .f23: GHOSTTY_KEY_F23
-            case .f24: GHOSTTY_KEY_F24
-            case .f25: GHOSTTY_KEY_F25
-            case .fn: GHOSTTY_KEY_FN
-            case .fnLock: GHOSTTY_KEY_FN_LOCK
-            case .printScreen: GHOSTTY_KEY_PRINT_SCREEN
-            case .scrollLock: GHOSTTY_KEY_SCROLL_LOCK
-            case .pause: GHOSTTY_KEY_PAUSE
+            case .escape: return GHOSTTY_KEY_ESCAPE
+            case .f1: return GHOSTTY_KEY_F1
+            case .f2: return GHOSTTY_KEY_F2
+            case .f3: return GHOSTTY_KEY_F3
+            case .f4: return GHOSTTY_KEY_F4
+            case .f5: return GHOSTTY_KEY_F5
+            case .f6: return GHOSTTY_KEY_F6
+            case .f7: return GHOSTTY_KEY_F7
+            case .f8: return GHOSTTY_KEY_F8
+            case .f9: return GHOSTTY_KEY_F9
+            case .f10: return GHOSTTY_KEY_F10
+            case .f11: return GHOSTTY_KEY_F11
+            case .f12: return GHOSTTY_KEY_F12
+            case .f13: return GHOSTTY_KEY_F13
+            case .f14: return GHOSTTY_KEY_F14
+            case .f15: return GHOSTTY_KEY_F15
+            case .f16: return GHOSTTY_KEY_F16
+            case .f17: return GHOSTTY_KEY_F17
+            case .f18: return GHOSTTY_KEY_F18
+            case .f19: return GHOSTTY_KEY_F19
+            case .f20: return GHOSTTY_KEY_F20
+            case .f21: return GHOSTTY_KEY_F21
+            case .f22: return GHOSTTY_KEY_F22
+            case .f23: return GHOSTTY_KEY_F23
+            case .f24: return GHOSTTY_KEY_F24
+            case .f25: return GHOSTTY_KEY_F25
+            case .fn: return GHOSTTY_KEY_FN
+            case .fnLock: return GHOSTTY_KEY_FN_LOCK
+            case .printScreen: return GHOSTTY_KEY_PRINT_SCREEN
+            case .scrollLock: return GHOSTTY_KEY_SCROLL_LOCK
+            case .pause: return GHOSTTY_KEY_PAUSE
 
             // Media Keys
-            case .browserBack: GHOSTTY_KEY_BROWSER_BACK
-            case .browserFavorites: GHOSTTY_KEY_BROWSER_FAVORITES
-            case .browserForward: GHOSTTY_KEY_BROWSER_FORWARD
-            case .browserHome: GHOSTTY_KEY_BROWSER_HOME
-            case .browserRefresh: GHOSTTY_KEY_BROWSER_REFRESH
-            case .browserSearch: GHOSTTY_KEY_BROWSER_SEARCH
-            case .browserStop: GHOSTTY_KEY_BROWSER_STOP
-            case .eject: GHOSTTY_KEY_EJECT
-            case .launchApp1: GHOSTTY_KEY_LAUNCH_APP_1
-            case .launchApp2: GHOSTTY_KEY_LAUNCH_APP_2
-            case .launchMail: GHOSTTY_KEY_LAUNCH_MAIL
-            case .mediaPlayPause: GHOSTTY_KEY_MEDIA_PLAY_PAUSE
-            case .mediaSelect: GHOSTTY_KEY_MEDIA_SELECT
-            case .mediaStop: GHOSTTY_KEY_MEDIA_STOP
-            case .mediaTrackNext: GHOSTTY_KEY_MEDIA_TRACK_NEXT
-            case .mediaTrackPrevious: GHOSTTY_KEY_MEDIA_TRACK_PREVIOUS
-            case .power: GHOSTTY_KEY_POWER
-            case .sleep: GHOSTTY_KEY_SLEEP
-            case .audioVolumeDown: GHOSTTY_KEY_AUDIO_VOLUME_DOWN
-            case .audioVolumeMute: GHOSTTY_KEY_AUDIO_VOLUME_MUTE
-            case .audioVolumeUp: GHOSTTY_KEY_AUDIO_VOLUME_UP
-            case .wakeUp: GHOSTTY_KEY_WAKE_UP
+            case .browserBack: return GHOSTTY_KEY_BROWSER_BACK
+            case .browserFavorites: return GHOSTTY_KEY_BROWSER_FAVORITES
+            case .browserForward: return GHOSTTY_KEY_BROWSER_FORWARD
+            case .browserHome: return GHOSTTY_KEY_BROWSER_HOME
+            case .browserRefresh: return GHOSTTY_KEY_BROWSER_REFRESH
+            case .browserSearch: return GHOSTTY_KEY_BROWSER_SEARCH
+            case .browserStop: return GHOSTTY_KEY_BROWSER_STOP
+            case .eject: return GHOSTTY_KEY_EJECT
+            case .launchApp1: return GHOSTTY_KEY_LAUNCH_APP_1
+            case .launchApp2: return GHOSTTY_KEY_LAUNCH_APP_2
+            case .launchMail: return GHOSTTY_KEY_LAUNCH_MAIL
+            case .mediaPlayPause: return GHOSTTY_KEY_MEDIA_PLAY_PAUSE
+            case .mediaSelect: return GHOSTTY_KEY_MEDIA_SELECT
+            case .mediaStop: return GHOSTTY_KEY_MEDIA_STOP
+            case .mediaTrackNext: return GHOSTTY_KEY_MEDIA_TRACK_NEXT
+            case .mediaTrackPrevious: return GHOSTTY_KEY_MEDIA_TRACK_PREVIOUS
+            case .power: return GHOSTTY_KEY_POWER
+            case .sleep: return GHOSTTY_KEY_SLEEP
+            case .audioVolumeDown: return GHOSTTY_KEY_AUDIO_VOLUME_DOWN
+            case .audioVolumeMute: return GHOSTTY_KEY_AUDIO_VOLUME_MUTE
+            case .audioVolumeUp: return GHOSTTY_KEY_AUDIO_VOLUME_UP
+            case .wakeUp: return GHOSTTY_KEY_WAKE_UP
 
             // Legacy, Non-standard, and Special Keys
-            case .copy: GHOSTTY_KEY_COPY
-            case .cut: GHOSTTY_KEY_CUT
-            case .paste: GHOSTTY_KEY_PASTE
+            case .copy: return GHOSTTY_KEY_COPY
+            case .cut: return GHOSTTY_KEY_CUT
+            case .paste: return GHOSTTY_KEY_PASTE
             }
         }
 
@@ -1173,10 +1189,9 @@ extension Ghostty.Input {
     }
 }
 
-extension Ghostty.Input.Key: AppEnum {
-    static var typeDisplayRepresentation = TypeDisplayRepresentation(name: "Key")
-
-    // Only include keys that have Mac keycodes for App Intents
+#if compiler(>=6.0)
+extension Ghostty.Input.Key {
+    // Only include keys that have Mac keycodes.
     static var allCases: [Ghostty.Input.Key] {
         return [
             // Letters (A-Z)
@@ -1222,6 +1237,11 @@ extension Ghostty.Input.Key: AppEnum {
             .contextMenu
         ]
     }
+}
+
+@available(macOS 13.0, *)
+extension Ghostty.Input.Key: AppEnum {
+    static var typeDisplayRepresentation = TypeDisplayRepresentation(name: "Key")
 
     static var caseDisplayRepresentations: [Ghostty.Input.Key: DisplayRepresentation] = [
         // Letters (A-Z)
@@ -1312,3 +1332,4 @@ extension Ghostty.Input.Key: AppEnum {
         .contextMenu: "Context Menu"
     ]
 }
+#endif

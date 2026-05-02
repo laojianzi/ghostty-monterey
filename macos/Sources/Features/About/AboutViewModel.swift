@@ -22,8 +22,8 @@ class AboutViewModel: ObservableObject {
         timerCancellable = Timer.publish(every: 3, on: .main, in: .common)
             .autoconnect()
             .sink { [weak self] _ in
-                guard let self, !isHovering else { return }
-                advanceToNextIcon()
+                guard let self, !self.isHovering else { return }
+                self.advanceToNextIcon()
             }
     }
 

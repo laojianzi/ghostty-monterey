@@ -5,6 +5,7 @@
 //  Created by Lukas on 26.02.2026.
 //
 
+#if compiler(>=6.0)
 import SwiftUI
 import Testing
 @testable import Ghostty
@@ -101,3 +102,4 @@ struct TerminalViewContainerTests {
     }
 #endif // compiler(>=6.2)
 }
+#endif

@@ -1,39 +1,29 @@
 #if canImport(AppKit)
 import AppKit
 #endif
-import CoreTransferable
 import UniformTypeIdentifiers
 
-/// Conformance to `Transferable` enables drag-and-drop.
-extension Ghostty.SurfaceView: Transferable {
-    static var transferRepresentation: some TransferRepresentation {
-        DataRepresentation(contentType: .ghosttySurfaceId) { surface in
-            withUnsafeBytes(of: surface.id.uuid) { Data($0) }
-        } importing: { data in
-            guard data.count == 16 else {
-                throw TransferError.invalidData
-            }
-
-            let uuid = data.withUnsafeBytes {
-                $0.load(as: UUID.self)
-            }
-
-            guard let imported = await Self.find(uuid: uuid) else {
-                throw TransferError.invalidData
-            }
-
-            return imported
-        }
+extension Ghostty.SurfaceView {
+    #if canImport(AppKit)
+    func pasteboardItem() -> NSPasteboardItem? {
+        let item = NSPasteboardItem()
+        let data = withUnsafeBytes(of: id.uuid) { Data($0) }
+        guard item.setData(data, forType: .ghosttySurfaceId) else { return nil }
+        return item
     }
+    #endif
 
-    enum TransferError: Error {
-        case invalidData
+    static func surfaceID(from data: Data) -> UUID? {
+        guard data.count == 16 else { return nil }
+        return data.withUnsafeBytes {
+            $0.load(as: UUID.self)
+        }
     }
 
     @MainActor
     static func find(uuid: UUID) -> Self? {
         #if canImport(AppKit)
-        guard let del = NSApp.delegate as? Ghostty.Delegate else { return nil }
+        guard let del = NSApp.delegate as? GhosttyDelegate else { return nil }
         return del.ghosttySurface(id: uuid) as? Self
         #elseif canImport(UIKit)
         // We should be able to use UIApplication here.

@@ -90,19 +90,15 @@ struct CommandPaletteView: View {
 
     var selectedOption: CommandOption? {
         guard let selectedIndex else { return nil }
-        return if selectedIndex < filteredOptions.count {
-            filteredOptions[Int(selectedIndex)]
+        if selectedIndex < filteredOptions.count {
+            return filteredOptions[Int(selectedIndex)]
         } else {
-            filteredOptions.last
+            return filteredOptions.last
         }
     }
 
     var body: some View {
-        let scheme: ColorScheme = if OSColor(backgroundColor).isLightColor {
-            .light
-        } else {
-            .dark
-        }
+        let scheme: ColorScheme = OSColor(backgroundColor).isLightColor ? .light : .dark
 
         VStack(alignment: .leading, spacing: 0) {
             CommandPaletteQuery(query: $query, isTextFieldFocused: _isTextFieldFocused) { event in

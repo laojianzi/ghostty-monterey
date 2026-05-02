@@ -1,14 +1,16 @@
+#if compiler(>=6.0)
 import AppKit
 import AppIntents
 import GhosttyKit
 
+@available(macOS 13.0, *)
 struct CloseTerminalIntent: AppIntent {
     static var title: LocalizedStringResource = "Close Terminal"
     static var description = IntentDescription("Close an existing terminal.")
 
     @Parameter(
         title: "Terminal",
-        description: "The terminal to close.",
+        description: "The terminal to close."
     )
     var terminal: TerminalEntity
 
@@ -35,3 +37,5 @@ struct CloseTerminalIntent: AppIntent {
         return .result()
     }
 }
+
+#endif

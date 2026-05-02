@@ -1,3 +1,4 @@
+#if compiler(>=6.0)
 import Testing
 import Foundation
 import SwiftUI
@@ -91,3 +92,4 @@ struct UpdateViewModelTests {
         #expect(viewModel.maxWidthText == viewModel.text)
     }
 }
+#endif

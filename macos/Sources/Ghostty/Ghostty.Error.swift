@@ -1,9 +1,9 @@
 extension Ghostty {
     /// Possible errors from internal Ghostty calls.
-    enum Error: Swift.Error, CustomLocalizedStringResourceConvertible {
+    enum Error: Swift.Error, LocalizedError {
         case apiFailed
 
-        var localizedStringResource: LocalizedStringResource {
+        var errorDescription: String? {
             switch self {
             case .apiFailed: return "libghostty API call failed"
             }

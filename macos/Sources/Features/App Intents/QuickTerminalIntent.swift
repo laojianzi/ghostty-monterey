@@ -1,6 +1,8 @@
+#if compiler(>=6.0)
 import AppKit
 import AppIntents
 
+@available(macOS 13.0, *)
 struct QuickTerminalIntent: AppIntent {
     static var title: LocalizedStringResource = "Open the Quick Terminal"
     static var description = IntentDescription("Open the Quick Terminal. If it is already open, then do nothing.")
@@ -32,3 +34,5 @@ struct QuickTerminalIntent: AppIntent {
         return .result(value: terminals)
     }
 }
+
+#endif

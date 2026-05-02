@@ -5,6 +5,7 @@
 //  Tests for window positioning coordinate conversion functionality.
 //
 
+#if compiler(>=6.0)
 import Testing
 import AppKit
 @testable import Ghostty
@@ -97,3 +98,4 @@ private class MockNSScreen: NSScreen {
         return mockVisibleFrame
     }
 }
+#endif

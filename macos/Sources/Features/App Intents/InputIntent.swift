@@ -1,7 +1,9 @@
+#if compiler(>=6.0)
 import AppKit
 import AppIntents
 
 /// App intent to input text in a terminal.
+@available(macOS 13.0, *)
 struct InputTextIntent: AppIntent {
     static var title: LocalizedStringResource = "Input Text to Terminal"
 
@@ -45,6 +47,7 @@ struct InputTextIntent: AppIntent {
 }
 
 /// App intent to trigger a keyboard event.
+@available(macOS 13.0, *)
 struct KeyEventIntent: AppIntent {
     static var title: LocalizedStringResource = "Send Keyboard Event to Terminal"
     static var description = IntentDescription("Simulate a keyboard event. This will not handle text encoding; use the 'Input Text' action for that.")
@@ -110,6 +113,7 @@ struct KeyEventIntent: AppIntent {
 // MARK: MouseButtonIntent
 
 /// App intent to trigger a mouse button event.
+@available(macOS 13.0, *)
 struct MouseButtonIntent: AppIntent {
     static var title: LocalizedStringResource = "Send Mouse Button Event to Terminal"
 
@@ -172,6 +176,7 @@ struct MouseButtonIntent: AppIntent {
 }
 
 /// App intent to send a mouse position event.
+@available(macOS 13.0, *)
 struct MousePosIntent: AppIntent {
     static var title: LocalizedStringResource = "Send Mouse Position Event to Terminal"
     static var description = IntentDescription("Send a mouse position event to the terminal. This reports the cursor position for mouse tracking.")
@@ -235,6 +240,7 @@ struct MousePosIntent: AppIntent {
 }
 
 /// App intent to send a mouse scroll event.
+@available(macOS 13.0, *)
 struct MouseScrollIntent: AppIntent {
     static var title: LocalizedStringResource = "Send Mouse Scroll Event to Terminal"
     static var description = IntentDescription("Send a mouse scroll event to the terminal with configurable precision and momentum.")
@@ -301,6 +307,7 @@ struct MouseScrollIntent: AppIntent {
 
 // MARK: Mods
 
+@available(macOS 13.0, *)
 enum KeyEventMods: String, AppEnum, CaseIterable {
     case shift
     case control
@@ -325,3 +332,5 @@ enum KeyEventMods: String, AppEnum, CaseIterable {
         }
     }
 }
+
+#endif

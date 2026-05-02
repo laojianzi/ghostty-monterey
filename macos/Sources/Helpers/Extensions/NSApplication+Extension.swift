@@ -27,11 +27,19 @@ extension NSApplication {
     }
 }
 
+#if compiler(>=6.0)
 extension NSApplication.PresentationOptions.Element: @retroactive Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(rawValue)
     }
 }
+#else
+extension NSApplication.PresentationOptions.Element: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(rawValue)
+    }
+}
+#endif
 
 // MARK: Frontmost
 

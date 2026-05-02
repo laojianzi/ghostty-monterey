@@ -64,7 +64,7 @@ final class TabTitleEditor: NSObject, NSTextFieldDelegate {
         // only doing this if we're fullscreen.
         self.eventMonitor = NSEvent.addLocalMonitorForEvents(matching: [.leftMouseDown]) { [weak self] event in
             guard let self else { return event }
-            return handleMouseDown(event) ? nil : event
+            return self.handleMouseDown(event) ? nil : event
         }
     }
 

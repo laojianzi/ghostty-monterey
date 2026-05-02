@@ -1,14 +1,16 @@
+#if compiler(>=6.0)
 import AppKit
 import AppIntents
 import GhosttyKit
 
+@available(macOS 13.0, *)
 struct FocusTerminalIntent: AppIntent {
     static var title: LocalizedStringResource = "Focus Terminal"
     static var description = IntentDescription("Move focus to an existing terminal.")
 
     @Parameter(
         title: "Terminal",
-        description: "The terminal to focus.",
+        description: "The terminal to focus."
     )
     var terminal: TerminalEntity
 
@@ -35,3 +37,5 @@ struct FocusTerminalIntent: AppIntent {
         return .result()
     }
 }
+
+#endif

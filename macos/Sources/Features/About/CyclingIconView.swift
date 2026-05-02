@@ -30,14 +30,16 @@ struct CyclingIconView: View {
         .accessibilityHint("Click to cycle through icon variants")
     }
 
-    @ViewBuilder
     private func iconView(for icon: Ghostty.MacOSIcon?) -> some View {
-        let iconImage: Image = switch icon?.assetName {
-        case let assetName?: Image(assetName)
-        case nil: ghosttyIconImage()
+        let iconImage: Image
+        switch icon?.assetName {
+        case let assetName?:
+            iconImage = Image(assetName)
+        case nil:
+            iconImage = ghosttyIconImage()
         }
 
-        iconImage
+        return iconImage
             .resizable()
             .aspectRatio(contentMode: .fit)
     }

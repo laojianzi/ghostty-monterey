@@ -1,3 +1,5 @@
+import Foundation
+
 extension Ghostty {
     enum Shell {
         // Characters to escape in the shell.
@@ -17,12 +19,13 @@ extension Ghostty {
             return result
         }
 
-        private static let quoteUnsafe = /[^\w@%+=:,.\/-]/
+        private static let quoteSafeScalars = CharacterSet.alphanumerics
+            .union(CharacterSet(charactersIn: "_@%+=:,./-"))
 
         /// Returns a shell-quoted version of the string, like Python's shlex.quote.
         /// Suitable for building shell command lines that will be executed.
         static func quote(_ str: String) -> String {
-            guard str.isEmpty || str.contains(Self.quoteUnsafe) else { return str }
+            guard str.isEmpty || str.unicodeScalars.contains(where: { !quoteSafeScalars.contains($0) }) else { return str }
             return "'" + str.replacingOccurrences(of: "'", with: #"'"'"'"#) + "'"
         }
     }

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 70;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -28,6 +28,226 @@
 		A5B30539299BEAAB0047F10C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A5B30538299BEAAB0047F10C /* Assets.xcassets */; };
 		FC5218FA2D10FFCE004C93E0 /* zsh in Resources */ = {isa = PBXBuildFile; fileRef = FC5218F92D10FFC7004C93E0 /* zsh */; };
 		FC9ABA9C2D0F53F80020D4C8 /* bash-completion in Resources */ = {isa = PBXBuildFile; fileRef = FC9ABA9B2D0F538D0020D4C8 /* bash-completion */; };
+		C08A2C62067D574BE95FDCF2 /* AppDelegate+Ghostty.swift in Sources */ = {isa = PBXBuildFile; fileRef = C090D89EA922CBD3060400A7 /* AppDelegate+Ghostty.swift */; };
+		C060CE8B2C77182D54D80A4E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C07E58E469C58630A5AB09E6 /* AppDelegate.swift */; };
+		C053072E65B58BD919478195 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C07F305FAC047CCA2CB22655 /* main.swift */; };
+		C0CA944BBCD76A522C1F31B7 /* AboutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09E67E9695E85F0143F0B60 /* AboutController.swift */; };
+		C0767BEB08A75AAD5BC499E2 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C064BB96E083A76DAE156CA3 /* AboutView.swift */; };
+		C0425224B977AF33B50A0EB8 /* AboutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C05348AC7CBC248E271A6DA0 /* AboutViewModel.swift */; };
+		C08F70658055594E46235DD9 /* CyclingIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C012D18CB59C2A1F5371E344 /* CyclingIconView.swift */; };
+		C04752C268873EB8E490BB6C /* CloseTerminalIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08C72DA8B89B157CDC0B7CD /* CloseTerminalIntent.swift */; };
+		C0C0288CBCF3A28E478433D5 /* CommandPaletteIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00C4B962663C01889FDDE0D /* CommandPaletteIntent.swift */; };
+		C06DF563FAD1EE257013CABC /* CommandEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C008A70173160F587022B5F3 /* CommandEntity.swift */; };
+		C00A34695FFAE70C14ADC77B /* TerminalEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0EEE656D6AC06CA85BAFDBF /* TerminalEntity.swift */; };
+		C079222D40BA48BDC2EA2155 /* FocusTerminalIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C036162D595C4D9F672FC991 /* FocusTerminalIntent.swift */; };
+		C01A075335B474B4FE449480 /* GetTerminalDetailsIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C041156B1ECCA4D4E71A9764 /* GetTerminalDetailsIntent.swift */; };
+		C0A78A26DC7B1FF51B073C07 /* GhosttyIntentError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C05DA7B9E979DA70C7543EFE /* GhosttyIntentError.swift */; };
+		C044F9B8A9450FED01F69E42 /* InputIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C081341A74CBF847E79D7D21 /* InputIntent.swift */; };
+		C0E93C1B895685458972C9FB /* IntentPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0819A56088844FC89D49CB0 /* IntentPermission.swift */; };
+		C04EDD8BD965F047DB9EA087 /* KeybindIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0094821BAB7D4BA6B8E0085 /* KeybindIntent.swift */; };
+		C0BDF51BF36C9D0B736F4D15 /* NewTerminalIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A421539DAF3F335256C406 /* NewTerminalIntent.swift */; };
+		C057D80824CE92B6500C076C /* QuickTerminalIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00BF4053E9AFE86454512D9 /* QuickTerminalIntent.swift */; };
+		C0D57FE494B68E0C4D8D084D /* AppDelegate+AppleScript.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01993E57EA102819FF34594 /* AppDelegate+AppleScript.swift */; };
+		C0B862D16F27F4E48A6BBC26 /* Ghostty.Input.Mods+AppleScript.swift in Sources */ = {isa = PBXBuildFile; fileRef = C05EC8054CB253F0351683A5 /* Ghostty.Input.Mods+AppleScript.swift */; };
+		C0BB4C5F49D495ECD9BC1C29 /* ScriptInputTextCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0703786EC50B9FCF371A838 /* ScriptInputTextCommand.swift */; };
+		C0825AF09462B7F71075FEA5 /* ScriptKeyEventCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09593D1125C4CE0180CF3A7 /* ScriptKeyEventCommand.swift */; };
+		C050DEEBBDDAE0FCBDCC2266 /* ScriptMouseButtonCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D62025ED4FF9CB20566665 /* ScriptMouseButtonCommand.swift */; };
+		C0B6C5E1DF8C683E0D009702 /* ScriptMousePosCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0891C725CEDFB8356CEEE34 /* ScriptMousePosCommand.swift */; };
+		C0206F05EF7440B11994D36B /* ScriptMouseScrollCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = C025E98726A2EA0BC1E59718 /* ScriptMouseScrollCommand.swift */; };
+		C0A7DB5337F4B7DF5FFA71F5 /* ScriptRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04B9C1D1F428D16B3C4C60A /* ScriptRecord.swift */; };
+		C024DC9DDECC97F600AB86FC /* ScriptSurfaceConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C02925DD407D42BD5A1D0F91 /* ScriptSurfaceConfiguration.swift */; };
+		C0F409139260BBBE967AE66B /* ScriptTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = C05AF714AB782703D64730B0 /* ScriptTab.swift */; };
+		C0F9CEC7D0520239AE6B5392 /* ScriptTerminal.swift in Sources */ = {isa = PBXBuildFile; fileRef = C031A1356614F7154AE1C518 /* ScriptTerminal.swift */; };
+		C02C49B6607CDEFDBFC6543C /* ScriptWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E4172AB9B4684E2887E369 /* ScriptWindow.swift */; };
+		C0F0285DF89242C4DE561797 /* ClipboardConfirmationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B14EC3E71EA90D623DEF66 /* ClipboardConfirmationController.swift */; };
+		C06D624D722C329DDA9F2A6E /* ClipboardConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C006EAE052522A9BF0080D61 /* ClipboardConfirmationView.swift */; };
+		C060F8BF004E7484B5E50DD0 /* CommandPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE93D734C8BB58C216F807 /* CommandPalette.swift */; };
+		C00959220A7362CA2EA8B45D /* TerminalCommandPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D9534DFE36DF5293B4E909 /* TerminalCommandPalette.swift */; };
+		C09710BE8E76A186E33BADA0 /* AppIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D2D8A6088D6FA9A195D4B /* AppIcon.swift */; };
+		C0593C29F9892F2A3E267803 /* ColorizedGhosttyIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03C44AA5C349E54CF46C0EE /* ColorizedGhosttyIcon.swift */; };
+		C0E55AAF0710C963B0223A8F /* ColorizedGhosttyIconImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0119606C9639B92CA2A6262 /* ColorizedGhosttyIconImage.swift */; };
+		C017832075159D93C4FFFF42 /* ColorizedGhosttyIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00A52BE392A1CE78166E598 /* ColorizedGhosttyIconView.swift */; };
+		C0A2CEFD0B5E96B22ADDE986 /* Notification+AppIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F8F57E7018B4BDCEC3E977 /* Notification+AppIcon.swift */; };
+		C01FFC44B388EB279FFFA215 /* UserDefaults+AppIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E8E91281ECBBF30EFA27AC /* UserDefaults+AppIcon.swift */; };
+		C0DA182D051E1477BF683CF7 /* GlobalEventTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00C4DE7D9B8DE63614112B6 /* GlobalEventTap.swift */; };
+		C0CD446199D035577AB87451 /* QuickTerminalController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E3316DA1A8E0EC8EDB861F /* QuickTerminalController.swift */; };
+		C08C7DCD1F23E8E5EA317639 /* QuickTerminalPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C088644F76E2E28FF0D5E26F /* QuickTerminalPosition.swift */; };
+		C0CA205CA39FA8256A2A4EEF /* QuickTerminalRestorableState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C023F19DE94512D3F6B68FB3 /* QuickTerminalRestorableState.swift */; };
+		C0023630A87663744BFF8D95 /* QuickTerminalScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09FBE56D7EC454ACD10A730 /* QuickTerminalScreen.swift */; };
+		C044F571CD125E3710A920DA /* QuickTerminalScreenStateCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = C084E48A50298E2928DCC83B /* QuickTerminalScreenStateCache.swift */; };
+		C0BD88BE0220069E519E4852 /* QuickTerminalSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = C033AF718AB909FC198BDD64 /* QuickTerminalSize.swift */; };
+		C0E20DB10EBF252013DA160F /* QuickTerminalSpaceBehavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0CB98E03EC245CBC04AC7DF /* QuickTerminalSpaceBehavior.swift */; };
+		C0146D961FF1E345B72168D7 /* QuickTerminalWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C07A8FBB21DF6BA329426E46 /* QuickTerminalWindow.swift */; };
+		C00A3A2ED9F44B7F5AD6D638 /* SecureInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0EAD9848020712D817C57CC /* SecureInput.swift */; };
+		C0A7D3BB95ECA9A4A0F0AC18 /* SecureInputOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E2A929D9A20888FCAB1622 /* SecureInputOverlay.swift */; };
+		C072A4B4D2B32E6FEF485F3E /* ServiceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C02EF7A5F8F2AC3DA366075F /* ServiceProvider.swift */; };
+		C0827383B1C722FC22B6F422 /* ConfigurationErrorsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01893B7B63A59DF15EA4148 /* ConfigurationErrorsController.swift */; };
+		C0307E4CC9EEF96FAEF11F05 /* ConfigurationErrorsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A95AA61E79F66F6503131F /* ConfigurationErrorsView.swift */; };
+		C085A7771A5C6658F7E9D063 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C068BC1B6F01C209AACBE4B4 /* SettingsView.swift */; };
+		C02661E7234BB4EFC6EDD7AD /* SplitTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E37A251B44EFDDB0C7B5CD /* SplitTree.swift */; };
+		C0E1053A56081BF1EC666772 /* SplitView.Divider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FA02943841618B7F845577 /* SplitView.Divider.swift */; };
+		C084C05AA5F6E9FB0CA15BCC /* SplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00EC5AD70EDF2F75F4FD8E4 /* SplitView.swift */; };
+		C0589488A9A7F065524DCB99 /* TerminalSplitTreeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0174B213D46B4097C270709 /* TerminalSplitTreeView.swift */; };
+		C0434B7A32A340C54FD220DD /* BaseTerminalController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0EC76DE83F676887B37E87C /* BaseTerminalController.swift */; };
+		C0091637431E813A54492905 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D4E25F1B7160791B167FC9 /* ErrorView.swift */; };
+		C02E29220F5B06C308220EF8 /* TerminalController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09CF014D260BD193D0E1409 /* TerminalController.swift */; };
+		C0A151B4C033B5F5DFA8F439 /* TerminalRestorable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B90AA79431C3BCA3724095 /* TerminalRestorable.swift */; };
+		C0A7B510543E9D1301002173 /* TerminalTabColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04649F94CF3D53B0E3C8A4C /* TerminalTabColor.swift */; };
+		C0F2EC5031775A54E3748AE1 /* TerminalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C034B3CACA97DF83105DF0D1 /* TerminalView.swift */; };
+		C0659156BFB9161FFD25F65A /* TerminalViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F7D89991C0EDA24850B798 /* TerminalViewContainer.swift */; };
+		C00348997BE789ABCB319107 /* HiddenTitlebarTerminalWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0775E5BE620EF5AA854B70E /* HiddenTitlebarTerminalWindow.swift */; };
+		C0357FC77E69B2C3931C6083 /* TerminalWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08B9DA7A7298DEA2FF75AFF /* TerminalWindow.swift */; };
+		C00AD5D934F90414596A21F7 /* TitlebarTabsTahoeTerminalWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C064B2A09702346F0A78B2F1 /* TitlebarTabsTahoeTerminalWindow.swift */; };
+		C0B6BBAC92FD64FBFF3A615D /* TitlebarTabsVenturaTerminalWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C043774AB1176F9564947127 /* TitlebarTabsVenturaTerminalWindow.swift */; };
+		C03B3A51CACBD43E58E29B54 /* TransparentTitlebarTerminalWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C019AE083B505077A5C3327D /* TransparentTitlebarTerminalWindow.swift */; };
+		C08FCA5B0EF840CBD6065146 /* UpdateBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = C099E3D5FD31FAA63966B521 /* UpdateBadge.swift */; };
+		C01D5DE4782918F61B75CDE9 /* UpdateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C092308FEE414EA5BEB139E9 /* UpdateController.swift */; };
+		C098CDD5388851EF3CEAE061 /* UpdateDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0AE20E5606C1255411737CF /* UpdateDelegate.swift */; };
+		C05394E34A272682A7F0027D /* UpdateDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00E7C8A85CC348A8FD4E95C /* UpdateDriver.swift */; };
+		C01A595EAB39A16193C4DBC3 /* UpdatePill.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0758FD42E6DB7DE19E86E3B /* UpdatePill.swift */; };
+		C04655E86386F2978C211B5C /* UpdatePopoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08EA7C4C10022908D36E9A3 /* UpdatePopoverView.swift */; };
+		C0B4DDD706C411D23C88755B /* UpdateSimulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F6DF414CF74FDBAFEC3D24 /* UpdateSimulator.swift */; };
+		C0CD0C2CCC44A500D564731D /* UpdateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0109B143627C6D06644775D /* UpdateViewModel.swift */; };
+		C0DA02FEB2803A7FE727BEFB /* FullscreenMode+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C039B4BB7B7CA061EA98C1F2 /* FullscreenMode+Extension.swift */; };
+		C07C55949EBAC81907E69FE0 /* Ghostty.Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = C049E05A1FEDFBDA4A5D592F /* Ghostty.Action.swift */; };
+		C0A9D6E263C3AC7C320305DF /* Ghostty.App.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B07C3F1F9AD3A4670723B6 /* Ghostty.App.swift */; };
+		C0E351C5C5D0A0E85EA2F7A1 /* Ghostty.Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = C007A0FEA248B496595DCE4E /* Ghostty.Command.swift */; };
+		C0B8E4BF286A1510FBCF1F3B /* Ghostty.Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0ABB65FB861EB438423D8C1 /* Ghostty.Config.swift */; };
+		C00BD0BF3E55881B709D0780 /* Ghostty.ConfigTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C06F8329335865CC46F5B448 /* Ghostty.ConfigTypes.swift */; };
+		C0A5BC152C6589ADF22B0661 /* Ghostty.Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = C07F846CC7D54F92F135B39F /* Ghostty.Error.swift */; };
+		C07B32039BAB5EC134440CA4 /* Ghostty.Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = C066CD91C9D5E3390ECC17D0 /* Ghostty.Event.swift */; };
+		C0AAEB566C9EC57F6AF587CA /* Ghostty.Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = C05B53A657C4FE6A4121DDB0 /* Ghostty.Input.swift */; };
+		C0B2707B808140B70B16ABDA /* Ghostty.Inspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B4BA0614B53366C80F8666 /* Ghostty.Inspector.swift */; };
+		C0990D16053F90AAE6F537D1 /* Ghostty.Shell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C02390C5707D1888FA5B9882 /* Ghostty.Shell.swift */; };
+		C06EB0F7A4D6CEE16EC7E289 /* Ghostty.Surface.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D347129E17D5BDE841C3E9 /* Ghostty.Surface.swift */; };
+		C08622E5D6305984CEAFEF98 /* GhosttyDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03B2A95ACF9C0665DACA29A /* GhosttyDelegate.swift */; };
+		C02ED12CED07E7060780DA20 /* GhosttyPackage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C8134F5E07A66DDC3E747E /* GhosttyPackage.swift */; };
+		C0E28E215908ACE566B6CDF9 /* GhosttyPackageMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = C070CD6467A01E56929F7696 /* GhosttyPackageMeta.swift */; };
+		C073FB3FE511E70B5F387D41 /* NSEvent+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FC3F7EC44CA9FC11E7C4AA /* NSEvent+Extension.swift */; };
+		C0C73D2F8BF8E28DFFFB8348 /* InspectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E421D67B9FDA921491B1C7 /* InspectorView.swift */; };
+		C0998C00B629B39B3FF588C9 /* SurfaceDragSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C037BA09D343EF1FD3CD2BC9 /* SurfaceDragSource.swift */; };
+		C09178B6CE85FF4B7471BA39 /* SurfaceGrabHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C07091B48E02A45A55675D1E /* SurfaceGrabHandle.swift */; };
+		C01FE7F825384D63C66C2515 /* SurfaceProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C063223B158D27258C83AFFC /* SurfaceProgressBar.swift */; };
+		C0DC964C1F24A99AD2C7E22B /* SurfaceScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C7C9135A05B6B0D10B84E3 /* SurfaceScrollView.swift */; };
+		C0B4F148F7A9615C2930C371 /* SurfaceView+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D630B136A6CB3884A94968 /* SurfaceView+Image.swift */; };
+		C0874A0ED5D85528FF249829 /* SurfaceView+Transferable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0CA7F586C29CA891D8F0A6F /* SurfaceView+Transferable.swift */; };
+		C06885897D57F00FB60713CB /* SurfaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C073AFAA2BF333EC5B49E5A1 /* SurfaceView.swift */; };
+		C01787E918339FD98F43578C /* SurfaceView_AppKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03BF9B0C45E7F33B56524BD /* SurfaceView_AppKit.swift */; };
+		C07649301372977FAE173594 /* AnySortKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FD06DA48E5684CCB839992 /* AnySortKey.swift */; };
+		C09F146C45F915FF9E66C67E /* AppInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C3076366C435EF7A5A8B33 /* AppInfo.swift */; };
+		C081AA8528AA3C933BCD5345 /* Backport.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FC3B7E6B04E269CFE66C52 /* Backport.swift */; };
+		C0582C1974C19DDCCD30D407 /* CodableBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = C06A094A343F6EADC65C0F14 /* CodableBridge.swift */; };
+		C0373B83381DC9B40BF96AA0 /* CrossKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE4E2270091468EF0A3E7F /* CrossKit.swift */; };
+		C099C428D45ECE116D546394 /* Cursor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C05EC86DB38F1281C52D7730 /* Cursor.swift */; };
+		C0AB2CCE11B4D7542BE78BD3 /* ExpiringUndoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C05D51BB1585AB68FE75A14E /* ExpiringUndoManager.swift */; };
+		C0989407654AB26906E104F6 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C069755DFDF9FF8E090EC3F4 /* Array+Extension.swift */; };
+		C0F5F0DD4D4D5D24AD4C7692 /* Double+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04A2EBFD04A316A2B791FAA /* Double+Extension.swift */; };
+		C086A9C78D433826115D47D5 /* Duration+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C02B63BDA15DFA342D2BF467 /* Duration+Extension.swift */; };
+		C05887591FD06CB344C38E75 /* EventModifiers+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03CBE4AC01DF07FEBBFACD6 /* EventModifiers+Extension.swift */; };
+		C0AE8706EB65AD4FC4D772CD /* FileHandle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0AE856FDE08FB8032E9AA7E /* FileHandle+Extension.swift */; };
+		C0FB3ACCF4C0C168B7D0D0CF /* KeyboardShortcut+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A7174E6229F085ECB0C035 /* KeyboardShortcut+Extension.swift */; };
+		C0F62186CA8FC0D821FCDBFB /* NSAppearance+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B7B77DA7778F56807A02AF /* NSAppearance+Extension.swift */; };
+		C086504A6784699A2679BEC6 /* NSApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03DFB6AA914B9B781D1A46E /* NSApplication+Extension.swift */; };
+		C0B86508AD2157333F1AFDF3 /* NSColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C02A38317437A22841A5842B /* NSColor+Extension.swift */; };
+		C036D8E662C531B2CE467ED6 /* NSImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C036A7DAD3DA30C737C84593 /* NSImage+Extension.swift */; };
+		C0EBC0279096BDBE63BCC91A /* NSMenu+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03DF73F67E700984A494F04 /* NSMenu+Extension.swift */; };
+		C05F096A02C6F7FD0A8CDC4E /* NSMenuItem+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B66239FDECE54026E1A5C4 /* NSMenuItem+Extension.swift */; };
+		C0CD573738311199D014049B /* NSPasteboard+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04BC15DDC9BF3A100FBA51B /* NSPasteboard+Extension.swift */; };
+		C0EEB64224CF34B49C21C9DD /* NSScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C027EB86E8D38400AC4386A4 /* NSScreen+Extension.swift */; };
+		C0B2D3846CC538EFD6550E13 /* NSView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08EBB1F5F31B6F5CD81117D /* NSView+Extension.swift */; };
+		C07D393485F6A827323FAC67 /* NSWindow+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C012864FD0187885837D7440 /* NSWindow+Extension.swift */; };
+		C04AA2B948F6B2F4F20D0057 /* NSWorkspace+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0174376D7848BC688D5003F /* NSWorkspace+Extension.swift */; };
+		C056140E445E79C8A630CFDA /* OSColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BCF33562A5966E2019DB4B /* OSColor+Extension.swift */; };
+		C04C2AEB021FAB6CD51CFC9B /* ObjectIdentifier+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C02D6B84888C163B44E2F56D /* ObjectIdentifier+Extension.swift */; };
+		C004F1F4EA03098AC744DB58 /* Optional+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C095E6198DD0806520A7AD40 /* Optional+Extension.swift */; };
+		C01AB96F137CF0ECD7677267 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B657FEF7C6EC659D61BD35 /* String+Extension.swift */; };
+		C08D394759BE97E2928CB8F7 /* Transferable+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03BFC4664B9932945C681FD /* Transferable+Extension.swift */; };
+		C02F5A49FDFF2C4F07C12826 /* UUID+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C091588618D5B9FD0824CCB7 /* UUID+Extension.swift */; };
+		C0C37CE9388BBDC82387AD51 /* UndoManager+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09065D6F3119CD2254EED0A /* UndoManager+Extension.swift */; };
+		C023F7E8565EBF65020CA8EB /* UserDefaults+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04DC57A0D5C707141AD8307 /* UserDefaults+Extension.swift */; };
+		C0E831106E87CB4B4F3833DE /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BB3FB74BB7987E690FC938 /* View+Extension.swift */; };
+		C0B0358DFD77B93FB584762C /* Fullscreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B7A4D7D5E4090F2C1C686D /* Fullscreen.swift */; };
+		C0826AF2B7FB27D97A51842C /* HostingWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01EEF9B44DF3DC90D7B1027 /* HostingWindow.swift */; };
+		C0B24532936653AF4D8A602F /* KeyboardLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D0BAFC8304F83885DD6398 /* KeyboardLayout.swift */; };
+		C0D2B61548E14007EB279ACF /* LastWindowPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BD4184F6233B1288C9EBFC /* LastWindowPosition.swift */; };
+		C0D1B2C3A4E5F60718293A4C /* LibCxxVerboseAbortShim.mm in Sources */ = {isa = PBXBuildFile; fileRef = C0D1B2C3A4E5F60718293A4B /* LibCxxVerboseAbortShim.mm */; };
+		C0E821D3B33055F13D933748 /* MetalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C06B8CD9075411610AF0956D /* MetalView.swift */; };
+		C0D9479CF7807B70E9A1C756 /* NonDraggableHostingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C078DC63F67DBDC6921F4308 /* NonDraggableHostingView.swift */; };
+		C0EC8FB6C92197113D12835B /* ObjCExceptionCatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = C02A61F0AADE2FF53A366198 /* ObjCExceptionCatcher.m */; };
+		C0A848BEA0EBC2AA26DA02A0 /* PermissionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01BB1781639FE0C54A98B1E /* PermissionRequest.swift */; };
+		C0977B0654DDA252311F49D3 /* CGS.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D8E66208E06B66FD84C27D /* CGS.swift */; };
+		C0C169B18F4BF317F36C8965 /* Dock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B595111F22AF468236B594 /* Dock.swift */; };
+		C06E7F392894069B15E93496 /* TabGroupCloseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0022FCF0D0FBFD2AAA3CE65 /* TabGroupCloseCoordinator.swift */; };
+		C0F34CFE485899F4EA5D1253 /* TabTitleEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C009BBD9D4B02F32F1763AAE /* TabTitleEditor.swift */; };
+		C020B56E5D2CF79197D94B33 /* VibrantLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C07DF9ECCC17609C098CE598 /* VibrantLayer.m */; };
+		C068EC611BF278D58A0561CD /* Weak.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B7DCD3C87B809891BAA940 /* Weak.swift */; };
+		C049EC0F4DA29DE25EA602CD /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = C0CB7FFD9ECF2A0B6F4386AE /* MainMenu.xib */; };
+		C08E93E54C0901EE6BF6E46D /* About.xib in Resources */ = {isa = PBXBuildFile; fileRef = C0702C1C84569BD6EB95D5A8 /* About.xib */; };
+		C0B3E6EE1C20906AE0E10ED9 /* ClipboardConfirmation.xib in Resources */ = {isa = PBXBuildFile; fileRef = C068E2D3A8DBA7D5CE02E9ED /* ClipboardConfirmation.xib */; };
+		C0CBA688A2A69DDB0697D6D5 /* QuickTerminal.xib in Resources */ = {isa = PBXBuildFile; fileRef = C0A45844522424D9716DFF22 /* QuickTerminal.xib */; };
+		C02BE21269782B20CBBA857A /* ConfigurationErrors.xib in Resources */ = {isa = PBXBuildFile; fileRef = C0C87CB08E7CD71714187F14 /* ConfigurationErrors.xib */; };
+		C0E6BF6F64D2BC1B35CA3046 /* Terminal.xib in Resources */ = {isa = PBXBuildFile; fileRef = C0ED42036F5670449F3078F4 /* Terminal.xib */; };
+		C068AFE54EB42CBEA713FB8E /* TerminalHiddenTitlebar.xib in Resources */ = {isa = PBXBuildFile; fileRef = C082FE29599294FCB821490D /* TerminalHiddenTitlebar.xib */; };
+		C0C5EFE3E7B077BD741AEB4D /* TerminalTabsTitlebarTahoe.xib in Resources */ = {isa = PBXBuildFile; fileRef = C004D939373B7E927DC0879F /* TerminalTabsTitlebarTahoe.xib */; };
+		C07EA5C44B66E2EE7B99E24B /* TerminalTabsTitlebarVentura.xib in Resources */ = {isa = PBXBuildFile; fileRef = C033BBC8DBB7062AA1375EF9 /* TerminalTabsTitlebarVentura.xib */; };
+		C0E3AEEF270FB8D9F23D5BF3 /* TerminalTransparentTitlebar.xib in Resources */ = {isa = PBXBuildFile; fileRef = C0A8A32E23BB28F84514DCB3 /* TerminalTransparentTitlebar.xib */; };
+		C0CB54EA76FA15096DBFEA90 /* AppIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D2D8A6088D6FA9A195D4B /* AppIcon.swift */; };
+		C06423EBAF309B7E549E6D72 /* ColorizedGhosttyIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03C44AA5C349E54CF46C0EE /* ColorizedGhosttyIcon.swift */; };
+		C04FD9B85B77F63356BE4C5B /* DockTilePlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BC47BC8FF6BD87C2D10D16 /* DockTilePlugin.swift */; };
+		C0082775262031F08A21A499 /* Notification+AppIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F8F57E7018B4BDCEC3E977 /* Notification+AppIcon.swift */; };
+		C06C6C81120BEA01455FCA99 /* UserDefaults+AppIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E8E91281ECBBF30EFA27AC /* UserDefaults+AppIcon.swift */; };
+		C097C37EEE56D19A8CA3A70D /* Ghostty.ConfigTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C06F8329335865CC46F5B448 /* Ghostty.ConfigTypes.swift */; };
+		C000C86C496B3F20A25245F2 /* GhosttyPackageMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = C070CD6467A01E56929F7696 /* GhosttyPackageMeta.swift */; };
+		C02314A273A0A9335D171A38 /* CrossKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE4E2270091468EF0A3E7F /* CrossKit.swift */; };
+		C0F55EDB38BC4FB843AC0BE6 /* NSImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C036A7DAD3DA30C737C84593 /* NSImage+Extension.swift */; };
+		C00DA5E4AD81E19AFBFD0097 /* OSColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BCF33562A5966E2019DB4B /* OSColor+Extension.swift */; };
+		C09CB8D8E2B35664DAB6A35C /* BenchmarkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0CA66D39F53B0B11AB99D9C /* BenchmarkTests.swift */; };
+		C012177DCE4A33CC249B8389 /* ColorizedGhosttyIconTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C042B5E64C042F93208B26E1 /* ColorizedGhosttyIconTests.swift */; };
+		C09EC4705D84E181CC962EF6 /* ConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F7DAEAA1AA519A2DD85925 /* ConfigTests.swift */; };
+		C0C61550A6AD0181F0DB773A /* ShellTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C064C294C0676E6559EC8D96 /* ShellTests.swift */; };
+		C04E47EE93BE8FA98CD66BB3 /* TransferablePasteboardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A424CDE33B3C51280BDCA5 /* TransferablePasteboardTests.swift */; };
+		C05CC27AEC99AABE08E9578D /* NSPasteboardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C06BC7D716AFF4E488626465 /* NSPasteboardTests.swift */; };
+		C05725FA10EA89B49F8B17E9 /* NSScreenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04EDB3BB5506E06A89E44C8 /* NSScreenTests.swift */; };
+		C028B5C43F6C48E6A9DBBB4B /* SplitTreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C05262ADE42A71B143B126F6 /* SplitTreeTests.swift */; };
+		C0483166C200BFE147FC3DA7 /* TerminalSplitDropZoneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09030089D6C80E311B63EA2 /* TerminalSplitDropZoneTests.swift */; };
+		C096CD184BCE257912A70AB5 /* TerminalViewContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C072E0D75613009C2A09370E /* TerminalViewContainerTests.swift */; };
+		C00C64F55D002640D0329C6A /* ReleaseNotesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C053A58485CEFF1FC9DE2E6F /* ReleaseNotesTests.swift */; };
+		C0FA2C7FF3FFEC8E42228FB6 /* UpdateStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0AF1323613A5F92882A2B16 /* UpdateStateTests.swift */; };
+		C056BAAF643DD926B6C922E7 /* UpdateViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B1C1370F090D4CBEC4A867 /* UpdateViewModelTests.swift */; };
+		C0F681A0E7A6C21FFDD69824 /* AppKitExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0CBAE81951F51297A964932 /* AppKitExtensions.swift */; };
+		C082B38A9255D244D6D680AD /* GhosttyCustomConfigCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = C05585DD5C8D6F248576A409 /* GhosttyCustomConfigCase.swift */; };
+		C0892E8745A7A905A34920D8 /* GhosttyThemeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0CDF227476EE8B547941D94 /* GhosttyThemeTests.swift */; };
+		C042A4183E364757AF014D59 /* GhosttyTitleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0AD459B20E8AA14E120DF02 /* GhosttyTitleUITests.swift */; };
+		C0EB7563B38A0EA85FF3BA5C /* GhosttyTitlebarTabsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03634164D6E8C1A76D6C2BC /* GhosttyTitlebarTabsUITests.swift */; };
+		C0D7957050A6782F3AA5A881 /* GhosttyWindowPositionUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C044B15E8D94054B76D3104B /* GhosttyWindowPositionUITests.swift */; };
+		C059DF6D86FF1B24B615ED68 /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C090E8D27A982126F3CC9BD4 /* iOSApp.swift */; };
+		C057D4A99C4B278EC8D36D8B /* Ghostty.Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = C049E05A1FEDFBDA4A5D592F /* Ghostty.Action.swift */; };
+		C0E9E056E14689F8D6C5E462 /* Ghostty.App.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B07C3F1F9AD3A4670723B6 /* Ghostty.App.swift */; };
+		C04AB9D37603C6B449AD6C8A /* Ghostty.Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = C007A0FEA248B496595DCE4E /* Ghostty.Command.swift */; };
+		C0306AD5105DF19086102D3C /* Ghostty.Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0ABB65FB861EB438423D8C1 /* Ghostty.Config.swift */; };
+		C0E7C26556C356354368FB75 /* Ghostty.ConfigTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C06F8329335865CC46F5B448 /* Ghostty.ConfigTypes.swift */; };
+		C07A9D599474DC93CF244956 /* Ghostty.Inspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B4BA0614B53366C80F8666 /* Ghostty.Inspector.swift */; };
+		C0D6F059D7E09996F703A12E /* Ghostty.Shell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C02390C5707D1888FA5B9882 /* Ghostty.Shell.swift */; };
+		C0740091AC61C57FECED48E8 /* GhosttyDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03B2A95ACF9C0665DACA29A /* GhosttyDelegate.swift */; };
+		C081CE35686ADF557BCCE7CC /* GhosttyPackage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C8134F5E07A66DDC3E747E /* GhosttyPackage.swift */; };
+		C0B0D64BC46A29DBB9CB3140 /* GhosttyPackageMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = C070CD6467A01E56929F7696 /* GhosttyPackageMeta.swift */; };
+		C0AEE7792C7704CD771C98C0 /* SurfaceProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C063223B158D27258C83AFFC /* SurfaceProgressBar.swift */; };
+		C0E68D69101BD07AA0EDA248 /* SurfaceView+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D630B136A6CB3884A94968 /* SurfaceView+Image.swift */; };
+		C0700B4F47712DF11D7DDACF /* SurfaceView+Transferable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0CA7F586C29CA891D8F0A6F /* SurfaceView+Transferable.swift */; };
+		C0942A3452070FE07366B8E6 /* SurfaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C073AFAA2BF333EC5B49E5A1 /* SurfaceView.swift */; };
+		C09811C017058BB62AA8DBB1 /* SurfaceView_UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C06D2C824E7B1107E93F74A9 /* SurfaceView_UIKit.swift */; };
+		C00DA231D8140C72336B9DCF /* AnySortKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FD06DA48E5684CCB839992 /* AnySortKey.swift */; };
+		C0E8E0B4D30237BAF563873C /* Backport.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FC3B7E6B04E269CFE66C52 /* Backport.swift */; };
+		C01A3DE80C0583B1E2FF1717 /* CrossKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE4E2270091468EF0A3E7F /* CrossKit.swift */; };
+		C0E0FEA740252D16F40C2DFE /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C069755DFDF9FF8E090EC3F4 /* Array+Extension.swift */; };
+		C09EC1B90CE787D790DABCBA /* Duration+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C02B63BDA15DFA342D2BF467 /* Duration+Extension.swift */; };
+		C056EBF23798887ABE7A4F7D /* OSColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BCF33562A5966E2019DB4B /* OSColor+Extension.swift */; };
+		C0532473F1C0BE3286467394 /* ObjectIdentifier+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C02D6B84888C163B44E2F56D /* ObjectIdentifier+Extension.swift */; };
+		C087C4EE01FBD1CFAB128204 /* Optional+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C095E6198DD0806520A7AD40 /* Optional+Extension.swift */; };
+		C0F577CCA80E558C38E9BE9A /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B657FEF7C6EC659D61BD35 /* String+Extension.swift */; };
+		C0F67C2F2BA8D3110A858A6B /* UUID+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C091588618D5B9FD0824CCB7 /* UUID+Extension.swift */; };
+		C0C539D8578AC069EA92C27E /* UserDefaults+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04DC57A0D5C707141AD8307 /* UserDefaults+Extension.swift */; };
+		C080FC68D2AA7C60A395FD75 /* Weak.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B7DCD3C87B809891BAA940 /* Weak.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,184 +313,197 @@
 		A5D495A1299BEC7E00DD1313 /* GhosttyKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = GhosttyKit.xcframework; sourceTree = "<group>"; };
 		FC5218F92D10FFC7004C93E0 /* zsh */ = {isa = PBXFileReference; lastKnownFileType = folder; name = zsh; path = "../zig-out/share/zsh"; sourceTree = "<group>"; };
 		FC9ABA9B2D0F538D0020D4C8 /* bash-completion */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "bash-completion"; path = "../zig-out/share/bash-completion"; sourceTree = "<group>"; };
+		C090E8D27A982126F3CC9BD4 /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App/iOS/iOSApp.swift; sourceTree = "<group>"; };
+		C090D89EA922CBD3060400A7 /* AppDelegate+Ghostty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/macOS/AppDelegate+Ghostty.swift"; sourceTree = "<group>"; };
+		C07E58E469C58630A5AB09E6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App/macOS/AppDelegate.swift; sourceTree = "<group>"; };
+		C0CB7FFD9ECF2A0B6F4386AE /* MainMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = App/macOS/MainMenu.xib; sourceTree = "<group>"; };
+		C0DBD3B682897EE03DB24F23 /* ghostty-bridging-header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = App/macOS/ghostty-bridging-header.h; sourceTree = "<group>"; };
+		C07F305FAC047CCA2CB22655 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App/macOS/main.swift; sourceTree = "<group>"; };
+		C0702C1C84569BD6EB95D5A8 /* About.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Features/About/About.xib; sourceTree = "<group>"; };
+		C09E67E9695E85F0143F0B60 /* AboutController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/About/AboutController.swift; sourceTree = "<group>"; };
+		C064BB96E083A76DAE156CA3 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/About/AboutView.swift; sourceTree = "<group>"; };
+		C05348AC7CBC248E271A6DA0 /* AboutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/About/AboutViewModel.swift; sourceTree = "<group>"; };
+		C012D18CB59C2A1F5371E344 /* CyclingIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/About/CyclingIconView.swift; sourceTree = "<group>"; };
+		C08C72DA8B89B157CDC0B7CD /* CloseTerminalIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Features/App Intents/CloseTerminalIntent.swift"; sourceTree = "<group>"; };
+		C00C4B962663C01889FDDE0D /* CommandPaletteIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Features/App Intents/CommandPaletteIntent.swift"; sourceTree = "<group>"; };
+		C008A70173160F587022B5F3 /* CommandEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Features/App Intents/Entities/CommandEntity.swift"; sourceTree = "<group>"; };
+		C0EEE656D6AC06CA85BAFDBF /* TerminalEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Features/App Intents/Entities/TerminalEntity.swift"; sourceTree = "<group>"; };
+		C036162D595C4D9F672FC991 /* FocusTerminalIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Features/App Intents/FocusTerminalIntent.swift"; sourceTree = "<group>"; };
+		C041156B1ECCA4D4E71A9764 /* GetTerminalDetailsIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Features/App Intents/GetTerminalDetailsIntent.swift"; sourceTree = "<group>"; };
+		C05DA7B9E979DA70C7543EFE /* GhosttyIntentError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Features/App Intents/GhosttyIntentError.swift"; sourceTree = "<group>"; };
+		C081341A74CBF847E79D7D21 /* InputIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Features/App Intents/InputIntent.swift"; sourceTree = "<group>"; };
+		C0819A56088844FC89D49CB0 /* IntentPermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Features/App Intents/IntentPermission.swift"; sourceTree = "<group>"; };
+		C0094821BAB7D4BA6B8E0085 /* KeybindIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Features/App Intents/KeybindIntent.swift"; sourceTree = "<group>"; };
+		C0A421539DAF3F335256C406 /* NewTerminalIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Features/App Intents/NewTerminalIntent.swift"; sourceTree = "<group>"; };
+		C00BF4053E9AFE86454512D9 /* QuickTerminalIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Features/App Intents/QuickTerminalIntent.swift"; sourceTree = "<group>"; };
+		C01993E57EA102819FF34594 /* AppDelegate+AppleScript.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Features/AppleScript/AppDelegate+AppleScript.swift"; sourceTree = "<group>"; };
+		C05EC8054CB253F0351683A5 /* Ghostty.Input.Mods+AppleScript.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Features/AppleScript/Ghostty.Input.Mods+AppleScript.swift"; sourceTree = "<group>"; };
+		C0703786EC50B9FCF371A838 /* ScriptInputTextCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/AppleScript/ScriptInputTextCommand.swift; sourceTree = "<group>"; };
+		C09593D1125C4CE0180CF3A7 /* ScriptKeyEventCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/AppleScript/ScriptKeyEventCommand.swift; sourceTree = "<group>"; };
+		C0D62025ED4FF9CB20566665 /* ScriptMouseButtonCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/AppleScript/ScriptMouseButtonCommand.swift; sourceTree = "<group>"; };
+		C0891C725CEDFB8356CEEE34 /* ScriptMousePosCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/AppleScript/ScriptMousePosCommand.swift; sourceTree = "<group>"; };
+		C025E98726A2EA0BC1E59718 /* ScriptMouseScrollCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/AppleScript/ScriptMouseScrollCommand.swift; sourceTree = "<group>"; };
+		C04B9C1D1F428D16B3C4C60A /* ScriptRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/AppleScript/ScriptRecord.swift; sourceTree = "<group>"; };
+		C02925DD407D42BD5A1D0F91 /* ScriptSurfaceConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/AppleScript/ScriptSurfaceConfiguration.swift; sourceTree = "<group>"; };
+		C05AF714AB782703D64730B0 /* ScriptTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/AppleScript/ScriptTab.swift; sourceTree = "<group>"; };
+		C031A1356614F7154AE1C518 /* ScriptTerminal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/AppleScript/ScriptTerminal.swift; sourceTree = "<group>"; };
+		C0E4172AB9B4684E2887E369 /* ScriptWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/AppleScript/ScriptWindow.swift; sourceTree = "<group>"; };
+		C068E2D3A8DBA7D5CE02E9ED /* ClipboardConfirmation.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Features/ClipboardConfirmation/ClipboardConfirmation.xib; sourceTree = "<group>"; };
+		C0B14EC3E71EA90D623DEF66 /* ClipboardConfirmationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/ClipboardConfirmation/ClipboardConfirmationController.swift; sourceTree = "<group>"; };
+		C006EAE052522A9BF0080D61 /* ClipboardConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/ClipboardConfirmation/ClipboardConfirmationView.swift; sourceTree = "<group>"; };
+		C0BE93D734C8BB58C216F807 /* CommandPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Features/Command Palette/CommandPalette.swift"; sourceTree = "<group>"; };
+		C0D9534DFE36DF5293B4E909 /* TerminalCommandPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Features/Command Palette/TerminalCommandPalette.swift"; sourceTree = "<group>"; };
+		C03D2D8A6088D6FA9A195D4B /* AppIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Features/Custom App Icon/AppIcon.swift"; sourceTree = "<group>"; };
+		C03C44AA5C349E54CF46C0EE /* ColorizedGhosttyIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Features/Custom App Icon/ColorizedGhosttyIcon.swift"; sourceTree = "<group>"; };
+		C0119606C9639B92CA2A6262 /* ColorizedGhosttyIconImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Features/Custom App Icon/ColorizedGhosttyIconImage.swift"; sourceTree = "<group>"; };
+		C00A52BE392A1CE78166E598 /* ColorizedGhosttyIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Features/Custom App Icon/ColorizedGhosttyIconView.swift"; sourceTree = "<group>"; };
+		C0BC47BC8FF6BD87C2D10D16 /* DockTilePlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Features/Custom App Icon/DockTilePlugin.swift"; sourceTree = "<group>"; };
+		C0F8F57E7018B4BDCEC3E977 /* Notification+AppIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Features/Custom App Icon/Extensions/Notification+AppIcon.swift"; sourceTree = "<group>"; };
+		C0E8E91281ECBBF30EFA27AC /* UserDefaults+AppIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Features/Custom App Icon/Extensions/UserDefaults+AppIcon.swift"; sourceTree = "<group>"; };
+		C00C4DE7D9B8DE63614112B6 /* GlobalEventTap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Features/Global Keybinds/GlobalEventTap.swift"; sourceTree = "<group>"; };
+		C0A45844522424D9716DFF22 /* QuickTerminal.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Features/QuickTerminal/QuickTerminal.xib; sourceTree = "<group>"; };
+		C0E3316DA1A8E0EC8EDB861F /* QuickTerminalController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/QuickTerminal/QuickTerminalController.swift; sourceTree = "<group>"; };
+		C088644F76E2E28FF0D5E26F /* QuickTerminalPosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/QuickTerminal/QuickTerminalPosition.swift; sourceTree = "<group>"; };
+		C023F19DE94512D3F6B68FB3 /* QuickTerminalRestorableState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/QuickTerminal/QuickTerminalRestorableState.swift; sourceTree = "<group>"; };
+		C09FBE56D7EC454ACD10A730 /* QuickTerminalScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/QuickTerminal/QuickTerminalScreen.swift; sourceTree = "<group>"; };
+		C084E48A50298E2928DCC83B /* QuickTerminalScreenStateCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/QuickTerminal/QuickTerminalScreenStateCache.swift; sourceTree = "<group>"; };
+		C033AF718AB909FC198BDD64 /* QuickTerminalSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/QuickTerminal/QuickTerminalSize.swift; sourceTree = "<group>"; };
+		C0CB98E03EC245CBC04AC7DF /* QuickTerminalSpaceBehavior.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/QuickTerminal/QuickTerminalSpaceBehavior.swift; sourceTree = "<group>"; };
+		C07A8FBB21DF6BA329426E46 /* QuickTerminalWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/QuickTerminal/QuickTerminalWindow.swift; sourceTree = "<group>"; };
+		C0EAD9848020712D817C57CC /* SecureInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Features/Secure Input/SecureInput.swift"; sourceTree = "<group>"; };
+		C0E2A929D9A20888FCAB1622 /* SecureInputOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Features/Secure Input/SecureInputOverlay.swift"; sourceTree = "<group>"; };
+		C02EF7A5F8F2AC3DA366075F /* ServiceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Services/ServiceProvider.swift; sourceTree = "<group>"; };
+		C0C87CB08E7CD71714187F14 /* ConfigurationErrors.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Features/Settings/ConfigurationErrors.xib; sourceTree = "<group>"; };
+		C01893B7B63A59DF15EA4148 /* ConfigurationErrorsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Settings/ConfigurationErrorsController.swift; sourceTree = "<group>"; };
+		C0A95AA61E79F66F6503131F /* ConfigurationErrorsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Settings/ConfigurationErrorsView.swift; sourceTree = "<group>"; };
+		C068BC1B6F01C209AACBE4B4 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Settings/SettingsView.swift; sourceTree = "<group>"; };
+		C0E37A251B44EFDDB0C7B5CD /* SplitTree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Splits/SplitTree.swift; sourceTree = "<group>"; };
+		C0FA02943841618B7F845577 /* SplitView.Divider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Splits/SplitView.Divider.swift; sourceTree = "<group>"; };
+		C00EC5AD70EDF2F75F4FD8E4 /* SplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Splits/SplitView.swift; sourceTree = "<group>"; };
+		C0174B213D46B4097C270709 /* TerminalSplitTreeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Splits/TerminalSplitTreeView.swift; sourceTree = "<group>"; };
+		C0EC76DE83F676887B37E87C /* BaseTerminalController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Terminal/BaseTerminalController.swift; sourceTree = "<group>"; };
+		C0D4E25F1B7160791B167FC9 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Terminal/ErrorView.swift; sourceTree = "<group>"; };
+		C09CF014D260BD193D0E1409 /* TerminalController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Terminal/TerminalController.swift; sourceTree = "<group>"; };
+		C0B90AA79431C3BCA3724095 /* TerminalRestorable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Terminal/TerminalRestorable.swift; sourceTree = "<group>"; };
+		C04649F94CF3D53B0E3C8A4C /* TerminalTabColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Terminal/TerminalTabColor.swift; sourceTree = "<group>"; };
+		C034B3CACA97DF83105DF0D1 /* TerminalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Terminal/TerminalView.swift; sourceTree = "<group>"; };
+		C0F7D89991C0EDA24850B798 /* TerminalViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Terminal/TerminalViewContainer.swift; sourceTree = "<group>"; };
+		C0775E5BE620EF5AA854B70E /* HiddenTitlebarTerminalWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Features/Terminal/Window Styles/HiddenTitlebarTerminalWindow.swift"; sourceTree = "<group>"; };
+		C0ED42036F5670449F3078F4 /* Terminal.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "Features/Terminal/Window Styles/Terminal.xib"; sourceTree = "<group>"; };
+		C082FE29599294FCB821490D /* TerminalHiddenTitlebar.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "Features/Terminal/Window Styles/TerminalHiddenTitlebar.xib"; sourceTree = "<group>"; };
+		C004D939373B7E927DC0879F /* TerminalTabsTitlebarTahoe.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "Features/Terminal/Window Styles/TerminalTabsTitlebarTahoe.xib"; sourceTree = "<group>"; };
+		C033BBC8DBB7062AA1375EF9 /* TerminalTabsTitlebarVentura.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "Features/Terminal/Window Styles/TerminalTabsTitlebarVentura.xib"; sourceTree = "<group>"; };
+		C0A8A32E23BB28F84514DCB3 /* TerminalTransparentTitlebar.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "Features/Terminal/Window Styles/TerminalTransparentTitlebar.xib"; sourceTree = "<group>"; };
+		C08B9DA7A7298DEA2FF75AFF /* TerminalWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Features/Terminal/Window Styles/TerminalWindow.swift"; sourceTree = "<group>"; };
+		C064B2A09702346F0A78B2F1 /* TitlebarTabsTahoeTerminalWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Features/Terminal/Window Styles/TitlebarTabsTahoeTerminalWindow.swift"; sourceTree = "<group>"; };
+		C043774AB1176F9564947127 /* TitlebarTabsVenturaTerminalWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Features/Terminal/Window Styles/TitlebarTabsVenturaTerminalWindow.swift"; sourceTree = "<group>"; };
+		C019AE083B505077A5C3327D /* TransparentTitlebarTerminalWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Features/Terminal/Window Styles/TransparentTitlebarTerminalWindow.swift"; sourceTree = "<group>"; };
+		C099E3D5FD31FAA63966B521 /* UpdateBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Update/UpdateBadge.swift; sourceTree = "<group>"; };
+		C092308FEE414EA5BEB139E9 /* UpdateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Update/UpdateController.swift; sourceTree = "<group>"; };
+		C0AE20E5606C1255411737CF /* UpdateDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Update/UpdateDelegate.swift; sourceTree = "<group>"; };
+		C00E7C8A85CC348A8FD4E95C /* UpdateDriver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Update/UpdateDriver.swift; sourceTree = "<group>"; };
+		C0758FD42E6DB7DE19E86E3B /* UpdatePill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Update/UpdatePill.swift; sourceTree = "<group>"; };
+		C08EA7C4C10022908D36E9A3 /* UpdatePopoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Update/UpdatePopoverView.swift; sourceTree = "<group>"; };
+		C0F6DF414CF74FDBAFEC3D24 /* UpdateSimulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Update/UpdateSimulator.swift; sourceTree = "<group>"; };
+		C0109B143627C6D06644775D /* UpdateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Features/Update/UpdateViewModel.swift; sourceTree = "<group>"; };
+		C039B4BB7B7CA061EA98C1F2 /* FullscreenMode+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ghostty/FullscreenMode+Extension.swift"; sourceTree = "<group>"; };
+		C049E05A1FEDFBDA4A5D592F /* Ghostty.Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ghostty/Ghostty.Action.swift; sourceTree = "<group>"; };
+		C0B07C3F1F9AD3A4670723B6 /* Ghostty.App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ghostty/Ghostty.App.swift; sourceTree = "<group>"; };
+		C007A0FEA248B496595DCE4E /* Ghostty.Command.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ghostty/Ghostty.Command.swift; sourceTree = "<group>"; };
+		C0ABB65FB861EB438423D8C1 /* Ghostty.Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ghostty/Ghostty.Config.swift; sourceTree = "<group>"; };
+		C06F8329335865CC46F5B448 /* Ghostty.ConfigTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ghostty/Ghostty.ConfigTypes.swift; sourceTree = "<group>"; };
+		C07F846CC7D54F92F135B39F /* Ghostty.Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ghostty/Ghostty.Error.swift; sourceTree = "<group>"; };
+		C066CD91C9D5E3390ECC17D0 /* Ghostty.Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ghostty/Ghostty.Event.swift; sourceTree = "<group>"; };
+		C05B53A657C4FE6A4121DDB0 /* Ghostty.Input.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ghostty/Ghostty.Input.swift; sourceTree = "<group>"; };
+		C0B4BA0614B53366C80F8666 /* Ghostty.Inspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ghostty/Ghostty.Inspector.swift; sourceTree = "<group>"; };
+		C02390C5707D1888FA5B9882 /* Ghostty.Shell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ghostty/Ghostty.Shell.swift; sourceTree = "<group>"; };
+		C0D347129E17D5BDE841C3E9 /* Ghostty.Surface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ghostty/Ghostty.Surface.swift; sourceTree = "<group>"; };
+		C03B2A95ACF9C0665DACA29A /* GhosttyDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ghostty/GhosttyDelegate.swift; sourceTree = "<group>"; };
+		C0C8134F5E07A66DDC3E747E /* GhosttyPackage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ghostty/GhosttyPackage.swift; sourceTree = "<group>"; };
+		C070CD6467A01E56929F7696 /* GhosttyPackageMeta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ghostty/GhosttyPackageMeta.swift; sourceTree = "<group>"; };
+		C0FC3F7EC44CA9FC11E7C4AA /* NSEvent+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ghostty/NSEvent+Extension.swift"; sourceTree = "<group>"; };
+		C0E421D67B9FDA921491B1C7 /* InspectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ghostty/Surface View/InspectorView.swift"; sourceTree = "<group>"; };
+		C037BA09D343EF1FD3CD2BC9 /* SurfaceDragSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ghostty/Surface View/SurfaceDragSource.swift"; sourceTree = "<group>"; };
+		C07091B48E02A45A55675D1E /* SurfaceGrabHandle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ghostty/Surface View/SurfaceGrabHandle.swift"; sourceTree = "<group>"; };
+		C063223B158D27258C83AFFC /* SurfaceProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ghostty/Surface View/SurfaceProgressBar.swift"; sourceTree = "<group>"; };
+		C0C7C9135A05B6B0D10B84E3 /* SurfaceScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ghostty/Surface View/SurfaceScrollView.swift"; sourceTree = "<group>"; };
+		C0D630B136A6CB3884A94968 /* SurfaceView+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ghostty/Surface View/SurfaceView+Image.swift"; sourceTree = "<group>"; };
+		C0CA7F586C29CA891D8F0A6F /* SurfaceView+Transferable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ghostty/Surface View/SurfaceView+Transferable.swift"; sourceTree = "<group>"; };
+		C073AFAA2BF333EC5B49E5A1 /* SurfaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ghostty/Surface View/SurfaceView.swift"; sourceTree = "<group>"; };
+		C03BF9B0C45E7F33B56524BD /* SurfaceView_AppKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ghostty/Surface View/SurfaceView_AppKit.swift"; sourceTree = "<group>"; };
+		C06D2C824E7B1107E93F74A9 /* SurfaceView_UIKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ghostty/Surface View/SurfaceView_UIKit.swift"; sourceTree = "<group>"; };
+		C0FD06DA48E5684CCB839992 /* AnySortKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers/AnySortKey.swift; sourceTree = "<group>"; };
+		C0C3076366C435EF7A5A8B33 /* AppInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers/AppInfo.swift; sourceTree = "<group>"; };
+		C0FC3B7E6B04E269CFE66C52 /* Backport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers/Backport.swift; sourceTree = "<group>"; };
+		C06A094A343F6EADC65C0F14 /* CodableBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers/CodableBridge.swift; sourceTree = "<group>"; };
+		C0DE4E2270091468EF0A3E7F /* CrossKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers/CrossKit.swift; sourceTree = "<group>"; };
+		C05EC86DB38F1281C52D7730 /* Cursor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers/Cursor.swift; sourceTree = "<group>"; };
+		C05D51BB1585AB68FE75A14E /* ExpiringUndoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers/ExpiringUndoManager.swift; sourceTree = "<group>"; };
+		C069755DFDF9FF8E090EC3F4 /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Helpers/Extensions/Array+Extension.swift"; sourceTree = "<group>"; };
+		C04A2EBFD04A316A2B791FAA /* Double+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Helpers/Extensions/Double+Extension.swift"; sourceTree = "<group>"; };
+		C02B63BDA15DFA342D2BF467 /* Duration+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Helpers/Extensions/Duration+Extension.swift"; sourceTree = "<group>"; };
+		C03CBE4AC01DF07FEBBFACD6 /* EventModifiers+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Helpers/Extensions/EventModifiers+Extension.swift"; sourceTree = "<group>"; };
+		C0AE856FDE08FB8032E9AA7E /* FileHandle+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Helpers/Extensions/FileHandle+Extension.swift"; sourceTree = "<group>"; };
+		C0A7174E6229F085ECB0C035 /* KeyboardShortcut+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Helpers/Extensions/KeyboardShortcut+Extension.swift"; sourceTree = "<group>"; };
+		C0B7B77DA7778F56807A02AF /* NSAppearance+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Helpers/Extensions/NSAppearance+Extension.swift"; sourceTree = "<group>"; };
+		C03DFB6AA914B9B781D1A46E /* NSApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Helpers/Extensions/NSApplication+Extension.swift"; sourceTree = "<group>"; };
+		C02A38317437A22841A5842B /* NSColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Helpers/Extensions/NSColor+Extension.swift"; sourceTree = "<group>"; };
+		C036A7DAD3DA30C737C84593 /* NSImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Helpers/Extensions/NSImage+Extension.swift"; sourceTree = "<group>"; };
+		C03DF73F67E700984A494F04 /* NSMenu+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Helpers/Extensions/NSMenu+Extension.swift"; sourceTree = "<group>"; };
+		C0B66239FDECE54026E1A5C4 /* NSMenuItem+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Helpers/Extensions/NSMenuItem+Extension.swift"; sourceTree = "<group>"; };
+		C04BC15DDC9BF3A100FBA51B /* NSPasteboard+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Helpers/Extensions/NSPasteboard+Extension.swift"; sourceTree = "<group>"; };
+		C027EB86E8D38400AC4386A4 /* NSScreen+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Helpers/Extensions/NSScreen+Extension.swift"; sourceTree = "<group>"; };
+		C08EBB1F5F31B6F5CD81117D /* NSView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Helpers/Extensions/NSView+Extension.swift"; sourceTree = "<group>"; };
+		C012864FD0187885837D7440 /* NSWindow+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Helpers/Extensions/NSWindow+Extension.swift"; sourceTree = "<group>"; };
+		C0174376D7848BC688D5003F /* NSWorkspace+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Helpers/Extensions/NSWorkspace+Extension.swift"; sourceTree = "<group>"; };
+		C0BCF33562A5966E2019DB4B /* OSColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Helpers/Extensions/OSColor+Extension.swift"; sourceTree = "<group>"; };
+		C02D6B84888C163B44E2F56D /* ObjectIdentifier+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Helpers/Extensions/ObjectIdentifier+Extension.swift"; sourceTree = "<group>"; };
+		C095E6198DD0806520A7AD40 /* Optional+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Helpers/Extensions/Optional+Extension.swift"; sourceTree = "<group>"; };
+		C0B657FEF7C6EC659D61BD35 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Helpers/Extensions/String+Extension.swift"; sourceTree = "<group>"; };
+		C03BFC4664B9932945C681FD /* Transferable+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Helpers/Extensions/Transferable+Extension.swift"; sourceTree = "<group>"; };
+		C091588618D5B9FD0824CCB7 /* UUID+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Helpers/Extensions/UUID+Extension.swift"; sourceTree = "<group>"; };
+		C09065D6F3119CD2254EED0A /* UndoManager+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Helpers/Extensions/UndoManager+Extension.swift"; sourceTree = "<group>"; };
+		C04DC57A0D5C707141AD8307 /* UserDefaults+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Helpers/Extensions/UserDefaults+Extension.swift"; sourceTree = "<group>"; };
+		C0BB3FB74BB7987E690FC938 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Helpers/Extensions/View+Extension.swift"; sourceTree = "<group>"; };
+		C0B7A4D7D5E4090F2C1C686D /* Fullscreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers/Fullscreen.swift; sourceTree = "<group>"; };
+		C01EEF9B44DF3DC90D7B1027 /* HostingWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers/HostingWindow.swift; sourceTree = "<group>"; };
+		C0D0BAFC8304F83885DD6398 /* KeyboardLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers/KeyboardLayout.swift; sourceTree = "<group>"; };
+		C0BD4184F6233B1288C9EBFC /* LastWindowPosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers/LastWindowPosition.swift; sourceTree = "<group>"; };
+		C0D1B2C3A4E5F60718293A4B /* LibCxxVerboseAbortShim.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Helpers/LibCxxVerboseAbortShim.mm; sourceTree = "<group>"; };
+		C06B8CD9075411610AF0956D /* MetalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers/MetalView.swift; sourceTree = "<group>"; };
+		C078DC63F67DBDC6921F4308 /* NonDraggableHostingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers/NonDraggableHostingView.swift; sourceTree = "<group>"; };
+		C0B90A75F97E030EC939B8D6 /* ObjCExceptionCatcher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Helpers/ObjCExceptionCatcher.h; sourceTree = "<group>"; };
+		C02A61F0AADE2FF53A366198 /* ObjCExceptionCatcher.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Helpers/ObjCExceptionCatcher.m; sourceTree = "<group>"; };
+		C01BB1781639FE0C54A98B1E /* PermissionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers/PermissionRequest.swift; sourceTree = "<group>"; };
+		C0D8E66208E06B66FD84C27D /* CGS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers/Private/CGS.swift; sourceTree = "<group>"; };
+		C0B595111F22AF468236B594 /* Dock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers/Private/Dock.swift; sourceTree = "<group>"; };
+		C0022FCF0D0FBFD2AAA3CE65 /* TabGroupCloseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers/TabGroupCloseCoordinator.swift; sourceTree = "<group>"; };
+		C009BBD9D4B02F32F1763AAE /* TabTitleEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers/TabTitleEditor.swift; sourceTree = "<group>"; };
+		C084CC410E10C866900EE7E9 /* VibrantLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Helpers/VibrantLayer.h; sourceTree = "<group>"; };
+		C07DF9ECCC17609C098CE598 /* VibrantLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Helpers/VibrantLayer.m; sourceTree = "<group>"; };
+		C0B7DCD3C87B809891BAA940 /* Weak.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers/Weak.swift; sourceTree = "<group>"; };
+		C0CA66D39F53B0B11AB99D9C /* BenchmarkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BenchmarkTests.swift; sourceTree = "<group>"; };
+		C042B5E64C042F93208B26E1 /* ColorizedGhosttyIconTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorizedGhosttyIconTests.swift; sourceTree = "<group>"; };
+		C0F7DAEAA1AA519A2DD85925 /* ConfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ghostty/ConfigTests.swift; sourceTree = "<group>"; };
+		C064C294C0676E6559EC8D96 /* ShellTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ghostty/ShellTests.swift; sourceTree = "<group>"; };
+		C0A424CDE33B3C51280BDCA5 /* TransferablePasteboardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers/TransferablePasteboardTests.swift; sourceTree = "<group>"; };
+		C06BC7D716AFF4E488626465 /* NSPasteboardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSPasteboardTests.swift; sourceTree = "<group>"; };
+		C04EDB3BB5506E06A89E44C8 /* NSScreenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSScreenTests.swift; sourceTree = "<group>"; };
+		C05262ADE42A71B143B126F6 /* SplitTreeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Splits/SplitTreeTests.swift; sourceTree = "<group>"; };
+		C09030089D6C80E311B63EA2 /* TerminalSplitDropZoneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Splits/TerminalSplitDropZoneTests.swift; sourceTree = "<group>"; };
+		C072E0D75613009C2A09370E /* TerminalViewContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Terminal/TerminalViewContainerTests.swift; sourceTree = "<group>"; };
+		C053A58485CEFF1FC9DE2E6F /* ReleaseNotesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Update/ReleaseNotesTests.swift; sourceTree = "<group>"; };
+		C0AF1323613A5F92882A2B16 /* UpdateStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Update/UpdateStateTests.swift; sourceTree = "<group>"; };
+		C0B1C1370F090D4CBEC4A867 /* UpdateViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Update/UpdateViewModelTests.swift; sourceTree = "<group>"; };
+		C0CBAE81951F51297A964932 /* AppKitExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppKitExtensions.swift; sourceTree = "<group>"; };
+		C05585DD5C8D6F248576A409 /* GhosttyCustomConfigCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GhosttyCustomConfigCase.swift; sourceTree = "<group>"; };
+		C0CDF227476EE8B547941D94 /* GhosttyThemeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GhosttyThemeTests.swift; sourceTree = "<group>"; };
+		C0AD459B20E8AA14E120DF02 /* GhosttyTitleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GhosttyTitleUITests.swift; sourceTree = "<group>"; };
+		C03634164D6E8C1A76D6C2BC /* GhosttyTitlebarTabsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GhosttyTitlebarTabsUITests.swift; sourceTree = "<group>"; };
+		C044B15E8D94054B76D3104B /* GhosttyWindowPositionUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GhosttyWindowPositionUITests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		8193245D2F24E80800A9ED8F /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"Features/Custom App Icon/AppIcon.swift",
-				"Features/Custom App Icon/ColorizedGhosttyIcon.swift",
-				"Features/Custom App Icon/DockTilePlugin.swift",
-				"Features/Custom App Icon/Extensions/Notification+AppIcon.swift",
-				"Features/Custom App Icon/Extensions/UserDefaults+AppIcon.swift",
-				Ghostty/Ghostty.ConfigTypes.swift,
-				Ghostty/GhosttyPackageMeta.swift,
-				Helpers/CrossKit.swift,
-				"Helpers/Extensions/NSImage+Extension.swift",
-				"Helpers/Extensions/OSColor+Extension.swift",
-			);
-			target = 8193244C2F24E6C000A9ED8F /* DockTilePlugin */;
-		};
-		81F82CB02E8281F5001EDFA7 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				App/macOS/AppDelegate.swift,
-				"App/macOS/AppDelegate+Ghostty.swift",
-				App/macOS/main.swift,
-				App/macOS/MainMenu.xib,
-				Features/About/About.xib,
-				Features/About/AboutController.swift,
-				Features/About/AboutView.swift,
-				Features/About/AboutViewModel.swift,
-				Features/About/CyclingIconView.swift,
-				"Features/App Intents/CloseTerminalIntent.swift",
-				"Features/App Intents/CommandPaletteIntent.swift",
-				"Features/App Intents/Entities/CommandEntity.swift",
-				"Features/App Intents/Entities/TerminalEntity.swift",
-				"Features/App Intents/FocusTerminalIntent.swift",
-				"Features/App Intents/GetTerminalDetailsIntent.swift",
-				"Features/App Intents/GhosttyIntentError.swift",
-				"Features/App Intents/InputIntent.swift",
-				"Features/App Intents/IntentPermission.swift",
-				"Features/App Intents/KeybindIntent.swift",
-				"Features/App Intents/NewTerminalIntent.swift",
-				"Features/App Intents/QuickTerminalIntent.swift",
-				"Features/AppleScript/AppDelegate+AppleScript.swift",
-				"Features/AppleScript/Ghostty.Input.Mods+AppleScript.swift",
-				Features/AppleScript/ScriptInputTextCommand.swift,
-				Features/AppleScript/ScriptKeyEventCommand.swift,
-				Features/AppleScript/ScriptMouseButtonCommand.swift,
-				Features/AppleScript/ScriptMousePosCommand.swift,
-				Features/AppleScript/ScriptMouseScrollCommand.swift,
-				Features/AppleScript/ScriptRecord.swift,
-				Features/AppleScript/ScriptSurfaceConfiguration.swift,
-				Features/AppleScript/ScriptTab.swift,
-				Features/AppleScript/ScriptTerminal.swift,
-				Features/AppleScript/ScriptWindow.swift,
-				Features/ClipboardConfirmation/ClipboardConfirmation.xib,
-				Features/ClipboardConfirmation/ClipboardConfirmationController.swift,
-				Features/ClipboardConfirmation/ClipboardConfirmationView.swift,
-				"Features/Command Palette/CommandPalette.swift",
-				"Features/Command Palette/TerminalCommandPalette.swift",
-				"Features/Custom App Icon/AppIcon.swift",
-				"Features/Custom App Icon/ColorizedGhosttyIcon.swift",
-				"Features/Custom App Icon/ColorizedGhosttyIconImage.swift",
-				"Features/Custom App Icon/ColorizedGhosttyIconView.swift",
-				"Features/Custom App Icon/DockTilePlugin.swift",
-				"Features/Custom App Icon/Extensions/Notification+AppIcon.swift",
-				"Features/Custom App Icon/Extensions/UserDefaults+AppIcon.swift",
-				"Features/Global Keybinds/GlobalEventTap.swift",
-				Features/QuickTerminal/QuickTerminal.xib,
-				Features/QuickTerminal/QuickTerminalController.swift,
-				Features/QuickTerminal/QuickTerminalPosition.swift,
-				Features/QuickTerminal/QuickTerminalRestorableState.swift,
-				Features/QuickTerminal/QuickTerminalScreen.swift,
-				Features/QuickTerminal/QuickTerminalScreenStateCache.swift,
-				Features/QuickTerminal/QuickTerminalSize.swift,
-				Features/QuickTerminal/QuickTerminalSpaceBehavior.swift,
-				Features/QuickTerminal/QuickTerminalWindow.swift,
-				"Features/Secure Input/SecureInput.swift",
-				"Features/Secure Input/SecureInputOverlay.swift",
-				Features/Services/ServiceProvider.swift,
-				Features/Settings/ConfigurationErrors.xib,
-				Features/Settings/ConfigurationErrorsController.swift,
-				Features/Settings/ConfigurationErrorsView.swift,
-				Features/Settings/SettingsView.swift,
-				Features/Splits/SplitTree.swift,
-				Features/Splits/SplitView.Divider.swift,
-				Features/Splits/SplitView.swift,
-				Features/Splits/TerminalSplitTreeView.swift,
-				Features/Terminal/BaseTerminalController.swift,
-				Features/Terminal/ErrorView.swift,
-				Features/Terminal/TerminalController.swift,
-				Features/Terminal/TerminalRestorable.swift,
-				Features/Terminal/TerminalTabColor.swift,
-				Features/Terminal/TerminalView.swift,
-				Features/Terminal/TerminalViewContainer.swift,
-				"Features/Terminal/Window Styles/HiddenTitlebarTerminalWindow.swift",
-				"Features/Terminal/Window Styles/Terminal.xib",
-				"Features/Terminal/Window Styles/TerminalHiddenTitlebar.xib",
-				"Features/Terminal/Window Styles/TerminalTabsTitlebarTahoe.xib",
-				"Features/Terminal/Window Styles/TerminalTabsTitlebarVentura.xib",
-				"Features/Terminal/Window Styles/TerminalTransparentTitlebar.xib",
-				"Features/Terminal/Window Styles/TerminalWindow.swift",
-				"Features/Terminal/Window Styles/TitlebarTabsTahoeTerminalWindow.swift",
-				"Features/Terminal/Window Styles/TitlebarTabsVenturaTerminalWindow.swift",
-				"Features/Terminal/Window Styles/TransparentTitlebarTerminalWindow.swift",
-				Features/Update/UpdateBadge.swift,
-				Features/Update/UpdateController.swift,
-				Features/Update/UpdateDelegate.swift,
-				Features/Update/UpdateDriver.swift,
-				Features/Update/UpdatePill.swift,
-				Features/Update/UpdatePopoverView.swift,
-				Features/Update/UpdateSimulator.swift,
-				Features/Update/UpdateViewModel.swift,
-				"Ghostty/FullscreenMode+Extension.swift",
-				Ghostty/Ghostty.Error.swift,
-				Ghostty/Ghostty.Event.swift,
-				Ghostty/Ghostty.Input.swift,
-				Ghostty/Ghostty.Surface.swift,
-				"Ghostty/NSEvent+Extension.swift",
-				"Ghostty/Surface View/InspectorView.swift",
-				"Ghostty/Surface View/SurfaceDragSource.swift",
-				"Ghostty/Surface View/SurfaceGrabHandle.swift",
-				"Ghostty/Surface View/SurfaceScrollView.swift",
-				"Ghostty/Surface View/SurfaceView_AppKit.swift",
-				Helpers/AppInfo.swift,
-				Helpers/CodableBridge.swift,
-				Helpers/Cursor.swift,
-				Helpers/ExpiringUndoManager.swift,
-				"Helpers/Extensions/Double+Extension.swift",
-				"Helpers/Extensions/EventModifiers+Extension.swift",
-				"Helpers/Extensions/FileHandle+Extension.swift",
-				"Helpers/Extensions/KeyboardShortcut+Extension.swift",
-				"Helpers/Extensions/NSAppearance+Extension.swift",
-				"Helpers/Extensions/NSApplication+Extension.swift",
-				"Helpers/Extensions/NSColor+Extension.swift",
-				"Helpers/Extensions/NSImage+Extension.swift",
-				"Helpers/Extensions/NSMenu+Extension.swift",
-				"Helpers/Extensions/NSMenuItem+Extension.swift",
-				"Helpers/Extensions/NSPasteboard+Extension.swift",
-				"Helpers/Extensions/NSScreen+Extension.swift",
-				"Helpers/Extensions/NSView+Extension.swift",
-				"Helpers/Extensions/NSWindow+Extension.swift",
-				"Helpers/Extensions/NSWorkspace+Extension.swift",
-				"Helpers/Extensions/Transferable+Extension.swift",
-				"Helpers/Extensions/UndoManager+Extension.swift",
-				"Helpers/Extensions/View+Extension.swift",
-				Helpers/Fullscreen.swift,
-				Helpers/HostingWindow.swift,
-				Helpers/KeyboardLayout.swift,
-				Helpers/LastWindowPosition.swift,
-				Helpers/MetalView.swift,
-				Helpers/NonDraggableHostingView.swift,
-				Helpers/ObjCExceptionCatcher.m,
-				Helpers/PermissionRequest.swift,
-				Helpers/Private/CGS.swift,
-				Helpers/Private/Dock.swift,
-				Helpers/TabGroupCloseCoordinator.swift,
-				Helpers/TabTitleEditor.swift,
-				Helpers/VibrantLayer.m,
-			);
-			target = A5D4499C2B53AE7B000F5B83 /* Ghostty-iOS */;
-		};
-		81F82CB12E8281F9001EDFA7 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				App/iOS/iOSApp.swift,
-				"Features/Custom App Icon/DockTilePlugin.swift",
-				"Ghostty/Surface View/SurfaceView_UIKit.swift",
-			);
-			target = A5B30530299BEAAA0047F10C /* Ghostty */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		810ACCA02E9D3302004F8F92 /* GhosttyUITests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = GhosttyUITests; sourceTree = "<group>"; };
-		81F82BC72E82815D001EDFA7 /* Sources */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (81F82CB12E8281F9001EDFA7 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 81F82CB02E8281F5001EDFA7 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 8193245D2F24E80800A9ED8F /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Sources; sourceTree = "<group>"; };
-		A54F45F42E1F047A0046BD5C /* Tests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Tests; sourceTree = "<group>"; };
-/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		810ACC9C2E9D3301004F8F92 /* Frameworks */ = {
@@ -372,6 +605,215 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		81F82BC72E82815D001EDFA7 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				C090E8D27A982126F3CC9BD4 /* iOSApp.swift */,
+				C090D89EA922CBD3060400A7 /* AppDelegate+Ghostty.swift */,
+				C07E58E469C58630A5AB09E6 /* AppDelegate.swift */,
+				C0CB7FFD9ECF2A0B6F4386AE /* MainMenu.xib */,
+				C0DBD3B682897EE03DB24F23 /* ghostty-bridging-header.h */,
+				C07F305FAC047CCA2CB22655 /* main.swift */,
+				C0702C1C84569BD6EB95D5A8 /* About.xib */,
+				C09E67E9695E85F0143F0B60 /* AboutController.swift */,
+				C064BB96E083A76DAE156CA3 /* AboutView.swift */,
+				C05348AC7CBC248E271A6DA0 /* AboutViewModel.swift */,
+				C012D18CB59C2A1F5371E344 /* CyclingIconView.swift */,
+				C08C72DA8B89B157CDC0B7CD /* CloseTerminalIntent.swift */,
+				C00C4B962663C01889FDDE0D /* CommandPaletteIntent.swift */,
+				C008A70173160F587022B5F3 /* CommandEntity.swift */,
+				C0EEE656D6AC06CA85BAFDBF /* TerminalEntity.swift */,
+				C036162D595C4D9F672FC991 /* FocusTerminalIntent.swift */,
+				C041156B1ECCA4D4E71A9764 /* GetTerminalDetailsIntent.swift */,
+				C05DA7B9E979DA70C7543EFE /* GhosttyIntentError.swift */,
+				C081341A74CBF847E79D7D21 /* InputIntent.swift */,
+				C0819A56088844FC89D49CB0 /* IntentPermission.swift */,
+				C0094821BAB7D4BA6B8E0085 /* KeybindIntent.swift */,
+				C0A421539DAF3F335256C406 /* NewTerminalIntent.swift */,
+				C00BF4053E9AFE86454512D9 /* QuickTerminalIntent.swift */,
+				C01993E57EA102819FF34594 /* AppDelegate+AppleScript.swift */,
+				C05EC8054CB253F0351683A5 /* Ghostty.Input.Mods+AppleScript.swift */,
+				C0703786EC50B9FCF371A838 /* ScriptInputTextCommand.swift */,
+				C09593D1125C4CE0180CF3A7 /* ScriptKeyEventCommand.swift */,
+				C0D62025ED4FF9CB20566665 /* ScriptMouseButtonCommand.swift */,
+				C0891C725CEDFB8356CEEE34 /* ScriptMousePosCommand.swift */,
+				C025E98726A2EA0BC1E59718 /* ScriptMouseScrollCommand.swift */,
+				C04B9C1D1F428D16B3C4C60A /* ScriptRecord.swift */,
+				C02925DD407D42BD5A1D0F91 /* ScriptSurfaceConfiguration.swift */,
+				C05AF714AB782703D64730B0 /* ScriptTab.swift */,
+				C031A1356614F7154AE1C518 /* ScriptTerminal.swift */,
+				C0E4172AB9B4684E2887E369 /* ScriptWindow.swift */,
+				C068E2D3A8DBA7D5CE02E9ED /* ClipboardConfirmation.xib */,
+				C0B14EC3E71EA90D623DEF66 /* ClipboardConfirmationController.swift */,
+				C006EAE052522A9BF0080D61 /* ClipboardConfirmationView.swift */,
+				C0BE93D734C8BB58C216F807 /* CommandPalette.swift */,
+				C0D9534DFE36DF5293B4E909 /* TerminalCommandPalette.swift */,
+				C03D2D8A6088D6FA9A195D4B /* AppIcon.swift */,
+				C03C44AA5C349E54CF46C0EE /* ColorizedGhosttyIcon.swift */,
+				C0119606C9639B92CA2A6262 /* ColorizedGhosttyIconImage.swift */,
+				C00A52BE392A1CE78166E598 /* ColorizedGhosttyIconView.swift */,
+				C0BC47BC8FF6BD87C2D10D16 /* DockTilePlugin.swift */,
+				C0F8F57E7018B4BDCEC3E977 /* Notification+AppIcon.swift */,
+				C0E8E91281ECBBF30EFA27AC /* UserDefaults+AppIcon.swift */,
+				C00C4DE7D9B8DE63614112B6 /* GlobalEventTap.swift */,
+				C0A45844522424D9716DFF22 /* QuickTerminal.xib */,
+				C0E3316DA1A8E0EC8EDB861F /* QuickTerminalController.swift */,
+				C088644F76E2E28FF0D5E26F /* QuickTerminalPosition.swift */,
+				C023F19DE94512D3F6B68FB3 /* QuickTerminalRestorableState.swift */,
+				C09FBE56D7EC454ACD10A730 /* QuickTerminalScreen.swift */,
+				C084E48A50298E2928DCC83B /* QuickTerminalScreenStateCache.swift */,
+				C033AF718AB909FC198BDD64 /* QuickTerminalSize.swift */,
+				C0CB98E03EC245CBC04AC7DF /* QuickTerminalSpaceBehavior.swift */,
+				C07A8FBB21DF6BA329426E46 /* QuickTerminalWindow.swift */,
+				C0EAD9848020712D817C57CC /* SecureInput.swift */,
+				C0E2A929D9A20888FCAB1622 /* SecureInputOverlay.swift */,
+				C02EF7A5F8F2AC3DA366075F /* ServiceProvider.swift */,
+				C0C87CB08E7CD71714187F14 /* ConfigurationErrors.xib */,
+				C01893B7B63A59DF15EA4148 /* ConfigurationErrorsController.swift */,
+				C0A95AA61E79F66F6503131F /* ConfigurationErrorsView.swift */,
+				C068BC1B6F01C209AACBE4B4 /* SettingsView.swift */,
+				C0E37A251B44EFDDB0C7B5CD /* SplitTree.swift */,
+				C0FA02943841618B7F845577 /* SplitView.Divider.swift */,
+				C00EC5AD70EDF2F75F4FD8E4 /* SplitView.swift */,
+				C0174B213D46B4097C270709 /* TerminalSplitTreeView.swift */,
+				C0EC76DE83F676887B37E87C /* BaseTerminalController.swift */,
+				C0D4E25F1B7160791B167FC9 /* ErrorView.swift */,
+				C09CF014D260BD193D0E1409 /* TerminalController.swift */,
+				C0B90AA79431C3BCA3724095 /* TerminalRestorable.swift */,
+				C04649F94CF3D53B0E3C8A4C /* TerminalTabColor.swift */,
+				C034B3CACA97DF83105DF0D1 /* TerminalView.swift */,
+				C0F7D89991C0EDA24850B798 /* TerminalViewContainer.swift */,
+				C0775E5BE620EF5AA854B70E /* HiddenTitlebarTerminalWindow.swift */,
+				C0ED42036F5670449F3078F4 /* Terminal.xib */,
+				C082FE29599294FCB821490D /* TerminalHiddenTitlebar.xib */,
+				C004D939373B7E927DC0879F /* TerminalTabsTitlebarTahoe.xib */,
+				C033BBC8DBB7062AA1375EF9 /* TerminalTabsTitlebarVentura.xib */,
+				C0A8A32E23BB28F84514DCB3 /* TerminalTransparentTitlebar.xib */,
+				C08B9DA7A7298DEA2FF75AFF /* TerminalWindow.swift */,
+				C064B2A09702346F0A78B2F1 /* TitlebarTabsTahoeTerminalWindow.swift */,
+				C043774AB1176F9564947127 /* TitlebarTabsVenturaTerminalWindow.swift */,
+				C019AE083B505077A5C3327D /* TransparentTitlebarTerminalWindow.swift */,
+				C099E3D5FD31FAA63966B521 /* UpdateBadge.swift */,
+				C092308FEE414EA5BEB139E9 /* UpdateController.swift */,
+				C0AE20E5606C1255411737CF /* UpdateDelegate.swift */,
+				C00E7C8A85CC348A8FD4E95C /* UpdateDriver.swift */,
+				C0758FD42E6DB7DE19E86E3B /* UpdatePill.swift */,
+				C08EA7C4C10022908D36E9A3 /* UpdatePopoverView.swift */,
+				C0F6DF414CF74FDBAFEC3D24 /* UpdateSimulator.swift */,
+				C0109B143627C6D06644775D /* UpdateViewModel.swift */,
+				C039B4BB7B7CA061EA98C1F2 /* FullscreenMode+Extension.swift */,
+				C049E05A1FEDFBDA4A5D592F /* Ghostty.Action.swift */,
+				C0B07C3F1F9AD3A4670723B6 /* Ghostty.App.swift */,
+				C007A0FEA248B496595DCE4E /* Ghostty.Command.swift */,
+				C0ABB65FB861EB438423D8C1 /* Ghostty.Config.swift */,
+				C06F8329335865CC46F5B448 /* Ghostty.ConfigTypes.swift */,
+				C07F846CC7D54F92F135B39F /* Ghostty.Error.swift */,
+				C066CD91C9D5E3390ECC17D0 /* Ghostty.Event.swift */,
+				C05B53A657C4FE6A4121DDB0 /* Ghostty.Input.swift */,
+				C0B4BA0614B53366C80F8666 /* Ghostty.Inspector.swift */,
+				C02390C5707D1888FA5B9882 /* Ghostty.Shell.swift */,
+				C0D347129E17D5BDE841C3E9 /* Ghostty.Surface.swift */,
+				C03B2A95ACF9C0665DACA29A /* GhosttyDelegate.swift */,
+				C0C8134F5E07A66DDC3E747E /* GhosttyPackage.swift */,
+				C070CD6467A01E56929F7696 /* GhosttyPackageMeta.swift */,
+				C0FC3F7EC44CA9FC11E7C4AA /* NSEvent+Extension.swift */,
+				C0E421D67B9FDA921491B1C7 /* InspectorView.swift */,
+				C037BA09D343EF1FD3CD2BC9 /* SurfaceDragSource.swift */,
+				C07091B48E02A45A55675D1E /* SurfaceGrabHandle.swift */,
+				C063223B158D27258C83AFFC /* SurfaceProgressBar.swift */,
+				C0C7C9135A05B6B0D10B84E3 /* SurfaceScrollView.swift */,
+				C0D630B136A6CB3884A94968 /* SurfaceView+Image.swift */,
+				C0CA7F586C29CA891D8F0A6F /* SurfaceView+Transferable.swift */,
+				C073AFAA2BF333EC5B49E5A1 /* SurfaceView.swift */,
+				C03BF9B0C45E7F33B56524BD /* SurfaceView_AppKit.swift */,
+				C06D2C824E7B1107E93F74A9 /* SurfaceView_UIKit.swift */,
+				C0FD06DA48E5684CCB839992 /* AnySortKey.swift */,
+				C0C3076366C435EF7A5A8B33 /* AppInfo.swift */,
+				C0FC3B7E6B04E269CFE66C52 /* Backport.swift */,
+				C06A094A343F6EADC65C0F14 /* CodableBridge.swift */,
+				C0DE4E2270091468EF0A3E7F /* CrossKit.swift */,
+				C05EC86DB38F1281C52D7730 /* Cursor.swift */,
+				C05D51BB1585AB68FE75A14E /* ExpiringUndoManager.swift */,
+				C069755DFDF9FF8E090EC3F4 /* Array+Extension.swift */,
+				C04A2EBFD04A316A2B791FAA /* Double+Extension.swift */,
+				C02B63BDA15DFA342D2BF467 /* Duration+Extension.swift */,
+				C03CBE4AC01DF07FEBBFACD6 /* EventModifiers+Extension.swift */,
+				C0AE856FDE08FB8032E9AA7E /* FileHandle+Extension.swift */,
+				C0A7174E6229F085ECB0C035 /* KeyboardShortcut+Extension.swift */,
+				C0B7B77DA7778F56807A02AF /* NSAppearance+Extension.swift */,
+				C03DFB6AA914B9B781D1A46E /* NSApplication+Extension.swift */,
+				C02A38317437A22841A5842B /* NSColor+Extension.swift */,
+				C036A7DAD3DA30C737C84593 /* NSImage+Extension.swift */,
+				C03DF73F67E700984A494F04 /* NSMenu+Extension.swift */,
+				C0B66239FDECE54026E1A5C4 /* NSMenuItem+Extension.swift */,
+				C04BC15DDC9BF3A100FBA51B /* NSPasteboard+Extension.swift */,
+				C027EB86E8D38400AC4386A4 /* NSScreen+Extension.swift */,
+				C08EBB1F5F31B6F5CD81117D /* NSView+Extension.swift */,
+				C012864FD0187885837D7440 /* NSWindow+Extension.swift */,
+				C0174376D7848BC688D5003F /* NSWorkspace+Extension.swift */,
+				C0BCF33562A5966E2019DB4B /* OSColor+Extension.swift */,
+				C02D6B84888C163B44E2F56D /* ObjectIdentifier+Extension.swift */,
+				C095E6198DD0806520A7AD40 /* Optional+Extension.swift */,
+				C0B657FEF7C6EC659D61BD35 /* String+Extension.swift */,
+				C03BFC4664B9932945C681FD /* Transferable+Extension.swift */,
+				C091588618D5B9FD0824CCB7 /* UUID+Extension.swift */,
+				C09065D6F3119CD2254EED0A /* UndoManager+Extension.swift */,
+				C04DC57A0D5C707141AD8307 /* UserDefaults+Extension.swift */,
+				C0BB3FB74BB7987E690FC938 /* View+Extension.swift */,
+				C0B7A4D7D5E4090F2C1C686D /* Fullscreen.swift */,
+				C01EEF9B44DF3DC90D7B1027 /* HostingWindow.swift */,
+				C0D0BAFC8304F83885DD6398 /* KeyboardLayout.swift */,
+				C0BD4184F6233B1288C9EBFC /* LastWindowPosition.swift */,
+				C0D1B2C3A4E5F60718293A4B /* LibCxxVerboseAbortShim.mm */,
+				C06B8CD9075411610AF0956D /* MetalView.swift */,
+				C078DC63F67DBDC6921F4308 /* NonDraggableHostingView.swift */,
+				C0B90A75F97E030EC939B8D6 /* ObjCExceptionCatcher.h */,
+				C02A61F0AADE2FF53A366198 /* ObjCExceptionCatcher.m */,
+				C01BB1781639FE0C54A98B1E /* PermissionRequest.swift */,
+				C0D8E66208E06B66FD84C27D /* CGS.swift */,
+				C0B595111F22AF468236B594 /* Dock.swift */,
+				C0022FCF0D0FBFD2AAA3CE65 /* TabGroupCloseCoordinator.swift */,
+				C009BBD9D4B02F32F1763AAE /* TabTitleEditor.swift */,
+				C084CC410E10C866900EE7E9 /* VibrantLayer.h */,
+				C07DF9ECCC17609C098CE598 /* VibrantLayer.m */,
+				C0B7DCD3C87B809891BAA940 /* Weak.swift */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		A54F45F42E1F047A0046BD5C /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				C0CA66D39F53B0B11AB99D9C /* BenchmarkTests.swift */,
+				C042B5E64C042F93208B26E1 /* ColorizedGhosttyIconTests.swift */,
+				C0F7DAEAA1AA519A2DD85925 /* ConfigTests.swift */,
+				C064C294C0676E6559EC8D96 /* ShellTests.swift */,
+				C0A424CDE33B3C51280BDCA5 /* TransferablePasteboardTests.swift */,
+				C06BC7D716AFF4E488626465 /* NSPasteboardTests.swift */,
+				C04EDB3BB5506E06A89E44C8 /* NSScreenTests.swift */,
+				C05262ADE42A71B143B126F6 /* SplitTreeTests.swift */,
+				C09030089D6C80E311B63EA2 /* TerminalSplitDropZoneTests.swift */,
+				C072E0D75613009C2A09370E /* TerminalViewContainerTests.swift */,
+				C053A58485CEFF1FC9DE2E6F /* ReleaseNotesTests.swift */,
+				C0AF1323613A5F92882A2B16 /* UpdateStateTests.swift */,
+				C0B1C1370F090D4CBEC4A867 /* UpdateViewModelTests.swift */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		810ACCA02E9D3302004F8F92 /* GhosttyUITests */ = {
+			isa = PBXGroup;
+			children = (
+				C0CBAE81951F51297A964932 /* AppKitExtensions.swift */,
+				C05585DD5C8D6F248576A409 /* GhosttyCustomConfigCase.swift */,
+				C0CDF227476EE8B547941D94 /* GhosttyThemeTests.swift */,
+				C0AD459B20E8AA14E120DF02 /* GhosttyTitleUITests.swift */,
+				C03634164D6E8C1A76D6C2BC /* GhosttyTitlebarTabsUITests.swift */,
+				C044B15E8D94054B76D3104B /* GhosttyWindowPositionUITests.swift */,
+			);
+			path = GhosttyUITests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -387,9 +829,6 @@
 			);
 			dependencies = (
 				810ACCA62E9D3302004F8F92 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				810ACCA02E9D3302004F8F92 /* GhosttyUITests */,
 			);
 			name = GhosttyUITests;
 			packageProductDependencies = (
@@ -430,9 +869,6 @@
 			dependencies = (
 				A54F45F82E1F047A0046BD5C /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				A54F45F42E1F047A0046BD5C /* Tests */,
-			);
 			name = GhosttyTests;
 			packageProductDependencies = (
 			);
@@ -455,9 +891,6 @@
 			dependencies = (
 				819324682F2502FB00A9ED8F /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				81F82BC72E82815D001EDFA7 /* Sources */,
-			);
 			name = Ghostty;
 			packageProductDependencies = (
 				A51BFC262B30F1B800E92F16 /* Sparkle */,
@@ -477,9 +910,6 @@
 			buildRules = (
 			);
 			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				81F82BC72E82815D001EDFA7 /* Sources */,
 			);
 			name = "Ghostty-iOS";
 			productName = "Ghostty-iOS";
@@ -581,6 +1011,16 @@
 				552964E62B34A9B400030505 /* vim in Resources */,
 				FC5218FA2D10FFCE004C93E0 /* zsh in Resources */,
 				A5B30539299BEAAB0047F10C /* Assets.xcassets in Resources */,
+				C049EC0F4DA29DE25EA602CD /* MainMenu.xib in Resources */,
+				C08E93E54C0901EE6BF6E46D /* About.xib in Resources */,
+				C0B3E6EE1C20906AE0E10ED9 /* ClipboardConfirmation.xib in Resources */,
+				C0CBA688A2A69DDB0697D6D5 /* QuickTerminal.xib in Resources */,
+				C02BE21269782B20CBBA857A /* ConfigurationErrors.xib in Resources */,
+				C0E6BF6F64D2BC1B35CA3046 /* Terminal.xib in Resources */,
+				C068AFE54EB42CBEA713FB8E /* TerminalHiddenTitlebar.xib in Resources */,
+				C0C5EFE3E7B077BD741AEB4D /* TerminalTabsTitlebarTahoe.xib in Resources */,
+				C07EA5C44B66E2EE7B99E24B /* TerminalTabsTitlebarVentura.xib in Resources */,
+				C0E3AEEF270FB8D9F23D5BF3 /* TerminalTransparentTitlebar.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -623,6 +1063,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0F681A0E7A6C21FFDD69824 /* AppKitExtensions.swift in Sources */,
+				C082B38A9255D244D6D680AD /* GhosttyCustomConfigCase.swift in Sources */,
+				C0892E8745A7A905A34920D8 /* GhosttyThemeTests.swift in Sources */,
+				C042A4183E364757AF014D59 /* GhosttyTitleUITests.swift in Sources */,
+				C0EB7563B38A0EA85FF3BA5C /* GhosttyTitlebarTabsUITests.swift in Sources */,
+				C0D7957050A6782F3AA5A881 /* GhosttyWindowPositionUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -630,6 +1076,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0CB54EA76FA15096DBFEA90 /* AppIcon.swift in Sources */,
+				C06423EBAF309B7E549E6D72 /* ColorizedGhosttyIcon.swift in Sources */,
+				C04FD9B85B77F63356BE4C5B /* DockTilePlugin.swift in Sources */,
+				C0082775262031F08A21A499 /* Notification+AppIcon.swift in Sources */,
+				C06C6C81120BEA01455FCA99 /* UserDefaults+AppIcon.swift in Sources */,
+				C097C37EEE56D19A8CA3A70D /* Ghostty.ConfigTypes.swift in Sources */,
+				C000C86C496B3F20A25245F2 /* GhosttyPackageMeta.swift in Sources */,
+				C02314A273A0A9335D171A38 /* CrossKit.swift in Sources */,
+				C0F55EDB38BC4FB843AC0BE6 /* NSImage+Extension.swift in Sources */,
+				C00DA5E4AD81E19AFBFD0097 /* OSColor+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -637,6 +1093,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C09CB8D8E2B35664DAB6A35C /* BenchmarkTests.swift in Sources */,
+				C012177DCE4A33CC249B8389 /* ColorizedGhosttyIconTests.swift in Sources */,
+				C09EC4705D84E181CC962EF6 /* ConfigTests.swift in Sources */,
+				C0C61550A6AD0181F0DB773A /* ShellTests.swift in Sources */,
+				C04E47EE93BE8FA98CD66BB3 /* TransferablePasteboardTests.swift in Sources */,
+				C05CC27AEC99AABE08E9578D /* NSPasteboardTests.swift in Sources */,
+				C05725FA10EA89B49F8B17E9 /* NSScreenTests.swift in Sources */,
+				C028B5C43F6C48E6A9DBBB4B /* SplitTreeTests.swift in Sources */,
+				C0483166C200BFE147FC3DA7 /* TerminalSplitDropZoneTests.swift in Sources */,
+				C096CD184BCE257912A70AB5 /* TerminalViewContainerTests.swift in Sources */,
+				C00C64F55D002640D0329C6A /* ReleaseNotesTests.swift in Sources */,
+				C0FA2C7FF3FFEC8E42228FB6 /* UpdateStateTests.swift in Sources */,
+				C056BAAF643DD926B6C922E7 /* UpdateViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -644,6 +1113,159 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C08A2C62067D574BE95FDCF2 /* AppDelegate+Ghostty.swift in Sources */,
+				C060CE8B2C77182D54D80A4E /* AppDelegate.swift in Sources */,
+				C053072E65B58BD919478195 /* main.swift in Sources */,
+				C0CA944BBCD76A522C1F31B7 /* AboutController.swift in Sources */,
+				C0767BEB08A75AAD5BC499E2 /* AboutView.swift in Sources */,
+				C0425224B977AF33B50A0EB8 /* AboutViewModel.swift in Sources */,
+				C08F70658055594E46235DD9 /* CyclingIconView.swift in Sources */,
+				C04752C268873EB8E490BB6C /* CloseTerminalIntent.swift in Sources */,
+				C0C0288CBCF3A28E478433D5 /* CommandPaletteIntent.swift in Sources */,
+				C06DF563FAD1EE257013CABC /* CommandEntity.swift in Sources */,
+				C00A34695FFAE70C14ADC77B /* TerminalEntity.swift in Sources */,
+				C079222D40BA48BDC2EA2155 /* FocusTerminalIntent.swift in Sources */,
+				C01A075335B474B4FE449480 /* GetTerminalDetailsIntent.swift in Sources */,
+				C0A78A26DC7B1FF51B073C07 /* GhosttyIntentError.swift in Sources */,
+				C044F9B8A9450FED01F69E42 /* InputIntent.swift in Sources */,
+				C0E93C1B895685458972C9FB /* IntentPermission.swift in Sources */,
+				C04EDD8BD965F047DB9EA087 /* KeybindIntent.swift in Sources */,
+				C0BDF51BF36C9D0B736F4D15 /* NewTerminalIntent.swift in Sources */,
+				C057D80824CE92B6500C076C /* QuickTerminalIntent.swift in Sources */,
+				C0D57FE494B68E0C4D8D084D /* AppDelegate+AppleScript.swift in Sources */,
+				C0B862D16F27F4E48A6BBC26 /* Ghostty.Input.Mods+AppleScript.swift in Sources */,
+				C0BB4C5F49D495ECD9BC1C29 /* ScriptInputTextCommand.swift in Sources */,
+				C0825AF09462B7F71075FEA5 /* ScriptKeyEventCommand.swift in Sources */,
+				C050DEEBBDDAE0FCBDCC2266 /* ScriptMouseButtonCommand.swift in Sources */,
+				C0B6C5E1DF8C683E0D009702 /* ScriptMousePosCommand.swift in Sources */,
+				C0206F05EF7440B11994D36B /* ScriptMouseScrollCommand.swift in Sources */,
+				C0A7DB5337F4B7DF5FFA71F5 /* ScriptRecord.swift in Sources */,
+				C024DC9DDECC97F600AB86FC /* ScriptSurfaceConfiguration.swift in Sources */,
+				C0F409139260BBBE967AE66B /* ScriptTab.swift in Sources */,
+				C0F9CEC7D0520239AE6B5392 /* ScriptTerminal.swift in Sources */,
+				C02C49B6607CDEFDBFC6543C /* ScriptWindow.swift in Sources */,
+				C0F0285DF89242C4DE561797 /* ClipboardConfirmationController.swift in Sources */,
+				C06D624D722C329DDA9F2A6E /* ClipboardConfirmationView.swift in Sources */,
+				C060F8BF004E7484B5E50DD0 /* CommandPalette.swift in Sources */,
+				C00959220A7362CA2EA8B45D /* TerminalCommandPalette.swift in Sources */,
+				C09710BE8E76A186E33BADA0 /* AppIcon.swift in Sources */,
+				C0593C29F9892F2A3E267803 /* ColorizedGhosttyIcon.swift in Sources */,
+				C0E55AAF0710C963B0223A8F /* ColorizedGhosttyIconImage.swift in Sources */,
+				C017832075159D93C4FFFF42 /* ColorizedGhosttyIconView.swift in Sources */,
+				C0A2CEFD0B5E96B22ADDE986 /* Notification+AppIcon.swift in Sources */,
+				C01FFC44B388EB279FFFA215 /* UserDefaults+AppIcon.swift in Sources */,
+				C0DA182D051E1477BF683CF7 /* GlobalEventTap.swift in Sources */,
+				C0CD446199D035577AB87451 /* QuickTerminalController.swift in Sources */,
+				C08C7DCD1F23E8E5EA317639 /* QuickTerminalPosition.swift in Sources */,
+				C0CA205CA39FA8256A2A4EEF /* QuickTerminalRestorableState.swift in Sources */,
+				C0023630A87663744BFF8D95 /* QuickTerminalScreen.swift in Sources */,
+				C044F571CD125E3710A920DA /* QuickTerminalScreenStateCache.swift in Sources */,
+				C0BD88BE0220069E519E4852 /* QuickTerminalSize.swift in Sources */,
+				C0E20DB10EBF252013DA160F /* QuickTerminalSpaceBehavior.swift in Sources */,
+				C0146D961FF1E345B72168D7 /* QuickTerminalWindow.swift in Sources */,
+				C00A3A2ED9F44B7F5AD6D638 /* SecureInput.swift in Sources */,
+				C0A7D3BB95ECA9A4A0F0AC18 /* SecureInputOverlay.swift in Sources */,
+				C072A4B4D2B32E6FEF485F3E /* ServiceProvider.swift in Sources */,
+				C0827383B1C722FC22B6F422 /* ConfigurationErrorsController.swift in Sources */,
+				C0307E4CC9EEF96FAEF11F05 /* ConfigurationErrorsView.swift in Sources */,
+				C085A7771A5C6658F7E9D063 /* SettingsView.swift in Sources */,
+				C02661E7234BB4EFC6EDD7AD /* SplitTree.swift in Sources */,
+				C0E1053A56081BF1EC666772 /* SplitView.Divider.swift in Sources */,
+				C084C05AA5F6E9FB0CA15BCC /* SplitView.swift in Sources */,
+				C0589488A9A7F065524DCB99 /* TerminalSplitTreeView.swift in Sources */,
+				C0434B7A32A340C54FD220DD /* BaseTerminalController.swift in Sources */,
+				C0091637431E813A54492905 /* ErrorView.swift in Sources */,
+				C02E29220F5B06C308220EF8 /* TerminalController.swift in Sources */,
+				C0A151B4C033B5F5DFA8F439 /* TerminalRestorable.swift in Sources */,
+				C0A7B510543E9D1301002173 /* TerminalTabColor.swift in Sources */,
+				C0F2EC5031775A54E3748AE1 /* TerminalView.swift in Sources */,
+				C0659156BFB9161FFD25F65A /* TerminalViewContainer.swift in Sources */,
+				C00348997BE789ABCB319107 /* HiddenTitlebarTerminalWindow.swift in Sources */,
+				C0357FC77E69B2C3931C6083 /* TerminalWindow.swift in Sources */,
+				C00AD5D934F90414596A21F7 /* TitlebarTabsTahoeTerminalWindow.swift in Sources */,
+				C0B6BBAC92FD64FBFF3A615D /* TitlebarTabsVenturaTerminalWindow.swift in Sources */,
+				C03B3A51CACBD43E58E29B54 /* TransparentTitlebarTerminalWindow.swift in Sources */,
+				C08FCA5B0EF840CBD6065146 /* UpdateBadge.swift in Sources */,
+				C01D5DE4782918F61B75CDE9 /* UpdateController.swift in Sources */,
+				C098CDD5388851EF3CEAE061 /* UpdateDelegate.swift in Sources */,
+				C05394E34A272682A7F0027D /* UpdateDriver.swift in Sources */,
+				C01A595EAB39A16193C4DBC3 /* UpdatePill.swift in Sources */,
+				C04655E86386F2978C211B5C /* UpdatePopoverView.swift in Sources */,
+				C0B4DDD706C411D23C88755B /* UpdateSimulator.swift in Sources */,
+				C0CD0C2CCC44A500D564731D /* UpdateViewModel.swift in Sources */,
+				C0DA02FEB2803A7FE727BEFB /* FullscreenMode+Extension.swift in Sources */,
+				C07C55949EBAC81907E69FE0 /* Ghostty.Action.swift in Sources */,
+				C0A9D6E263C3AC7C320305DF /* Ghostty.App.swift in Sources */,
+				C0E351C5C5D0A0E85EA2F7A1 /* Ghostty.Command.swift in Sources */,
+				C0B8E4BF286A1510FBCF1F3B /* Ghostty.Config.swift in Sources */,
+				C00BD0BF3E55881B709D0780 /* Ghostty.ConfigTypes.swift in Sources */,
+				C0A5BC152C6589ADF22B0661 /* Ghostty.Error.swift in Sources */,
+				C07B32039BAB5EC134440CA4 /* Ghostty.Event.swift in Sources */,
+				C0AAEB566C9EC57F6AF587CA /* Ghostty.Input.swift in Sources */,
+				C0B2707B808140B70B16ABDA /* Ghostty.Inspector.swift in Sources */,
+				C0990D16053F90AAE6F537D1 /* Ghostty.Shell.swift in Sources */,
+				C06EB0F7A4D6CEE16EC7E289 /* Ghostty.Surface.swift in Sources */,
+				C08622E5D6305984CEAFEF98 /* GhosttyDelegate.swift in Sources */,
+				C02ED12CED07E7060780DA20 /* GhosttyPackage.swift in Sources */,
+				C0E28E215908ACE566B6CDF9 /* GhosttyPackageMeta.swift in Sources */,
+				C073FB3FE511E70B5F387D41 /* NSEvent+Extension.swift in Sources */,
+				C0C73D2F8BF8E28DFFFB8348 /* InspectorView.swift in Sources */,
+				C0998C00B629B39B3FF588C9 /* SurfaceDragSource.swift in Sources */,
+				C09178B6CE85FF4B7471BA39 /* SurfaceGrabHandle.swift in Sources */,
+				C01FE7F825384D63C66C2515 /* SurfaceProgressBar.swift in Sources */,
+				C0DC964C1F24A99AD2C7E22B /* SurfaceScrollView.swift in Sources */,
+				C0B4F148F7A9615C2930C371 /* SurfaceView+Image.swift in Sources */,
+				C0874A0ED5D85528FF249829 /* SurfaceView+Transferable.swift in Sources */,
+				C06885897D57F00FB60713CB /* SurfaceView.swift in Sources */,
+				C01787E918339FD98F43578C /* SurfaceView_AppKit.swift in Sources */,
+				C07649301372977FAE173594 /* AnySortKey.swift in Sources */,
+				C09F146C45F915FF9E66C67E /* AppInfo.swift in Sources */,
+				C081AA8528AA3C933BCD5345 /* Backport.swift in Sources */,
+				C0582C1974C19DDCCD30D407 /* CodableBridge.swift in Sources */,
+				C0373B83381DC9B40BF96AA0 /* CrossKit.swift in Sources */,
+				C099C428D45ECE116D546394 /* Cursor.swift in Sources */,
+				C0AB2CCE11B4D7542BE78BD3 /* ExpiringUndoManager.swift in Sources */,
+				C0989407654AB26906E104F6 /* Array+Extension.swift in Sources */,
+				C0F5F0DD4D4D5D24AD4C7692 /* Double+Extension.swift in Sources */,
+				C086A9C78D433826115D47D5 /* Duration+Extension.swift in Sources */,
+				C05887591FD06CB344C38E75 /* EventModifiers+Extension.swift in Sources */,
+				C0AE8706EB65AD4FC4D772CD /* FileHandle+Extension.swift in Sources */,
+				C0FB3ACCF4C0C168B7D0D0CF /* KeyboardShortcut+Extension.swift in Sources */,
+				C0F62186CA8FC0D821FCDBFB /* NSAppearance+Extension.swift in Sources */,
+				C086504A6784699A2679BEC6 /* NSApplication+Extension.swift in Sources */,
+				C0B86508AD2157333F1AFDF3 /* NSColor+Extension.swift in Sources */,
+				C036D8E662C531B2CE467ED6 /* NSImage+Extension.swift in Sources */,
+				C0EBC0279096BDBE63BCC91A /* NSMenu+Extension.swift in Sources */,
+				C05F096A02C6F7FD0A8CDC4E /* NSMenuItem+Extension.swift in Sources */,
+				C0CD573738311199D014049B /* NSPasteboard+Extension.swift in Sources */,
+				C0EEB64224CF34B49C21C9DD /* NSScreen+Extension.swift in Sources */,
+				C0B2D3846CC538EFD6550E13 /* NSView+Extension.swift in Sources */,
+				C07D393485F6A827323FAC67 /* NSWindow+Extension.swift in Sources */,
+				C04AA2B948F6B2F4F20D0057 /* NSWorkspace+Extension.swift in Sources */,
+				C056140E445E79C8A630CFDA /* OSColor+Extension.swift in Sources */,
+				C04C2AEB021FAB6CD51CFC9B /* ObjectIdentifier+Extension.swift in Sources */,
+				C004F1F4EA03098AC744DB58 /* Optional+Extension.swift in Sources */,
+				C01AB96F137CF0ECD7677267 /* String+Extension.swift in Sources */,
+				C08D394759BE97E2928CB8F7 /* Transferable+Extension.swift in Sources */,
+				C02F5A49FDFF2C4F07C12826 /* UUID+Extension.swift in Sources */,
+				C0C37CE9388BBDC82387AD51 /* UndoManager+Extension.swift in Sources */,
+				C023F7E8565EBF65020CA8EB /* UserDefaults+Extension.swift in Sources */,
+				C0E831106E87CB4B4F3833DE /* View+Extension.swift in Sources */,
+				C0B0358DFD77B93FB584762C /* Fullscreen.swift in Sources */,
+				C0826AF2B7FB27D97A51842C /* HostingWindow.swift in Sources */,
+				C0B24532936653AF4D8A602F /* KeyboardLayout.swift in Sources */,
+				C0D2B61548E14007EB279ACF /* LastWindowPosition.swift in Sources */,
+				C0D1B2C3A4E5F60718293A4C /* LibCxxVerboseAbortShim.mm in Sources */,
+				C0E821D3B33055F13D933748 /* MetalView.swift in Sources */,
+				C0D9479CF7807B70E9A1C756 /* NonDraggableHostingView.swift in Sources */,
+				C0EC8FB6C92197113D12835B /* ObjCExceptionCatcher.m in Sources */,
+				C0A848BEA0EBC2AA26DA02A0 /* PermissionRequest.swift in Sources */,
+				C0977B0654DDA252311F49D3 /* CGS.swift in Sources */,
+				C0C169B18F4BF317F36C8965 /* Dock.swift in Sources */,
+				C06E7F392894069B15E93496 /* TabGroupCloseCoordinator.swift in Sources */,
+				C0F34CFE485899F4EA5D1253 /* TabTitleEditor.swift in Sources */,
+				C020B56E5D2CF79197D94B33 /* VibrantLayer.m in Sources */,
+				C068EC611BF278D58A0561CD /* Weak.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -651,6 +1273,32 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C059DF6D86FF1B24B615ED68 /* iOSApp.swift in Sources */,
+				C057D4A99C4B278EC8D36D8B /* Ghostty.Action.swift in Sources */,
+				C0E9E056E14689F8D6C5E462 /* Ghostty.App.swift in Sources */,
+				C04AB9D37603C6B449AD6C8A /* Ghostty.Command.swift in Sources */,
+				C0306AD5105DF19086102D3C /* Ghostty.Config.swift in Sources */,
+				C0E7C26556C356354368FB75 /* Ghostty.ConfigTypes.swift in Sources */,
+				C07A9D599474DC93CF244956 /* Ghostty.Inspector.swift in Sources */,
+				C0D6F059D7E09996F703A12E /* Ghostty.Shell.swift in Sources */,
+				C0740091AC61C57FECED48E8 /* GhosttyDelegate.swift in Sources */,
+				C081CE35686ADF557BCCE7CC /* GhosttyPackage.swift in Sources */,
+				C0B0D64BC46A29DBB9CB3140 /* GhosttyPackageMeta.swift in Sources */,
+				C0AEE7792C7704CD771C98C0 /* SurfaceProgressBar.swift in Sources */,
+				C0E68D69101BD07AA0EDA248 /* SurfaceView+Image.swift in Sources */,
+				C0700B4F47712DF11D7DDACF /* SurfaceView+Transferable.swift in Sources */,
+				C0942A3452070FE07366B8E6 /* SurfaceView.swift in Sources */,
+				C09811C017058BB62AA8DBB1 /* SurfaceView_UIKit.swift in Sources */,
+				C00DA231D8140C72336B9DCF /* AnySortKey.swift in Sources */,
+				C0E8E0B4D30237BAF563873C /* Backport.swift in Sources */,
+				C01A3DE80C0583B1E2FF1717 /* CrossKit.swift in Sources */,
+				C0E0FEA740252D16F40C2DFE /* Array+Extension.swift in Sources */,
+				C0532473F1C0BE3286467394 /* ObjectIdentifier+Extension.swift in Sources */,
+				C087C4EE01FBD1CFAB128204 /* Optional+Extension.swift in Sources */,
+				C0F577CCA80E558C38E9BE9A /* String+Extension.swift in Sources */,
+				C0F67C2F2BA8D3110A858A6B /* UUID+Extension.swift in Sources */,
+				C0C539D8578AC069EA92C27E /* UserDefaults+Extension.swift in Sources */,
+				C080FC68D2AA7C60A395FD75 /* Weak.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -721,7 +1369,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.1;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -774,7 +1422,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MARKETING_VERSION = 0.1;
 				"OTHER_LDFLAGS[arch=*]" = "-lstdc++";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mitchellh.ghostty;
@@ -794,7 +1442,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mitchellh.GhosttyUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -817,7 +1465,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mitchellh.GhosttyUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -840,7 +1488,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mitchellh.GhosttyUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -869,7 +1517,7 @@
 				INFOPLIST_KEY_NSPrincipalClass = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mitchellh.ghostty-dock-tile";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -878,7 +1526,7 @@
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DOCK_TILE_PLUGIN DEBUG";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 6.0;
+				SWIFT_VERSION = 5.0;
 				WRAPPER_EXTENSION = plugin;
 			};
 			name = Debug;
@@ -898,7 +1546,7 @@
 				INFOPLIST_KEY_NSPrincipalClass = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mitchellh.ghostty-dock-tile";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -907,7 +1555,7 @@
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DOCK_TILE_PLUGIN;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 6.0;
+				SWIFT_VERSION = 5.0;
 				WRAPPER_EXTENSION = plugin;
 			};
 			name = Release;
@@ -927,7 +1575,7 @@
 				INFOPLIST_KEY_NSPrincipalClass = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mitchellh.ghostty-dock-tile";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -936,7 +1584,7 @@
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DOCK_TILE_PLUGIN;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 6.0;
+				SWIFT_VERSION = 5.0;
 				WRAPPER_EXTENSION = plugin;
 			};
 			name = ReleaseLocal;
@@ -951,7 +1599,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.5;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mitchellh.GhosttyTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -975,7 +1623,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.5;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mitchellh.GhosttyTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -998,7 +1646,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.5;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mitchellh.GhosttyTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1063,7 +1711,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.1;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1119,7 +1767,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.1;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -1171,7 +1819,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MARKETING_VERSION = 0.1;
 				"OTHER_LDFLAGS[arch=*]" = "-lstdc++";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mitchellh.ghostty.debug;
@@ -1226,7 +1874,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MARKETING_VERSION = 0.1;
 				"OTHER_LDFLAGS[arch=*]" = "-lstdc++";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mitchellh.ghostty;

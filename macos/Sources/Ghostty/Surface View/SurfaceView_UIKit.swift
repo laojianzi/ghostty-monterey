@@ -36,9 +36,8 @@ extension Ghostty {
         // The progress report (if any)
         @Published var progressReport: Action.ProgressReport?
 
-        // The time this surface last became focused. This is a ContinuousClock.Instant
-        // on supported platforms.
-        @Published var focusInstant: ContinuousClock.Instant?
+        // The time this surface last became focused.
+        @Published var focusInstant: Date?
 
         /// True when the bell is active. This is set inactive on focus or event.
         @Published var bell: Bool = false
@@ -99,7 +98,7 @@ extension Ghostty {
 
             // On macOS 13+ we can store our continuous clock...
             if focused {
-                focusInstant = ContinuousClock.now
+                focusInstant = Date()
             }
         }
 

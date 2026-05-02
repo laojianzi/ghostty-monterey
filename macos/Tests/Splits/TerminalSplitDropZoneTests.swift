@@ -1,3 +1,4 @@
+#if compiler(>=6.0)
 import Testing
 import Foundation
 @testable import Ghostty
@@ -126,3 +127,4 @@ struct TerminalSplitDropZoneTests {
         #expect(zone == .right)
     }
 }
+#endif

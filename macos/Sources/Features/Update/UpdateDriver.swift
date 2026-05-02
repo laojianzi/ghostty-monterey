@@ -31,9 +31,9 @@ class UpdateDriver: NSObject, SPUUserDriver {
         // close.
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(50)) { [weak self] in
             guard let self else { return }
-            guard !hasUnobtrusiveTarget else { return }
-            viewModel.state.cancel()
-            viewModel.state = .idle
+            guard !self.hasUnobtrusiveTarget else { return }
+            self.viewModel.state.cancel()
+            self.viewModel.state = .idle
         }
     }
 

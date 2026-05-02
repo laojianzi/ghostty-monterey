@@ -197,10 +197,10 @@ enum ScriptSplitDirection {
 
     var splitDirection: SplitTree<Ghostty.SurfaceView>.NewDirection {
         switch self {
-        case .right: .right
-        case .left: .left
-        case .down: .down
-        case .up: .up
+        case .right: return .right
+        case .left: return .left
+        case .down: return .down
+        case .up: return .up
         }
     }
 }

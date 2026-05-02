@@ -7,6 +7,7 @@
 
 import XCTest
 
+#if compiler(>=6.0)
 class GhosttyCustomConfigCase: XCTestCase {
     /// We only want run these UI tests
     /// when testing manually with Xcode IDE
@@ -60,3 +61,4 @@ class GhosttyCustomConfigCase: XCTestCase {
         return app
     }
 }
+#endif

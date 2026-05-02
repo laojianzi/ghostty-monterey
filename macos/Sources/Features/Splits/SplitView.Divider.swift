@@ -46,9 +46,11 @@ extension SplitView {
         }
 
         private var pointerStyle: BackportPointerStyle {
-            return switch direction {
-            case .horizontal: .resizeLeftRight
-            case .vertical: .resizeUpDown
+            switch direction {
+            case .horizontal:
+                return .resizeLeftRight
+            case .vertical:
+                return .resizeUpDown
             }
         }
 

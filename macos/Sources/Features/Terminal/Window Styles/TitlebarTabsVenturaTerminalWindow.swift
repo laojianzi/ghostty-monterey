@@ -622,7 +622,9 @@ private class TerminalToolbar: NSToolbar, NSToolbarDelegate {
         super.init(identifier: identifier)
 
         delegate = self
-        centeredItemIdentifiers.insert(.titleText)
+        if #available(macOS 13.0, *) {
+            centeredItemIdentifiers.insert(.titleText)
+        }
     }
 
     func toolbar(_ toolbar: NSToolbar,

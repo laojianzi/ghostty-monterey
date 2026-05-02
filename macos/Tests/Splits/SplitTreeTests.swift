@@ -1,3 +1,4 @@
+#if compiler(>=6.0)
 import AppKit
 import Testing
 @testable import Ghostty
@@ -664,3 +665,4 @@ struct SplitTreeTests {
         #expect(nodeIds.count == 2)
     }
 }
+#endif

@@ -449,12 +449,11 @@ class BaseTerminalController: NSWindowController,
     /// This does no confirmation and assumes confirmation is already done.
     private func removeSurfaceNode(_ node: SplitTree<Ghostty.SurfaceView>.Node) {
         // Move focus if the closed surface was focused and we have a next target
-        let nextFocus: Ghostty.SurfaceView? = if node.contains(
-            where: { $0 == focusedSurface }
-        ) {
-            findNextFocusTargetAfterClosing(node: node)
+        let nextFocus: Ghostty.SurfaceView?
+        if node.contains(where: { $0 == focusedSurface }) {
+            nextFocus = findNextFocusTargetAfterClosing(node: node)
         } else {
-            nil
+            nextFocus = nil
         }
 
         replaceSurfaceTree(
@@ -773,12 +772,12 @@ class BaseTerminalController: NSWindowController,
     // MARK: Local Events
 
     private func localEventHandler(_ event: NSEvent) -> NSEvent? {
-        return switch event.type {
+        switch event.type {
         case .flagsChanged:
-            localEventFlagsChanged(event)
+            return localEventFlagsChanged(event)
 
         default:
-            event
+            return event
         }
     }
 
@@ -897,11 +896,16 @@ class BaseTerminalController: NSWindowController,
         zone: TerminalSplitDropZone
     ) {
         // Map drop zone to split direction
-        let direction: SplitTree<Ghostty.SurfaceView>.NewDirection = switch zone {
-        case .top: .up
-        case .bottom: .down
-        case .left: .left
-        case .right: .right
+        let direction: SplitTree<Ghostty.SurfaceView>.NewDirection
+        switch zone {
+        case .top:
+            direction = .up
+        case .bottom:
+            direction = .down
+        case .left:
+            direction = .left
+        case .right:
+            direction = .right
         }
 
         // Check if source is in our tree
@@ -1505,7 +1509,7 @@ extension BaseTerminalController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] hasBell in
                 guard let self else { return }
-                bell = hasBell
+                self.bell = hasBell
                 NotificationCenter.default.post(
                     name: .terminalWindowBellDidChangeNotification,
                     object: self,

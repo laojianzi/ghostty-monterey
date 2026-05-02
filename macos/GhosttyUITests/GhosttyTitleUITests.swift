@@ -7,6 +7,7 @@
 
 import XCTest
 
+#if compiler(>=6.0)
 final class GhosttyTitleUITests: GhosttyCustomConfigCase {
     override func setUp() async throws {
         try await super.setUp()
@@ -21,3 +22,4 @@ final class GhosttyTitleUITests: GhosttyCustomConfigCase {
         XCTAssertEqual(app.windows.firstMatch.title, "GhosttyUITestsLaunchTests", "Oops, `title=` doesn't work!")
     }
 }
+#endif

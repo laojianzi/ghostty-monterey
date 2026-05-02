@@ -1,4 +1,5 @@
 import SwiftUI
+import UniformTypeIdentifiers
 
 /// A single operation within the split tree.
 ///
@@ -57,13 +58,8 @@ private struct TerminalSplitSubtreeView: View {
             TerminalSplitLeaf(surfaceView: leafView, isSplit: !isRoot, action: action)
 
         case .split(let split):
-            let splitViewDirection: SplitViewDirection = switch split.direction {
-            case .horizontal: .horizontal
-            case .vertical: .vertical
-            }
-
             SplitView(
-                splitViewDirection,
+                SplitViewDirection(split.direction),
                 .init(get: {
                     CGFloat(split.ratio)
                 }, set: {
@@ -166,23 +162,18 @@ private struct TerminalSplitLeaf: View {
             let zone = TerminalSplitDropZone.calculate(at: info.location, in: viewSize)
             dropState = .idle
 
-            // Load the dropped surface asynchronously using Transferable
             let providers = info.itemProviders(for: [.ghosttySurfaceId])
             guard let provider = providers.first else { return false }
 
-            // Capture action before the async closure
-            _ = provider.loadTransferable(type: Ghostty.SurfaceView.self) { [weak destinationSurface] result in
-                switch result {
-                case .success(let sourceSurface):
-                    DispatchQueue.main.async {
-                        // Don't allow dropping on self
-                        guard let destinationSurface else { return }
-                        guard sourceSurface !== destinationSurface else { return }
-                        action(.drop(.init(payload: sourceSurface, destination: destinationSurface, zone: zone)))
-                    }
+            provider.loadDataRepresentation(forTypeIdentifier: UTType.ghosttySurfaceId.identifier) { data, _ in
+                guard let data = data else { return }
+                guard let uuid = Ghostty.SurfaceView.surfaceID(from: data) else { return }
 
-                case .failure:
-                    break
+                DispatchQueue.main.async { [weak destinationSurface] in
+                    guard let sourceSurface = Ghostty.SurfaceView.find(uuid: uuid) else { return }
+                    guard let destinationSurface else { return }
+                    guard sourceSurface !== destinationSurface else { return }
+                    action(.drop(.init(payload: sourceSurface, destination: destinationSurface, zone: zone)))
                 }
             }
 
@@ -252,6 +243,17 @@ enum TerminalSplitDropZone: String, Equatable {
                     .fill(overlayColor)
                     .frame(width: geometry.size.width / 2)
             }
+        }
+    }
+}
+
+private extension SplitViewDirection {
+    init(_ direction: SplitTree<Ghostty.SurfaceView>.Direction) {
+        switch direction {
+        case .horizontal:
+            self = .horizontal
+        case .vertical:
+            self = .vertical
         }
     }
 }

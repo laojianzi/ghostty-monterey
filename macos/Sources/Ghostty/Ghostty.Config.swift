@@ -281,19 +281,19 @@ extension Ghostty {
             guard ghostty_config_get(config, &v, key, UInt(key.lengthOfBytes(using: .utf8))) else { return nil }
             guard let ptr = v else { return nil }
             let str = String(cString: ptr)
-            return switch str {
+            switch str {
             case "false":
-                nil
+                return nil
             case "true":
-                .native
+                return .native
             case "non-native":
-                .nonNative
+                return .nonNative
             case "non-native-visible-menu":
-                .nonNativeVisibleMenu
+                return .nonNativeVisibleMenu
             case "non-native-padded-notch":
-                .nonNativePaddedNotch
+                return .nonNativePaddedNotch
             default:
-                nil
+                return nil
             }
         }
         #else
@@ -319,17 +319,17 @@ extension Ghostty {
             guard ghostty_config_get(config, &v, key, UInt(key.lengthOfBytes(using: .utf8))) else { return defaultValue }
             guard let ptr = v else { return defaultValue }
             let str = String(cString: ptr)
-            return switch str {
+            switch str {
             case "false":
-                    .native
+                return .native
             case "true":
-                    .nonNative
+                return .nonNative
             case "visible-menu":
-                    .nonNativeVisibleMenu
+                return .nonNativeVisibleMenu
             case "padded-notch":
-                    .nonNativePaddedNotch
+                return .nonNativePaddedNotch
             default:
-                defaultValue
+                return defaultValue
             }
         }
         #endif

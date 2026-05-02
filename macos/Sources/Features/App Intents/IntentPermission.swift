@@ -1,3 +1,4 @@
+#if compiler(>=6.0)
 import AppKit
 
 /// Requests permission for Shortcuts app to interact with Ghostty
@@ -24,6 +25,7 @@ import AppKit
 ///     // ... continue with intent implementation
 /// }
 /// ```
+@available(macOS 13.0, *)
 func requestIntentPermission() async -> Bool {
     await withCheckedContinuation { continuation in
         Task { @MainActor in
@@ -54,3 +56,5 @@ func requestIntentPermission() async -> Bool {
         }
     }
 }
+
+#endif

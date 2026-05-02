@@ -413,11 +413,11 @@ class NonNativeFullscreen: FullscreenBase, FullscreenStyle {
             self.toolbarStyle = window.toolbarStyle
             self.dock = window.screen?.hasDock ?? false
 
-            self.titlebarAccessoryViewControllers = if window.hasTitleBar {
+            if window.hasTitleBar {
                 // Accessing titlebarAccessoryViewControllers without a titlebar triggers a crash.
-                window.titlebarAccessoryViewControllers
+                self.titlebarAccessoryViewControllers = window.titlebarAccessoryViewControllers
             } else {
-                []
+                self.titlebarAccessoryViewControllers = []
             }
 
             if let cgWindowId = window.cgWindowId {

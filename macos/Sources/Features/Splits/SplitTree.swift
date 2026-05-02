@@ -97,7 +97,11 @@ extension SplitTree {
 
     /// Returns true if this tree is split.
     var isSplit: Bool {
-        if case .split = root { true } else { false }
+        if case .split = root {
+            return true
+        } else {
+            return false
+        }
     }
 
     init() {
@@ -223,9 +227,11 @@ extension SplitTree {
             case .split:
                 // If the best candidate is a split node, use its the leaf/rightmost
                 // depending on our spatial direction.
-                return switch spatialDirection {
-                case .up, .left: bestNode.node.leftmostLeaf()
-                case .down, .right: bestNode.node.rightmostLeaf()
+                switch spatialDirection {
+                case .up, .left:
+                    return bestNode.node.leftmostLeaf()
+                case .down, .right:
+                    return bestNode.node.rightmostLeaf()
                 }
             }
         }
@@ -265,9 +271,12 @@ extension SplitTree {
         }
 
         // Determine which type of split we need to find based on resize direction
-        let targetSplitDirection: Direction = switch direction {
-        case .up, .down: .vertical
-        case .left, .right: .horizontal
+        let targetSplitDirection: Direction
+        switch direction {
+        case .up, .down:
+            targetSplitDirection = .vertical
+        case .left, .right:
+            targetSplitDirection = .horizontal
         }
 
         // Find the nearest parent split of the correct type by walking up the path
@@ -1034,10 +1043,11 @@ extension SplitTree.Spatial {
             return sqrt(dx * dx + dy * dy)
         }
 
-        let result = switch direction {
+        let result: [Slot]
+        switch direction {
         case .left:
             // Slots to the left: their right edge is at or left of reference's left edge
-            slots.filter {
+            result = slots.filter {
                 $0.node != referenceNode && $0.bounds.maxX <= refSlot.bounds.minX
             }.sorted {
                 distance(from: refSlot.bounds, to: $0.bounds) < distance(from: refSlot.bounds, to: $1.bounds)
@@ -1045,7 +1055,7 @@ extension SplitTree.Spatial {
 
         case .right:
             // Slots to the right: their left edge is at or right of reference's right edge
-            slots.filter {
+            result = slots.filter {
                 $0.node != referenceNode && $0.bounds.minX >= refSlot.bounds.maxX
             }.sorted {
                 distance(from: refSlot.bounds, to: $0.bounds) < distance(from: refSlot.bounds, to: $1.bounds)
@@ -1053,7 +1063,7 @@ extension SplitTree.Spatial {
 
         case .up:
             // Slots above: their bottom edge is at or above reference's top edge
-            slots.filter {
+            result = slots.filter {
                 $0.node != referenceNode && $0.bounds.maxY <= refSlot.bounds.minY
             }.sorted {
                 distance(from: refSlot.bounds, to: $0.bounds) < distance(from: refSlot.bounds, to: $1.bounds)
@@ -1061,7 +1071,7 @@ extension SplitTree.Spatial {
 
         case .down:
             // Slots below: their top edge is at or below reference's bottom edge
-            slots.filter {
+            result = slots.filter {
                 $0.node != referenceNode && $0.bounds.minY >= refSlot.bounds.maxY
             }.sorted {
                 distance(from: refSlot.bounds, to: $0.bounds) < distance(from: refSlot.bounds, to: $1.bounds)
@@ -1092,15 +1102,15 @@ extension SplitTree.Spatial {
             result.union(slot.bounds)
         }
 
-        return switch side {
+        switch side {
         case .up:
-            slot.bounds.minY == overallBounds.minY
+            return slot.bounds.minY == overallBounds.minY
         case .down:
-            slot.bounds.maxY == overallBounds.maxY
+            return slot.bounds.maxY == overallBounds.maxY
         case .left:
-            slot.bounds.minX == overallBounds.minX
+            return slot.bounds.minX == overallBounds.minX
         case .right:
-            slot.bounds.maxX == overallBounds.maxX
+            return slot.bounds.maxX == overallBounds.maxX
         }
     }
 }
@@ -1179,13 +1189,13 @@ extension SplitTree.Node {
 }
 
 extension SplitTree: Sequence {
-    func makeIterator() -> [ViewType].Iterator {
+    func makeIterator() -> Array<ViewType>.Iterator {
         return root?.leaves().makeIterator() ?? [].makeIterator()
     }
 }
 
 extension SplitTree.Node: Sequence {
-    func makeIterator() -> [ViewType].Iterator {
+    func makeIterator() -> Array<ViewType>.Iterator {
         return leaves().makeIterator()
     }
 }

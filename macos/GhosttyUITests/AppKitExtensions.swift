@@ -7,6 +7,7 @@
 
 import AppKit
 
+#if compiler(>=6.0)
 extension NSColor {
     var isLightColor: Bool {
         return self.luminance > 0.5
@@ -23,6 +24,7 @@ extension NSColor {
         return (0.299 * r) + (0.587 * g) + (0.114 * b)
     }
 }
+#endif
 
 extension NSImage {
     func colorAt(x: Int, y: Int) -> NSColor? {

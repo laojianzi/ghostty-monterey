@@ -105,7 +105,6 @@ class TransparentTitlebarTerminalWindow: TerminalWindow {
         titlebarBackgroundView?.isHidden = true
     }
 
-    @available(macOS 13.0, *)
     private func syncAppearanceVentura(_ surfaceConfig: Ghostty.SurfaceView.DerivedConfig) {
         guard let titlebarContainer else { return }
 
@@ -159,7 +158,7 @@ class TransparentTitlebarTerminalWindow: TerminalWindow {
             // unconditionally.
 
             guard let self else { return }
-            guard let lastSurfaceConfig else { return }
+            guard let lastSurfaceConfig = self.lastSurfaceConfig else { return }
             self.syncAppearance(lastSurfaceConfig)
         }
     }
@@ -177,7 +176,7 @@ class TransparentTitlebarTerminalWindow: TerminalWindow {
              options: [.new]
         ) { [weak self] _, _ in
             guard let self else { return }
-            guard let lastSurfaceConfig else { return }
+            guard let lastSurfaceConfig = self.lastSurfaceConfig else { return }
             self.syncAppearance(lastSurfaceConfig)
         }
     }

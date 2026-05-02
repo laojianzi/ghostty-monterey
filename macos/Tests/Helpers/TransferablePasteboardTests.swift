@@ -1,9 +1,11 @@
+#if compiler(>=6.0) && canImport(AppKit) && canImport(CoreTransferable)
 import Testing
 import AppKit
 import CoreTransferable
 import UniformTypeIdentifiers
 @testable import Ghostty
 
+@available(macOS 13.0, *)
 struct TransferablePasteboardTests {
     // MARK: - Test Helpers
 
@@ -122,3 +124,4 @@ struct TransferablePasteboardTests {
         }
     }
 }
+#endif

@@ -7,6 +7,7 @@
 
 import XCTest
 
+#if compiler(>=6.0)
 final class GhosttyWindowPositionUITests: GhosttyCustomConfigCase {
     override static var runsForEachTargetApplicationUIConfiguration: Bool { false }
 
@@ -329,3 +330,4 @@ final class GhosttyWindowPositionUITests: GhosttyCustomConfigCase {
         app.terminate()
     }
 }
+#endif

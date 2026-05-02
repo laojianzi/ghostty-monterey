@@ -5,11 +5,19 @@ import GhosttyKit
 // MARK: C Extensions
 
 /// A command is fully self-contained so it is Sendable.
+#if compiler(>=6.0)
 extension ghostty_command_s: @unchecked @retroactive Sendable {}
+#else
+extension ghostty_command_s: @unchecked Sendable {}
+#endif
 
 /// A surface is sendable because it is just a reference type. Using the surface in parameters
 /// may be unsafe but the value itself is safe to send across threads.
+#if compiler(>=6.0)
 extension ghostty_surface_t: @unchecked @retroactive Sendable {}
+#else
+extension ghostty_surface_t: @unchecked Sendable {}
+#endif
 
 extension Ghostty {
     // The user notification category identifier
@@ -450,4 +458,8 @@ extension Ghostty.Notification {
 }
 
 // Make the input enum hashable.
+#if compiler(>=6.0)
 extension ghostty_input_key_e: @retroactive Hashable {}
+#else
+extension ghostty_input_key_e: Hashable {}
+#endif

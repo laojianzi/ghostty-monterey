@@ -19,7 +19,6 @@ pub const c = @cImport({
     @cInclude("CoreText/CoreText.h");
     @cInclude("CoreVideo/CoreVideo.h");
     @cInclude("CoreVideo/CVPixelBuffer.h");
-    @cInclude("QuartzCore/CALayer.h");
     @cInclude("IOSurface/IOSurfaceRef.h");
     @cInclude("dispatch/dispatch.h");
     @cInclude("os/log.h");

@@ -18,19 +18,23 @@ class TerminalController: BaseTerminalController, TabGroupCloseCoordinator.Contr
             return defaultValue
         }
 
-        let nib = switch config.macosTitlebarStyle {
-        case .native: "Terminal"
-        case .hidden: "TerminalHiddenTitlebar"
-        case .transparent: "TerminalTransparentTitlebar"
+        let nib: String
+        switch config.macosTitlebarStyle {
+        case .native:
+            nib = "Terminal"
+        case .hidden:
+            nib = "TerminalHiddenTitlebar"
+        case .transparent:
+            nib = "TerminalTransparentTitlebar"
         case .tabs:
 #if compiler(>=6.2)
             if #available(macOS 26.0, *) {
-                "TerminalTabsTitlebarTahoe"
+                nib = "TerminalTabsTitlebarTahoe"
             } else {
-                "TerminalTabsTitlebarVentura"
+                nib = "TerminalTabsTitlebarVentura"
             }
 #else
-            "TerminalTabsTitlebarVentura"
+            nib = "TerminalTabsTitlebarVentura"
 #endif
         }
 
@@ -312,7 +316,7 @@ class TerminalController: BaseTerminalController, TabGroupCloseCoordinator.Contr
         _ ghostty: Ghostty.App,
         tree: SplitTree<Ghostty.SurfaceView>,
         position: NSPoint? = nil,
-        confirmUndo: Bool = true,
+        confirmUndo: Bool = true
     ) -> TerminalController {
         let c = TerminalController.init(ghostty, withSurfaceTree: tree)
 
@@ -1095,12 +1099,12 @@ class TerminalController: BaseTerminalController, TabGroupCloseCoordinator.Contr
         // style) don't change the frame after the position is restored.
         let originChanged = terminalWindow.setInitialWindowPosition(
             x: derivedConfig.windowPositionX,
-            y: derivedConfig.windowPositionY,
+            y: derivedConfig.windowPositionY
         )
         let restored = LastWindowPosition.shared.restore(
             terminalWindow,
             origin: !originChanged,
-            size: defaultSize == nil,
+            size: defaultSize == nil
         )
 
         // If nothing is changed for the frame,
@@ -1129,10 +1133,10 @@ class TerminalController: BaseTerminalController, TabGroupCloseCoordinator.Contr
         tabGroupCloseCoordinator.windowShouldClose(sender) { [weak self] scope in
             guard let self else { return }
             switch scope {
-            case .tab: closeTab(nil)
+            case .tab: self.closeTab(nil)
             case .window:
                 guard self.window?.isFirstWindowInTabGroup ?? false else { return }
-                closeWindow(nil)
+                self.closeWindow(nil)
             }
         }
 
@@ -1335,7 +1339,7 @@ class TerminalController: BaseTerminalController, TabGroupCloseCoordinator.Contr
         // attached to the window that needs confirmation.
         confirmController.confirmClose(
             messageText: "Close Window?",
-            informativeText: "All terminal sessions in this window will be terminated.",
+            informativeText: "All terminal sessions in this window will be terminated."
         ) {
             self.closeWindowImmediately()
         }

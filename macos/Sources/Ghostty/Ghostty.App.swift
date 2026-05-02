@@ -715,7 +715,7 @@ extension Ghostty {
                 // Expand ~ to the user's home directory so that file paths
                 // like ~/Documents/file.txt resolve correctly.
                 let expandedPath = NSString(string: action.url).standardizingPath
-                url = URL(filePath: expandedPath)
+                url = URL(fileURLWithPath: expandedPath)
             }
 
             switch action.kind {
@@ -1459,13 +1459,7 @@ extension Ghostty {
                     }
 
                     let body: String
-                    let formattedDuration = duration.formatted(
-                        .units(
-                            allowed: [.hours, .minutes, .seconds, .milliseconds],
-                            width: .abbreviated,
-                            fractionalPart: .hide
-                        )
-                    )
+                    let formattedDuration = duration.abbreviatedDescription
                     if v.exit_code < 0 {
                         body = "Command took \(formattedDuration)."
                     } else {

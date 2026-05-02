@@ -153,10 +153,11 @@ struct TerminalCommandPaletteView: View {
                     displayTitle = "Untitled"
                 }
                 let pwd = surface.pwd?.abbreviatedPath
-                let subtitle: String? = if let pwd, !displayTitle.contains(pwd) {
-                    pwd
+                let subtitle: String?
+                if let pwd, !displayTitle.contains(pwd) {
+                    subtitle = pwd
                 } else {
-                    nil
+                    subtitle = nil
                 }
 
                 return CommandOption(

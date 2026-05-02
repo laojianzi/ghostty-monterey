@@ -1,6 +1,8 @@
+#if compiler(>=6.0)
 import AppKit
 import AppIntents
 
+@available(macOS 13.0, *)
 struct KeybindIntent: AppIntent {
     static var title: LocalizedStringResource = "Invoke a Keybind Action"
 
@@ -35,3 +37,5 @@ struct KeybindIntent: AppIntent {
         return .result(value: performed)
     }
 }
+
+#endif

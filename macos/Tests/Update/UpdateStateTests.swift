@@ -1,3 +1,4 @@
+#if compiler(>=6.0)
 import Testing
 import Foundation
 import Sparkle
@@ -110,3 +111,4 @@ struct UpdateStateTests {
         #expect(state.isIdle == false)
     }
 }
+#endif
