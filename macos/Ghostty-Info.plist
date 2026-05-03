@@ -47,9 +47,9 @@
 		</dict>
 	</array>
 	<key>GhosttyBuild</key>
-	<string></string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>GhosttyCommit</key>
-	<string></string>
+	<string>$(GHOSTTY_COMMIT)</string>
 	<key>LSEnvironment</key>
 	<dict>
 		<key>GHOSTTY_MAC_LAUNCH_SOURCE</key>

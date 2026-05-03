@@ -21,6 +21,8 @@ The macOS 12 compatibility work is complete for the macOS app target.
 - Mach-O load commands report `minos 12.0`.
 - Codesign verification passes.
 - App icon resources are present in Release builds.
+- Release bundles include official-style version, build, and commit metadata.
+- The About window identifies this build as a `ghostty-monterey` macOS 12 compatibility build.
 - Manual product testing passed, including split drag-and-drop.
 
 ## Release Attachments
@@ -35,9 +37,9 @@ Generated release artifacts are not committed to git. Upload these files as GitH
 Current checksums:
 
 ```text
-02dc35c36418c71bf7e264ff565ddf2d69231c064520fa6616a272762d5aba3c  dist/Ghostty-macos12-universal.zip
-2621720209168a22db4038f2acb81f7086c46f5406f4a0f0d2824c142033a610  dist/Ghostty-macos12-arm64.zip
-52f4e8a09598a58318b53d57d225ed1fbc6819f32baf63259e01317d78648691  dist/Ghostty-macos12-x86_64.zip
+2aa36451217cd84fe4de6ce631be81b6e9bd55de6734a15ae583e1459878c99f  dist/Ghostty-macos12-universal.zip
+7389a241e95914e32e982dcd8e8fb59a32e646e9451a1e07f1db3ec703391251  dist/Ghostty-macos12-arm64.zip
+d3864f1caed4e6f24e3e702e962ac53cfc75b8c23f29a6533c4115fd99986095  dist/Ghostty-macos12-x86_64.zip
 ```
 
 Verify downloaded artifacts with:
@@ -63,6 +65,10 @@ Alternatively, launch once, then allow the app in System Settings, Privacy & Sec
 Regenerate the macOS framework:
 
 ```sh
+GHOSTTY_VERSION=1.3.1
+GHOSTTY_BUILD=$(git rev-list --count HEAD)
+GHOSTTY_COMMIT=$(git rev-parse --short HEAD)
+
 zig build -Demit-macos-app=false -Doptimize=ReleaseFast -Dxcframework-target=universal
 ```
 
@@ -76,6 +82,9 @@ xcodebuild \
   -destination 'platform=macOS,arch=arm64' \
   SYMROOT="$PWD/macos/build" \
   ONLY_ACTIVE_ARCH=NO \
+  MARKETING_VERSION="$GHOSTTY_VERSION" \
+  CURRENT_PROJECT_VERSION="$GHOSTTY_BUILD" \
+  GHOSTTY_COMMIT="$GHOSTTY_COMMIT" \
   CODE_SIGN_INJECT_BASE_ENTITLEMENTS=NO \
   -quiet clean build
 ```
@@ -91,6 +100,9 @@ xcodebuild \
   SYMROOT="$PWD/macos/build-arm64-only-release" \
   ARCHS=arm64 \
   ONLY_ACTIVE_ARCH=NO \
+  MARKETING_VERSION="$GHOSTTY_VERSION" \
+  CURRENT_PROJECT_VERSION="$GHOSTTY_BUILD" \
+  GHOSTTY_COMMIT="$GHOSTTY_COMMIT" \
   CODE_SIGN_INJECT_BASE_ENTITLEMENTS=NO \
   -quiet clean build
 
@@ -102,6 +114,9 @@ xcodebuild \
   SYMROOT="$PWD/macos/build-x86_64-only-release" \
   ARCHS=x86_64 \
   ONLY_ACTIVE_ARCH=NO \
+  MARKETING_VERSION="$GHOSTTY_VERSION" \
+  CURRENT_PROJECT_VERSION="$GHOSTTY_BUILD" \
+  GHOSTTY_COMMIT="$GHOSTTY_COMMIT" \
   CODE_SIGN_INJECT_BASE_ENTITLEMENTS=NO \
   -quiet clean build
 ```
@@ -111,6 +126,9 @@ Verify the universal app bundle:
 ```sh
 lipo -info macos/build/Release/Ghostty.app/Contents/MacOS/ghostty
 plutil -extract LSMinimumSystemVersion raw macos/build/Release/Ghostty.app/Contents/Info.plist
+plutil -extract CFBundleShortVersionString raw macos/build/Release/Ghostty.app/Contents/Info.plist
+plutil -extract CFBundleVersion raw macos/build/Release/Ghostty.app/Contents/Info.plist
+plutil -extract GhosttyCommit raw macos/build/Release/Ghostty.app/Contents/Info.plist
 xcrun vtool -show-build -arch x86_64 macos/build/Release/Ghostty.app/Contents/MacOS/ghostty
 xcrun vtool -show-build -arch arm64 macos/build/Release/Ghostty.app/Contents/MacOS/ghostty
 codesign --verify --deep --strict macos/build/Release/Ghostty.app
@@ -120,6 +138,9 @@ Expected verification highlights:
 
 - `lipo` reports `x86_64 arm64`.
 - `LSMinimumSystemVersion` reports `12.0`.
+- `CFBundleShortVersionString` reports the release version.
+- `CFBundleVersion` reports the git commit count build number.
+- `GhosttyCommit` reports the short git commit.
 - Both `vtool` checks report `minos 12.0`.
 - Codesign verification exits successfully.
 
@@ -148,6 +169,9 @@ shasum -a 256 -c dist/SHA256SUMS.txt
 - Aligned shared surface focus timing on `Date` for AppKit and UIKit surface implementations.
 - Added an AppKit fallback for search `Return` and `Shift+Return` navigation on macOS 12.
 - Added a traditional `Ghostty.appiconset` so Xcode 14 generates Release app icons correctly.
+- Added build setting expansion for `GhosttyBuild` and `GhosttyCommit` so Release bundles carry version metadata without post-signing plist mutation.
+- Updated the About window source links and text so this fork is clearly identified as `ghostty-monterey`, not the official upstream release channel.
+- Adjusted the About metadata layout so version, build, commit, and source rows fit within the macOS 12 About window.
 - Compiler-gated Swift Testing and UI test files so Xcode 14 can build the test scheme.
 - Ignored generated Release artifacts and Xcode build directories so they remain Release attachments, not source files.
 
@@ -161,6 +185,7 @@ Manual testing passed for the P0 compatibility risks:
 - Command palette targeting
 - Split drag-and-drop
 - Universal and single-architecture Release app generation
+- About window version/build/commit/source display
 
 No macOS 12-supported product feature is currently known to be intentionally removed.
 

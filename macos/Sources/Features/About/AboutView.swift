@@ -3,12 +3,16 @@ import SwiftUI
 struct AboutView: View {
     @Environment(\.openURL) var openURL
 
-    private let githubURL = URL(string: "https://github.com/ghostty-org/ghostty")
+    private let githubURL = URL(string: "https://github.com/laojianzi/ghostty-monterey")
     private let docsURL = URL(string: "https://ghostty.org/docs")
 
     /// Read the commit from the bundle.
     private var build: String? { Bundle.main.infoDictionary?["CFBundleVersion"] as? String }
     private var commit: String? { Bundle.main.infoDictionary?["GhosttyCommit"] as? String }
+    private var commitURL: URL? {
+        guard let commit, commit != "" else { return nil }
+        return URL(string: "https://github.com/laojianzi/ghostty-monterey/commit/\(commit)")
+    }
     private var version: String? { Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String }
     private var copyright: String? { Bundle.main.infoDictionary?["NSHumanReadableCopyright"] as? String }
 
@@ -50,7 +54,7 @@ struct AboutView: View {
                     Text("Ghostty")
                         .bold()
                         .font(.title)
-                    Text("Fast, native, feature-rich terminal \nemulator pushing modern features.")
+                    Text("macOS 12 compatibility build \nfrom ghostty-monterey.")
                         .multilineTextAlignment(.center)
                         .fixedSize(horizontal: false, vertical: true)
                         .font(.caption)
@@ -66,9 +70,11 @@ struct AboutView: View {
                     if let build {
                         PropertyRow(label: "Build", text: build)
                     }
-                    if let commit, commit != "",
-                       let url = githubURL?.appendingPathComponent("/commits/\(commit)") {
+                    if let commit, let url = commitURL {
                         PropertyRow(label: "Commit", text: commit, url: url)
+                    }
+                    if let url = githubURL {
+                        PropertyRow(label: "Source", text: "ghostty-monterey", url: url)
                     }
                 }
                 .frame(maxWidth: .infinity)
@@ -119,8 +125,9 @@ struct AboutView: View {
 
         @ViewBuilder private var textView: some View {
             Text(text)
-                .frame(width: 125, alignment: .leading)
-                .padding(.leading, 2)
+                .lineLimit(1)
+                .minimumScaleFactor(0.75)
+                .frame(maxWidth: .infinity, alignment: .leading)
                 .tint(.secondary)
                 .opacity(0.8)
                 .font(.system(.body, design: .monospaced))
@@ -129,19 +136,19 @@ struct AboutView: View {
         var body: some View {
             HStack(spacing: 4) {
                 Text(label)
-                    .frame(width: 126, alignment: .trailing)
-                    .padding(.trailing, 2)
+                    .frame(width: 72, alignment: .trailing)
                 if let url {
                     Link(destination: url) {
                         textView
                     }
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 } else {
                     textView
                 }
             }
             .font(.callout)
             .textSelection(.enabled)
-            .frame(maxWidth: .infinity)
+            .frame(width: 240)
         }
     }
 }
