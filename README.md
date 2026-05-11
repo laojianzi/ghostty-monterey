@@ -8,8 +8,8 @@ This branch provides a macOS 12-compatible Ghostty build for machines that canno
 - Verified host: macOS 12.7.6
 - Verified toolchain: Xcode 14.1, Apple Swift 5.7.1, macOS 13 SDK, Zig 0.15.2
 - Verified app binaries: universal `x86_64 arm64`, arm64-only, and x86_64-only
-- Build configuration: `ReleaseLocal` for ad-hoc GitHub/GitLab distribution
-- Signing mode: ad-hoc signed, not notarized, with library validation disabled for bundled frameworks
+- Build configurations: `ReleaseLocal` and `Release`
+- Signing mode: ad-hoc signed, not notarized
 
 ## Current Status
 
@@ -21,7 +21,8 @@ The macOS 12 compatibility work is complete for the macOS app target.
 - `Ghostty.app` declares `LSMinimumSystemVersion = 12.0`.
 - Mach-O load commands report `minos 12.0`.
 - Codesign verification passes.
-- Release bundles carry `com.apple.security.cs.disable-library-validation` so the bundled ad-hoc signed `Sparkle.framework` loads on macOS 12 Intel.
+- `ReleaseLocal` bundles carry `com.apple.security.cs.disable-library-validation` so bundled ad-hoc signed frameworks load on standard macOS 12 Intel systems.
+- `Release` bundles keep the stricter official-style Hardened Runtime entitlements and are provided separately for users who prefer that profile.
 - App icon resources are present in Release builds.
 - Release bundles include official-style version, build, and commit metadata.
 - The About window identifies this build as a `ghostty-monterey` macOS 12 compatibility build.
@@ -31,10 +32,18 @@ The macOS 12 compatibility work is complete for the macOS app target.
 
 Generated release artifacts are not committed to git. Upload these files as GitHub/GitLab Release attachments:
 
-- `dist/Ghostty-macos12-universal.zip`
-- `dist/Ghostty-macos12-arm64.zip`
-- `dist/Ghostty-macos12-x86_64.zip`
+- `dist/Ghostty-macos12-releaselocal-universal.zip`
+- `dist/Ghostty-macos12-releaselocal-arm64.zip`
+- `dist/Ghostty-macos12-releaselocal-x86_64.zip`
+- `dist/Ghostty-macos12-release-universal.zip`
+- `dist/Ghostty-macos12-release-arm64.zip`
+- `dist/Ghostty-macos12-release-x86_64.zip`
 - `dist/SHA256SUMS.txt`
+
+Recommended downloads:
+
+- Use `releaselocal` builds for normal GitHub/GitLab ad-hoc distribution without a paid Apple Developer ID. This is the most compatible option for standard macOS 12 systems because bundled ad-hoc frameworks such as Sparkle can load under Hardened Runtime.
+- Use `release` builds only if you explicitly want the stricter official-style Release entitlement profile. These may fail to launch on some standard macOS 12 systems when bundled ad-hoc frameworks have no Team ID.
 
 Verify downloaded artifacts with:
 
@@ -66,7 +75,7 @@ GHOSTTY_COMMIT=$(git rev-parse --short HEAD)
 zig build -Demit-macos-app=false -Doptimize=ReleaseFast -Dxcframework-target=universal
 ```
 
-Build the universal ad-hoc Release app:
+Build the recommended universal `ReleaseLocal` app:
 
 ```sh
 xcodebuild \
@@ -83,7 +92,7 @@ xcodebuild \
   -quiet clean build
 ```
 
-Build single-architecture ad-hoc Release apps:
+Build recommended single-architecture `ReleaseLocal` apps:
 
 ```sh
 xcodebuild \
@@ -115,7 +124,56 @@ xcodebuild \
   -quiet clean build
 ```
 
-Verify the universal app bundle:
+Build the stricter universal `Release` app:
+
+```sh
+xcodebuild \
+  -project macos/Ghostty.xcodeproj \
+  -target Ghostty \
+  -configuration Release \
+  -destination 'platform=macOS,arch=arm64' \
+  SYMROOT="$PWD/macos/build-release" \
+  ONLY_ACTIVE_ARCH=NO \
+  MARKETING_VERSION="$GHOSTTY_VERSION" \
+  CURRENT_PROJECT_VERSION="$GHOSTTY_BUILD" \
+  GHOSTTY_COMMIT="$GHOSTTY_COMMIT" \
+  CODE_SIGN_INJECT_BASE_ENTITLEMENTS=NO \
+  -quiet clean build
+```
+
+Build stricter single-architecture `Release` apps:
+
+```sh
+xcodebuild \
+  -project macos/Ghostty.xcodeproj \
+  -target Ghostty \
+  -configuration Release \
+  -destination 'platform=macOS,arch=arm64' \
+  SYMROOT="$PWD/macos/build-release-arm64-only" \
+  ARCHS=arm64 \
+  ONLY_ACTIVE_ARCH=NO \
+  MARKETING_VERSION="$GHOSTTY_VERSION" \
+  CURRENT_PROJECT_VERSION="$GHOSTTY_BUILD" \
+  GHOSTTY_COMMIT="$GHOSTTY_COMMIT" \
+  CODE_SIGN_INJECT_BASE_ENTITLEMENTS=NO \
+  -quiet clean build
+
+xcodebuild \
+  -project macos/Ghostty.xcodeproj \
+  -target Ghostty \
+  -configuration Release \
+  -destination 'platform=macOS,arch=x86_64' \
+  SYMROOT="$PWD/macos/build-release-x86_64-only" \
+  ARCHS=x86_64 \
+  ONLY_ACTIVE_ARCH=NO \
+  MARKETING_VERSION="$GHOSTTY_VERSION" \
+  CURRENT_PROJECT_VERSION="$GHOSTTY_BUILD" \
+  GHOSTTY_COMMIT="$GHOSTTY_COMMIT" \
+  CODE_SIGN_INJECT_BASE_ENTITLEMENTS=NO \
+  -quiet clean build
+```
+
+Verify the recommended universal app bundle:
 
 ```sh
 APP=macos/build/ReleaseLocal/Ghostty.app
@@ -138,17 +196,21 @@ Expected verification highlights:
 - `CFBundleShortVersionString` reports the release version.
 - `CFBundleVersion` reports the git commit count build number.
 - `GhosttyCommit` reports the short git commit.
-- The app entitlements include `com.apple.security.cs.disable-library-validation`.
+- `ReleaseLocal` entitlements include `com.apple.security.cs.disable-library-validation`.
+- `Release` entitlements do not include `com.apple.security.cs.disable-library-validation`.
 - Both `vtool` checks report `minos 12.0`.
 - Codesign verification exits successfully.
 
 Package release attachments:
 
 ```sh
-ditto -c -k --keepParent macos/build/ReleaseLocal/Ghostty.app dist/Ghostty-macos12-universal.zip
-ditto -c -k --keepParent macos/build-arm64-only-release/ReleaseLocal/Ghostty.app dist/Ghostty-macos12-arm64.zip
-ditto -c -k --keepParent macos/build-x86_64-only-release/ReleaseLocal/Ghostty.app dist/Ghostty-macos12-x86_64.zip
-shasum -a 256 dist/Ghostty-macos12-universal.zip dist/Ghostty-macos12-arm64.zip dist/Ghostty-macos12-x86_64.zip > dist/SHA256SUMS.txt
+ditto -c -k --keepParent macos/build/ReleaseLocal/Ghostty.app dist/Ghostty-macos12-releaselocal-universal.zip
+ditto -c -k --keepParent macos/build-arm64-only-release/ReleaseLocal/Ghostty.app dist/Ghostty-macos12-releaselocal-arm64.zip
+ditto -c -k --keepParent macos/build-x86_64-only-release/ReleaseLocal/Ghostty.app dist/Ghostty-macos12-releaselocal-x86_64.zip
+ditto -c -k --keepParent macos/build-release/Release/Ghostty.app dist/Ghostty-macos12-release-universal.zip
+ditto -c -k --keepParent macos/build-release-arm64-only/Release/Ghostty.app dist/Ghostty-macos12-release-arm64.zip
+ditto -c -k --keepParent macos/build-release-x86_64-only/Release/Ghostty.app dist/Ghostty-macos12-release-x86_64.zip
+shasum -a 256 dist/Ghostty-macos12-*.zip > dist/SHA256SUMS.txt
 shasum -a 256 -c dist/SHA256SUMS.txt
 ```
 
@@ -168,7 +230,7 @@ shasum -a 256 -c dist/SHA256SUMS.txt
 - Added an AppKit fallback for search `Return` and `Shift+Return` navigation on macOS 12.
 - Added a traditional `Ghostty.appiconset` so Xcode 14 generates Release app icons correctly.
 - Added build setting expansion for `GhosttyBuild` and `GhosttyCommit` so Release bundles carry version metadata without post-signing plist mutation.
-- Switched public ad-hoc artifacts to `ReleaseLocal`, preserving Release optimization while allowing bundled ad-hoc frameworks such as Sparkle to load on macOS 12 Intel.
+- Added separate public artifacts for `ReleaseLocal` and `Release`, preserving Release optimization in both profiles while documenting the macOS 12 Intel Sparkle/library-validation tradeoff.
 - Updated the About window source links and text so this fork is clearly identified as `ghostty-monterey`, not the official upstream release channel.
 - Adjusted the About metadata layout so version, build, commit, and source rows fit within the macOS 12 About window.
 - Compiler-gated Swift Testing and UI test files so Xcode 14 can build the test scheme.
