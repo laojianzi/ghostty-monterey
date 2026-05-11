@@ -1,0 +1,110 @@
+name: Startup crash or launch failure
+description: Report a crash, dyld error, signing issue, or failure before Ghostty opens.
+title: "Startup crash: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template when Ghostty does not launch, crashes immediately, or macOS reports a signing, Gatekeeper, quarantine, dyld, or missing library error.
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-flight checklist
+      options:
+        - label: I am using macOS 12 Monterey.
+          required: true
+        - label: I tested the latest ghostty-monterey GitHub Release.
+          required: true
+        - label: I tested a ReleaseLocal zip first.
+          required: true
+        - label: I moved Ghostty.app to /Applications before testing.
+          required: true
+  - type: input
+    id: macos-version
+    attributes:
+      label: macOS version
+      description: "Example: macOS 12.7.6 (21H1320)"
+      placeholder: macOS 12.x.x (...)
+    validations:
+      required: true
+  - type: dropdown
+    id: cpu
+    attributes:
+      label: CPU architecture
+      options:
+        - Intel x86_64
+        - Apple Silicon arm64
+        - Universal build tested on Intel
+        - Universal build tested on Apple Silicon
+    validations:
+      required: true
+  - type: input
+    id: model
+    attributes:
+      label: Mac model
+      description: "Example: MacBookPro12,1"
+      placeholder: MacBookPro...
+    validations:
+      required: true
+  - type: input
+    id: release-tag
+    attributes:
+      label: Release tag
+      description: "Example: v1.3.1"
+      placeholder: v...
+    validations:
+      required: true
+  - type: dropdown
+    id: artifact
+    attributes:
+      label: Downloaded artifact
+      options:
+        - Ghostty-macos12-releaselocal-universal.zip
+        - Ghostty-macos12-releaselocal-x86_64.zip
+        - Ghostty-macos12-releaselocal-arm64.zip
+        - Ghostty-macos12-release-universal.zip
+        - Ghostty-macos12-release-x86_64.zip
+        - Ghostty-macos12-release-arm64.zip
+        - Built locally
+    validations:
+      required: true
+  - type: dropdown
+    id: failure-kind
+    attributes:
+      label: Failure kind
+      options:
+        - Crash report
+        - dyld library loading error
+        - Gatekeeper or unidentified developer warning
+        - Code signing error
+        - App opens then exits
+        - Nothing visible happens
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Install and launch steps
+      description: Include how you downloaded, extracted, moved, and launched the app.
+      placeholder: |
+        1. Downloaded ...
+        2. Extracted ...
+        3. Moved Ghostty.app to /Applications
+        4. Launched by ...
+    validations:
+      required: true
+  - type: textarea
+    id: crash-report
+    attributes:
+      label: Full crash report or terminal output
+      description: Paste the complete macOS crash report or the complete Terminal output.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Optional diagnostics
+      description: If available, paste output from codesign, spctl, xattr, or shasum checks.
+      render: shell

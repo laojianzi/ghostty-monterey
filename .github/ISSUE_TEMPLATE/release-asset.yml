@@ -1,0 +1,73 @@
+name: Release asset or checksum issue
+description: Report a problem with a GitHub Release zip, checksum, asset naming, or packaging.
+title: "Release asset issue: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template for download, checksum, zip extraction, packaging, or Release attachment problems.
+
+        Ordinary users should generally download ReleaseLocal artifacts. Release artifacts are kept for stricter official-style signing workflows.
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-flight checklist
+      options:
+        - label: I downloaded the file from the ghostty-monterey GitHub Releases page.
+          required: true
+        - label: I checked SHA256SUMS.txt when reporting a checksum problem.
+          required: false
+        - label: I understand ReleaseLocal is the recommended artifact for ordinary users.
+          required: true
+  - type: input
+    id: release-tag
+    attributes:
+      label: Release tag
+      description: "Example: v1.3.1"
+      placeholder: v...
+    validations:
+      required: true
+  - type: dropdown
+    id: artifact
+    attributes:
+      label: Affected artifact
+      options:
+        - Ghostty-macos12-releaselocal-universal.zip
+        - Ghostty-macos12-releaselocal-x86_64.zip
+        - Ghostty-macos12-releaselocal-arm64.zip
+        - Ghostty-macos12-release-universal.zip
+        - Ghostty-macos12-release-x86_64.zip
+        - Ghostty-macos12-release-arm64.zip
+        - SHA256SUMS.txt
+        - Release notes
+        - Other
+    validations:
+      required: true
+  - type: dropdown
+    id: problem
+    attributes:
+      label: Problem type
+      options:
+        - Missing asset
+        - Wrong asset name
+        - Checksum mismatch
+        - Zip extraction failure
+        - App metadata is wrong
+        - Unexpected signing or quarantine behavior
+        - Release notes are unclear or incorrect
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: commands
+    attributes:
+      label: Commands and output
+      description: Paste the exact command output, such as shasum, unzip, codesign, spctl, or xattr.
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Additional details
+      description: Add any other context that helps reproduce or verify the packaging issue.

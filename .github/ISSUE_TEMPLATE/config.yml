@@ -1,5 +1,8 @@
 blank_issues_enabled: false
 contact_links:
-  - name: Features, Bug Reports, Questions
-    url: https://github.com/ghostty-org/ghostty/discussions/new/choose
-    about: Our preferred starting point if you have any questions or suggestions about configuration, features or behavior.
+  - name: Releases and checksums
+    url: https://github.com/laojianzi/ghostty-monterey/releases
+    about: Download macOS 12 ReleaseLocal builds and verify SHA256SUMS.txt.
+  - name: Upstream Ghostty
+    url: https://github.com/ghostty-org/ghostty
+    about: Use upstream for issues that are not specific to this macOS 12 compatibility fork.

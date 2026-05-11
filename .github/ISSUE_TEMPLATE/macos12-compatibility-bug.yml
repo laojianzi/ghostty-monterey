@@ -1,0 +1,123 @@
+name: macOS 12 compatibility bug
+description: Report a Ghostty Monterey compatibility issue after the app launches.
+title: "macOS 12 bug: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template for issues specific to the macOS 12 compatibility build from ghostty-monterey.
+
+        If the issue also reproduces on the official Ghostty build on a supported macOS version, please report it upstream instead.
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-flight checklist
+      options:
+        - label: I am using macOS 12 Monterey.
+          required: true
+        - label: I tested the latest ghostty-monterey GitHub Release.
+          required: true
+        - label: I used a ReleaseLocal zip unless I intentionally tested the stricter Release artifact.
+          required: true
+        - label: This issue is specific to the macOS 12 compatibility fork.
+          required: true
+  - type: input
+    id: macos-version
+    attributes:
+      label: macOS version
+      description: "Example: macOS 12.7.6 (21H1320)"
+      placeholder: macOS 12.x.x (...)
+    validations:
+      required: true
+  - type: dropdown
+    id: cpu
+    attributes:
+      label: CPU architecture
+      options:
+        - Intel x86_64
+        - Apple Silicon arm64
+        - Universal build tested on Intel
+        - Universal build tested on Apple Silicon
+    validations:
+      required: true
+  - type: input
+    id: model
+    attributes:
+      label: Mac model
+      description: "Example: MacBookPro12,1"
+      placeholder: MacBookPro...
+    validations:
+      required: true
+  - type: input
+    id: release-tag
+    attributes:
+      label: Release tag
+      description: "Example: v1.3.1"
+      placeholder: v...
+    validations:
+      required: true
+  - type: dropdown
+    id: artifact
+    attributes:
+      label: Downloaded artifact
+      options:
+        - Ghostty-macos12-releaselocal-universal.zip
+        - Ghostty-macos12-releaselocal-x86_64.zip
+        - Ghostty-macos12-releaselocal-arm64.zip
+        - Ghostty-macos12-release-universal.zip
+        - Ghostty-macos12-release-x86_64.zip
+        - Ghostty-macos12-release-arm64.zip
+        - Built locally
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      options:
+        - Terminal rendering
+        - Keyboard or input
+        - Clipboard or pasteboard
+        - Fonts or text shaping
+        - Tabs, windows, or surfaces
+        - Configuration
+        - Shell integration
+        - App metadata or About window
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Provide the smallest set of steps that reproduces the issue.
+      placeholder: |
+        1. Open Ghostty.
+        2. Run ...
+        3. Observe ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: config
+    attributes:
+      label: Relevant configuration
+      description: Paste only the settings needed to reproduce the issue.
+      render: text
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or screenshots
+      description: Attach logs, terminal output, screenshots, or screen recordings when useful.
+      render: text
