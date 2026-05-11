@@ -36,14 +36,6 @@ Generated release artifacts are not committed to git. Upload these files as GitH
 - `dist/Ghostty-macos12-x86_64.zip`
 - `dist/SHA256SUMS.txt`
 
-Current checksums:
-
-```text
-2aa36451217cd84fe4de6ce631be81b6e9bd55de6734a15ae583e1459878c99f  dist/Ghostty-macos12-universal.zip
-7389a241e95914e32e982dcd8e8fb59a32e646e9451a1e07f1db3ec703391251  dist/Ghostty-macos12-arm64.zip
-d3864f1caed4e6f24e3e702e962ac53cfc75b8c23f29a6533c4115fd99986095  dist/Ghostty-macos12-x86_64.zip
-```
-
 Verify downloaded artifacts with:
 
 ```sh
