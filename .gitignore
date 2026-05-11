@@ -26,5 +26,6 @@ glad.zip
 
 vgcore.*
 macos/build-*-release
+macos/build-release*
 dist/Ghostty-*
 dist/SHA256SUMS.txt
