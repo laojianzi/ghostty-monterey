@@ -13,6 +13,7 @@ import tempfile
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("app", type=pathlib.Path)
+parser.add_argument("--architecture", choices=("universal", "x86_64"), default="universal")
 parser.add_argument("--extended", action="store_true",
                     help="Also check resources, palette, lifecycle and pixels; requires existing AX/Screen Recording permission")
 args = parser.parse_args()
@@ -21,7 +22,7 @@ with tempfile.TemporaryDirectory(prefix="ghostty-package-check-", dir="/tmp") as
     tmp = pathlib.Path(directory)
     output = tmp / "package"
     command = [sys.executable, str(ROOT / "macos/package-monterey.py"),
-               "--development", str(app), str(output)]
+               "--development", "--architecture", args.architecture, str(app), str(output)]
     subprocess.run(command, check=True)
     manifest = json.loads((output / "manifest.json").read_text())
     assert manifest["development"] is True
@@ -48,8 +49,8 @@ with tempfile.TemporaryDirectory(prefix="ghostty-package-check-", dir="/tmp") as
     if info.get("GhosttyCommit", "").endswith("-dirty"):
         release_output = tmp / "release"
         result = subprocess.run([sys.executable, str(ROOT / "macos/package-monterey.py"),
-                                 str(app), str(release_output)], capture_output=True, text=True)
-        assert result.returncode != 0 and "clean source revision" in result.stderr, result.stdout + result.stderr
+                                 "--architecture", args.architecture, str(app), str(release_output)], capture_output=True, text=True)
+        assert result.returncode != 0 and any(message in result.stderr for message in ("clean source", "Source/bundle mismatch")), result.stdout + result.stderr
         assert not release_output.exists(), "Rejected development build left release output"
         print("PASS: dirty development metadata refused for release packaging", flush=True)
 
@@ -82,7 +83,7 @@ with tempfile.TemporaryDirectory(prefix="ghostty-package-check-", dir="/tmp") as
         stream.write(b"ghostty-package-test-tamper")
     rejected = tmp / "tampered"
     result = subprocess.run([sys.executable, str(ROOT / "macos/package-monterey.py"),
-                             "--development", str(restored), str(rejected)], capture_output=True, text=True)
+                             "--development", "--architecture", args.architecture, str(restored), str(rejected)], capture_output=True, text=True)
     assert result.returncode != 0 and "codesign" in result.stderr, result.stdout + result.stderr
     signature = subprocess.run(["codesign", "--verify", "--deep", "--strict", str(restored)],
                                capture_output=True, text=True)

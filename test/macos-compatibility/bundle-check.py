@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Audit a universal Monterey bundle without launching or modifying it.
+"""Audit a Monterey bundle without launching or modifying it.
 
 Checks static deployment/dependency properties, not symbol availability or runtime
 correctness. --release additionally rejects placeholder release metadata.
@@ -36,7 +36,15 @@ def expand(path, loader, executable):
         "@executable_path", str(executable)))
 
 
-def audit(app, release=False):
+def check_architectures(actual, architecture, primary):
+    required = {"x86_64", "arm64"} if architecture == "universal" else {"x86_64"}
+    assert required <= actual, f"Missing required architecture: {required - actual}"
+    if primary:
+        assert actual == required, f"App/plugin architectures {actual} != {required}"
+    assert actual <= {"x86_64", "arm64"}, f"Unexpected architectures: {actual}"
+
+
+def audit(app, release=False, architecture="universal"):
     app = app.resolve()
     with (app / "Contents/Info.plist").open("rb") as stream:
         info = plistlib.load(stream)
@@ -69,17 +77,19 @@ def audit(app, release=False):
                     binaries.append(path)
 
     main_rpaths = {}
-    for arch in ("x86_64", "arm64"):
+    supported = ("x86_64", "arm64") if architecture == "universal" else ("x86_64",)
+    for arch in supported:
         main_rpaths[arch] = [field(c, "path") for c in load_commands(main, arch)
                              if field(c, "cmd") == "LC_RPATH"]
 
     for binary in binaries:
         relative = binary.relative_to(app)
-        assert set(run("lipo", "-archs", str(binary)).split()) == {"x86_64", "arm64"}, relative
+        embedded = set(run("lipo", "-archs", str(binary)).split())
+        check_architectures(embedded, architecture, binary in (main, dock))
         # Embedded XPC/Updater executables resolve @executable_path themselves,
         # whereas plugins/framework libraries are loaded by their host process.
         executable = binary.parent if binary.parent.name == "MacOS" and binary != dock else main.parent
-        for arch in ("x86_64", "arm64"):
+        for arch in supported:
             entitlements = subprocess.check_output(
                 ["codesign", "-d", "--arch", arch, "--entitlements", ":-", str(binary)],
                 stderr=subprocess.DEVNULL,
@@ -116,7 +126,7 @@ def audit(app, release=False):
                     assert not re.search(r"sectname __llvm_(?:prf|cov)", command), (
                         relative, arch, "Coverage instrumentation in release binary")
             assert len(minima) == 1 and version(minima[0]) <= (12, 0, 0), (relative, arch, minima)
-        print(f"PASS: {relative} (universal, deployment <= 12.0, dependencies, no coverage)")
+        print(f"PASS: {relative} ({sorted(embedded)}, supported slices deployment <= 12.0, dependencies, no coverage)")
 
     assert main in binaries and dock in binaries
     run("codesign", "--verify", "--deep", "--strict", str(app))
@@ -127,5 +137,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("app", type=pathlib.Path)
     parser.add_argument("--release", action="store_true")
+    parser.add_argument("--architecture", choices=("universal", "x86_64"), default="universal")
     args = parser.parse_args()
-    audit(args.app, args.release)
+    audit(args.app, args.release, args.architecture)

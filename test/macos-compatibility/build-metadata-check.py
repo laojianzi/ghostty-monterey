@@ -56,11 +56,11 @@ def main():
         recorder.chmod(0o755)
         environment = dict(os.environ, PATH=f"{tools}:/usr/bin:/bin:/usr/sbin:/sbin")
 
-        def invoke(repo):
+        def invoke(repo, *extra):
             recorded.unlink(missing_ok=True)
             result = subprocess.run(
                 [nu, "--no-config-file", str(repo / "macos/build.nu"),
-                 "--configuration", "ReleaseLocal"],
+                 "--configuration", "ReleaseLocal", *extra],
                 env=environment, capture_output=True, text=True,
             )
             values = json.loads(recorded.read_text()) if recorded.exists() else None
@@ -75,6 +75,12 @@ def main():
         assert f"GHOSTTY_BUILD=Monterey ReleaseLocal {revision}" in values, values
         assert "CODE_SIGN_INJECT_BASE_ENTITLEMENTS=NO" in values, values
         print("PASS: full history produces exact clean revision and commit-count build")
+        result, values = invoke(source, "--architecture", "x86_64", "--release")
+        assert result.returncode == 0, result.stdout + result.stderr
+        assert "ARCHS=x86_64" in values and "ONLY_ACTIVE_ARCH=NO" in values
+        result, values = invoke(source, "--architecture", "invalid")
+        assert result.returncode != 0 and values is None
+        print("PASS: Intel release flags and invalid architecture refusal")
 
         (source / "untracked.txt").write_text("local modification\n")
         result, values = invoke(source)
@@ -82,6 +88,9 @@ def main():
         assert f"GHOSTTY_COMMIT={revision}-dirty" in values, values
         assert "CURRENT_PROJECT_VERSION=3" in values, values
         print("PASS: untracked work is labeled dirty without changing the build count")
+        result, values = invoke(source, "--release")
+        assert result.returncode != 0 and values is None
+        print("PASS: dirty release refused before Xcode")
 
         shallow = tmp / "shallow"
         subprocess.run(["git", "clone", "--quiet", "--depth", "2", source.as_uri(), str(shallow)], check=True)

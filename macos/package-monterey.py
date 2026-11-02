@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Package an already-built universal Monterey app without changing its signature.
+"""Package an already-built Monterey app without changing its signature.
 
 Requires Python 3.9+ and macOS command-line tools. Does not build, sign, notarize,
 upload, or certify release readiness. --development permits dirty local metadata
@@ -17,6 +17,8 @@ import stat
 import subprocess
 import sys
 import tempfile
+
+import release_source
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 AUDIT = ROOT / "test/macos-compatibility/bundle-check.py"
@@ -52,6 +54,8 @@ def main():
     parser.add_argument("app", type=pathlib.Path)
     parser.add_argument("output", type=pathlib.Path, help="New, non-existing directory")
     parser.add_argument("--development", action="store_true")
+    parser.add_argument("--architecture", choices=("universal", "x86_64"), default="universal")
+    parser.add_argument("--release-tag", help="Fork tag, for example v1.4.0-monterey.1")
     args = parser.parse_args()
     if sys.flags.optimize:
         parser.error("Do not use python -O: bundle auditing requires assertions")
@@ -61,8 +65,10 @@ def main():
         parser.error("Output must not exist and its parent must be a directory")
     if output.is_relative_to(app):
         parser.error("Output must not be inside the app")
-    audit = [sys.executable, str(AUDIT)]
+    audit = [sys.executable, str(AUDIT), "--architecture", args.architecture]
+    identity = None
     if not args.development:
+        identity = release_source.verify(ROOT, app)
         audit.append("--release")
     subprocess.run([*audit, str(app)], check=True)
     with (app / "Contents/Info.plist").open("rb") as stream:
@@ -72,7 +78,10 @@ def main():
     if not re.fullmatch(r"\d+\.\d+\.\d+", version) or not re.fullmatch(r"\d+", build):
         parser.error("Build version metadata is not suitable for packaging")
     label = "-NOT-FOR-RELEASE" if args.development else ""
-    name = f"Ghostty-macos12-{version}-{build}-universal{label}.zip"
+    if args.release_tag and not re.fullmatch(rf"v{re.escape(version)}-monterey\.[1-9]\d*", args.release_tag):
+        parser.error("Release tag must match the app version and Monterey release number")
+    release_version = args.release_tag.removeprefix("v") if args.release_tag else version
+    name = f"Ghostty-macos12-{release_version}-{build}-releaselocal-{args.architecture}{label}.zip"
     before = inventory(app)
     # Keep incomplete outputs out of the requested directory. Publish only after
     # extraction and signature/content checks; never overwrite an existing output.
@@ -90,13 +99,24 @@ def main():
         subprocess.run([*audit, str(restored)], check=True)
         if inventory(restored) != before or inventory(app) != before:
             raise ValueError("Archive round trip changed data/modes/links, or source changed during packaging")
+        if identity is not None and release_source.verify(ROOT, restored) != identity:
+            raise ValueError("Source identity changed during packaging")
         manifest = {
-            "format": 1,
+            "format": 2,
             "development": args.development,
             "version": version,
             "build": build,
             "commit": info.get("GhosttyCommit"),
             "buildIdentity": info.get("GhosttyBuild"),
+            "configuration": "ReleaseLocal",
+            "supportedArchitectures": ["x86_64", "arm64"] if args.architecture == "universal" else ["x86_64"],
+            "embeddedMainArchitectures": subprocess.check_output(
+                ["lipo", "-archs", str(app / "Contents/MacOS" / info["CFBundleExecutable"])], text=True).split(),
+            "releaseTag": args.release_tag,
+            "source": identity,
+            "upstreamCommit": "83fb95624b0439ee660c2679b43b38c8b63769cd",
+            "xcode": subprocess.check_output(["xcodebuild", "-version"], text=True).strip(),
+            "hostOS": subprocess.check_output(["sw_vers", "-productVersion"], text=True).strip(),
             "archive": name,
             "sha256": sha256(archive),
             "files": before,
