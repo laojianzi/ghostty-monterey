@@ -1,0 +1,64 @@
+--- a/macos/Sources/App/AppDelegate.swift
++++ b/macos/Sources/App/AppDelegate.swift
+@@ -1380,7 +1380,7 @@
+         }
+ 
+         if controllersNeedConfirmation.count == 1 {
+-            Task {
++            Task { @MainActor [controllersNeedConfirmation] in
+                 let response = await controllersNeedConfirmation[0].confirmCloseAsync(
+                     messageText: "Quit Ghostty?",
+                     informativeText: "The terminal still has a running process. If you quit, the process will be killed.",
+@@ -1413,7 +1413,7 @@
+     }
+ 
+     private func reviewWindows(_ controllers: [BaseTerminalController]) {
+-        Task {
++        Task { @MainActor in
+             for controller in controllers {
+                 let response = await controller.confirmCloseAsync(
+                     messageText: "Quit Ghostty?",
+--- a/macos/Sources/Ghostty/Surface View/SurfaceScrollView.swift
++++ b/macos/Sources/Ghostty/Surface View/SurfaceScrollView.swift
+@@ -43,7 +43,7 @@
+         // surface to draw the background behind non-overlay scrollers
+         // (we currently only use overlay scrollers, but might as well
+         // configure the views correctly in case we change our mind)
+-        #if compiler(>=5.9)
++        #if compiler(>=5.9) && !GHOSTTY_TEST_SDK13
+         if #available(macOS 14, *) {
+             scrollView.contentView.clipsToBounds = false
+         }
+--- a/macos/Sources/Ghostty/Surface View/SurfaceView.swift
++++ b/macos/Sources/Ghostty/Surface View/SurfaceView.swift
+@@ -883,7 +883,7 @@
+ 
+             var body: some View {
+                 TimelineView(.animation(paused: paused)) { context in
+-                    HStack(spacing: 2) {
++                    return HStack(spacing: 2) {
+                         ForEach(0..<3, id: \.self) { index in
+                             Circle()
+                                 .fill(Color.secondary)
+--- a/macos/Sources/Helpers/Backport.swift
++++ b/macos/Sources/Helpers/Backport.swift
+@@ -61,7 +61,7 @@
+ 
+     /// Backported onKeyPress that works on macOS 14+ and is a no-op on macOS 13.
+     func onKeyPress(_ key: KeyEquivalent, action: @escaping (EventModifiers) -> BackportKeyPressResult) -> some View {
+-        #if compiler(>=5.9)
++        #if compiler(>=5.9) && !GHOSTTY_TEST_SDK13
+         if #available(macOS 14, *) {
+             return content.onKeyPress(key, phases: .down, action: { keyPress in
+                 switch action(keyPress.modifiers) {
+--- a/macos/Sources/Helpers/URLHoverBanner.swift
++++ b/macos/Sources/Helpers/URLHoverBanner.swift
+@@ -52,7 +52,7 @@
+ 
+     @ViewBuilder
+     private func bannerBackground(topLeading: Bool) -> some View {
+-        #if compiler(>=5.9)
++        #if compiler(>=5.9) && !GHOSTTY_TEST_SDK13
+         if #available(macOS 14, *) {
+             UnevenRoundedRectangle(cornerRadii: .init(
+                 topLeading: topLeading ? cornerRadius : 0,

@@ -7,6 +7,23 @@
 
 import XCTest
 
+extension XCUIElement {
+    func waitUntilAbsent(timeout: TimeInterval) -> Bool {
+        if !exists { return true }
+        let expectation = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in !self.exists }, object: nil)
+        return XCTWaiter.wait(for: [expectation], timeout: timeout) == .completed
+    }
+
+    func waitUntil<Value: Equatable>(
+        _ keyPath: KeyPath<XCUIElement, Value>, equals value: Value, timeout: TimeInterval
+    ) -> Bool {
+        if self[keyPath: keyPath] == value { return true }
+        let expectation = XCTNSPredicateExpectation(
+            predicate: NSPredicate { _, _ in self[keyPath: keyPath] == value }, object: nil)
+        return XCTWaiter.wait(for: [expectation], timeout: timeout) == .completed
+    }
+}
+
 class GhosttyCustomConfigCase: XCTestCase {
     /// We only want run these UI tests
     /// when testing manually with Xcode IDE

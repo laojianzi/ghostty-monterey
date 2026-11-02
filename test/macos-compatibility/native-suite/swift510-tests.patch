@@ -1,0 +1,224 @@
+--- a/macos/Tests/Features/AppleScript/ScriptKeyEventCommandTests.swift
++++ b/macos/Tests/Features/AppleScript/ScriptKeyEventCommandTests.swift
+@@ -20,7 +20,7 @@
+         _ keyName: Any?,
+         modifiers: String? = nil,
+         action: UInt32? = nil,
+-        translationMods: (Ghostty.Input.Mods) -> Ghostty.Input.Mods = { $0 },
++        translationMods: (Ghostty.Input.Mods) -> Ghostty.Input.Mods = { $0 }
+     ) throws -> Ghostty.Input.KeyEvent {
+         var arguments: [String: Any] = [:]
+         if let modifiers { arguments["modifiers"] = modifiers }
+@@ -28,7 +28,7 @@
+         return try ScriptKeyEventCommand.parse(
+             directParameter: keyName,
+             evaluatedArguments: arguments.isEmpty ? nil : arguments,
+-            translationMods: translationMods,
++            translationMods: translationMods
+         )
+     }
+ 
+--- a/macos/Tests/Ghostty/MenuShortcutManagerTests.swift
++++ b/macos/Tests/Ghostty/MenuShortcutManagerTests.swift
+@@ -4,7 +4,7 @@
+ @testable import Ghostty
+ 
+ struct MenuShortcutManagerTests {
+-    @Test(.bug("https://github.com/ghostty-org/ghostty/issues/779", id: 779))
++    @Test(nil, .bug("https://github.com/ghostty-org/ghostty/issues/779"), .bug(779))
+     func unbindShouldDiscardDefault() async throws {
+         let config = try TemporaryConfig("keybind = super+d=unbind")
+ 
+@@ -41,7 +41,7 @@
+         #expect(!item.allowsAutomaticKeyEquivalentMirroring)
+     }
+ 
+-    @Test(.bug("https://github.com/ghostty-org/ghostty/issues/11396", id: 11396))
++    @Test(nil, .bug("https://github.com/ghostty-org/ghostty/issues/11396"), .bug(11396))
+     func overrideDefault() async throws {
+         let config = try TemporaryConfig("keybind=super+h=goto_split:left")
+ 
+--- a/macos/Tests/Ghostty/UntrustedURLTests.swift
++++ b/macos/Tests/Ghostty/UntrustedURLTests.swift
+@@ -42,7 +42,7 @@
+     func allowsNonExecutableLocalFiles() throws {
+         let directory = try makeTemporaryDirectory()
+         defer { try? FileManager.default.removeItem(at: directory) }
+-        let file = directory.appending(path: "document.txt")
++        let file = directory.appendingPathComponent("document.txt")
+         try "safe".write(to: file, atomically: true, encoding: .utf8)
+ 
+         guard case .allow(let result) = UntrustedURL(file.absoluteString).decision else {
+@@ -56,7 +56,7 @@
+     func rejectsDangerousLocalFileExtensions(_ filename: String) throws {
+         let directory = try makeTemporaryDirectory()
+         defer { try? FileManager.default.removeItem(at: directory) }
+-        let file = directory.appending(path: filename)
++        let file = directory.appendingPathComponent(filename)
+         try "#!/bin/sh\n".write(to: file, atomically: true, encoding: .utf8)
+ 
+         #expect(UntrustedURL(file.absoluteString).decision == .deny(.unsafeFile))
+@@ -66,7 +66,7 @@
+     func rejectsScriptContentTypes() throws {
+         let directory = try makeTemporaryDirectory()
+         defer { try? FileManager.default.removeItem(at: directory) }
+-        let file = directory.appending(path: "payload.sh")
++        let file = directory.appendingPathComponent("payload.sh")
+         try "#!/bin/sh\n".write(to: file, atomically: true, encoding: .utf8)
+ 
+         #expect(UntrustedURL(file.absoluteString).decision == .deny(.unsafeFile))
+@@ -76,7 +76,7 @@
+     func rejectsExecutableFilesRegardlessOfExtension() throws {
+         let directory = try makeTemporaryDirectory()
+         defer { try? FileManager.default.removeItem(at: directory) }
+-        let file = directory.appending(path: "payload.txt")
++        let file = directory.appendingPathComponent("payload.txt")
+         try "#!/bin/sh\n".write(to: file, atomically: true, encoding: .utf8)
+         try FileManager.default.setAttributes(
+             [.posixPermissions: 0o755],
+@@ -90,8 +90,8 @@
+     func resolvesSymlinksBeforeClassifyingFiles() throws {
+         let directory = try makeTemporaryDirectory()
+         defer { try? FileManager.default.removeItem(at: directory) }
+-        let payload = directory.appending(path: "payload.command")
+-        let link = directory.appending(path: "document.txt")
++        let payload = directory.appendingPathComponent("payload.command")
++        let link = directory.appendingPathComponent("document.txt")
+         try "#!/bin/sh\n".write(to: payload, atomically: true, encoding: .utf8)
+         try FileManager.default.createSymbolicLink(at: link, withDestinationURL: payload)
+ 
+@@ -112,7 +112,7 @@
+ 
+     private func makeTemporaryDirectory() throws -> URL {
+         let result = FileManager.default.temporaryDirectory
+-            .appending(path: UUID().uuidString, directoryHint: .isDirectory)
++            .appendingPathComponent(UUID().uuidString, isDirectory: true)
+         try FileManager.default.createDirectory(
+             at: result,
+             withIntermediateDirectories: false
+--- a/macos/Tests/Helpers/TemporaryConfig.swift
++++ b/macos/Tests/Helpers/TemporaryConfig.swift
+@@ -16,14 +16,14 @@
+             .appendingPathExtension("ghostty")
+         try configText.write(to: temporaryFile, atomically: true, encoding: .utf8)
+         self.temporaryFile = temporaryFile
+-        super.init(config: Self.loadConfig(at: temporaryFile.path(), finalize: finalize))
++        super.init(config: Self.loadConfig(at: temporaryFile.path, finalize: finalize))
+     }
+ 
+     func reload(_ newConfigText: String?, finalize: Bool = true) throws {
+         if let newConfigText {
+             try newConfigText.write(to: temporaryFile, atomically: true, encoding: .utf8)
+         }
+-        guard let cfg = Self.loadConfig(at: temporaryFile.path(), finalize: finalize) else {
++        guard let cfg = Self.loadConfig(at: temporaryFile.path, finalize: finalize) else {
+             throw Error.failedToLoad
+         }
+         clone(config: cfg)
+--- a/macos/Tests/Helpers/TransferablePasteboardTests.swift
++++ b/macos/Tests/Helpers/TransferablePasteboardTests.swift
+@@ -8,6 +8,7 @@
+     // MARK: - Test Helpers
+ 
+     /// A simple Transferable type for testing pasteboard conversion.
++    @available(macOS 13, *)
+     private struct DummyTransferable: Transferable, Equatable {
+         let payload: String
+ 
+@@ -22,6 +23,7 @@
+     }
+ 
+     /// A Transferable type that registers multiple content types.
++    @available(macOS 13, *)
+     private struct MultiTypeTransferable: Transferable {
+         let text: String
+ 
+@@ -41,12 +43,14 @@
+ 
+     // MARK: - Basic Functionality
+ 
++    @available(macOS 13, *)
+     @Test func pasteboardItemIsCreated() {
+         let transferable = DummyTransferable(payload: "hello")
+         let item = transferable.pasteboardItem()
+         #expect(item != nil)
+     }
+ 
++    @available(macOS 13, *)
+     @Test func pasteboardItemContainsExpectedType() {
+         let transferable = DummyTransferable(payload: "hello")
+         guard let item = transferable.pasteboardItem() else {
+@@ -58,6 +62,7 @@
+         #expect(item.types.contains(expectedType))
+     }
+ 
++    @available(macOS 13, *)
+     @Test func pasteboardItemProvidesCorrectData() {
+         let transferable = DummyTransferable(payload: "test data")
+         guard let item = transferable.pasteboardItem() else {
+@@ -84,6 +89,7 @@
+ 
+     // MARK: - Multiple Content Types
+ 
++    @available(macOS 13, *)
+     @Test func multipleTypesAreRegistered() {
+         let transferable = MultiTypeTransferable(text: "multi")
+         guard let item = transferable.pasteboardItem() else {
+@@ -98,6 +104,7 @@
+         #expect(item.types.contains(plainType))
+     }
+ 
++    @available(macOS 13, *)
+     @Test func multipleTypesProvideCorrectData() {
+         let transferable = MultiTypeTransferable(text: "shared content")
+         guard let item = transferable.pasteboardItem() else {
+--- a/macos/Tests/Terminal/TerminalViewContainerTests.swift
++++ b/macos/Tests/Terminal/TerminalViewContainerTests.swift
+@@ -46,6 +46,7 @@
+ }
+ 
+ struct TerminalViewContainerTests {
++    @MainActor
+     @Test func glassAvailability() async throws {
+         let view = await MockTerminalViewContainer {
+             EmptyView()
+--- a/macos/Tests/Update/UpdateStateTests.swift
++++ b/macos/Tests/Update/UpdateStateTests.swift
+@@ -98,27 +98,31 @@
+ 
+     // MARK: - isHidden Tests
+ 
+-    @Test(
+-        arguments: [
++    static var hiddenCases: [(UpdateState, Bool)] {
++        [
+             (UpdateState.idle, true),
+             (.installing(.init(appcastItem: .empty(), retryTerminatingApplication: {})), true),
+             (.checking(.init(cancel: {})), false),
+             (.installing(.init(retryTerminatingApplication: {})), false)
+         ]
+-    )
++    }
++
++    @Test(arguments: hiddenCases)
+     func testIsHidden(_ state: UpdateState, expected: Bool) {
+         #expect(state.isHidden == expected)
+     }
+ 
+     // MARK: - shouldTerminateWithoutWarning Tests
+ 
+-    @Test(
+-        arguments: [
++    static var terminationCases: [(UpdateState, Bool)] {
++        [
+             (UpdateState.idle, false),
+             (.installing(.init(appcastItem: .empty(), retryTerminatingApplication: {})), false),
+             (.installing(.init(retryTerminatingApplication: {})), true)
+         ]
+-    )
++    }
++
++    @Test(arguments: terminationCases)
+     func testShouldTerminateWithoutWarning(_ state: UpdateState, expected: Bool) {
+         #expect(state.shouldTerminateWithoutWarning == expected)
+     }

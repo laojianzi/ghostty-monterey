@@ -31,7 +31,7 @@ final class GhosttyWindowPositionUITests: GhosttyCustomConfigCase {
 //        app.menuItems["_zoomTopLeft:"].firstMatch.click()
 //
 //        // wait for the animation to finish
-//        try await Task.sleep(for: .seconds(0.5))
+//        try await Task.sleep(nanoseconds: 500_000_000)
 
         let window = app.windows.firstMatch
         let windowFrame = window.frame
@@ -118,7 +118,7 @@ final class GhosttyWindowPositionUITests: GhosttyCustomConfigCase {
         XCTAssertTrue(window2.waitForExistence(timeout: 5), "New window should appear")
         let windowFrame2 = window2.frame
 
-        try await Task.sleep(for: .seconds(0.5))
+        try await Task.sleep(nanoseconds: 500_000_000)
 
         XCTAssertEqual(windowFrame2.minX, rightFrame.maxX + 100, accuracy: 5, "New window should be target position")
         XCTAssertEqual(windowFrame2.minY, rightFrame.minY, accuracy: 5, "New window should be target position")
@@ -165,7 +165,7 @@ final class GhosttyWindowPositionUITests: GhosttyCustomConfigCase {
         XCTAssertTrue(window2.waitForExistence(timeout: 5), "New window should appear")
         let windowFrame2 = window2.frame
 
-        try await Task.sleep(for: .seconds(0.5))
+        try await Task.sleep(nanoseconds: 500_000_000)
 
         XCTAssertEqual(windowFrame2.minX, rightFrame.maxX + 100, accuracy: 5, "New window should be target position")
         XCTAssertEqual(windowFrame2.minY, rightFrame.minY, accuracy: 5, "New window should be target position")
@@ -213,7 +213,7 @@ final class GhosttyWindowPositionUITests: GhosttyCustomConfigCase {
             """
         )
         app.typeKey(",", modifierFlags: [.command, .shift])
-        try await Task.sleep(for: .seconds(0.5))
+        try await Task.sleep(nanoseconds: 500_000_000)
         app.typeKey("n", modifierFlags: [.command])
 
         XCTAssertEqual(app.windows.count, 2, "Should have 2 windows")
@@ -259,7 +259,7 @@ final class GhosttyWindowPositionUITests: GhosttyCustomConfigCase {
             """
         )
         app.typeKey(",", modifierFlags: [.command, .shift])
-        try await Task.sleep(for: .seconds(0.5))
+        try await Task.sleep(nanoseconds: 500_000_000)
         app.typeKey("w", modifierFlags: [.command])
         app.typeKey("n", modifierFlags: [.command])
 

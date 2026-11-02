@@ -52,7 +52,7 @@ final class GhosttyThemeTests: GhosttyCustomConfigCase {
         app.groups["Terminal pane"].typeKey("d", modifierFlags: .command)
         // reload config
         app.typeKey(",", modifierFlags: [.command, .shift])
-        try await Task.sleep(for: .seconds(0.5))
+        try await Task.sleep(nanoseconds: 500_000_000)
         // create a new window
         app.typeKey("n", modifierFlags: [.command])
         try assertTitlebarAppearance(.dark, for: app)
@@ -63,7 +63,7 @@ final class GhosttyThemeTests: GhosttyCustomConfigCase {
         try updateConfig("title=\(windowTitle) \n window-theme=light")
         let app = try ghosttyApplication()
         app.launch()
-        try await Task.sleep(for: .seconds(0.5))
+        try await Task.sleep(nanoseconds: 500_000_000)
         try assertTitlebarAppearance(.dark, for: app)
     }
 
@@ -85,7 +85,7 @@ final class GhosttyThemeTests: GhosttyCustomConfigCase {
         try updateConfig("title=\(windowTitle) \n theme=light:3024 Day,dark:3024 Night \n window-theme = light")
         // reload config
         app.typeKey(",", modifierFlags: [.command, .shift])
-        try await Task.sleep(for: .seconds(0.5))
+        try await Task.sleep(nanoseconds: 500_000_000)
         try assertTitlebarAppearance(.light, for: app)
     }
 
@@ -97,7 +97,7 @@ final class GhosttyThemeTests: GhosttyCustomConfigCase {
         app.launch()
         try assertTitlebarAppearance(.dark, for: app)
         XCUIDevice.shared.appearance = .light
-        try await Task.sleep(for: .seconds(0.5))
+        try await Task.sleep(nanoseconds: 500_000_000)
         try assertTitlebarAppearance(.light, for: app)
     }
 
@@ -111,7 +111,7 @@ final class GhosttyThemeTests: GhosttyCustomConfigCase {
         try updateConfig("title=\(windowTitle) \n ")
         // reload config
         app.typeKey(",", modifierFlags: [.command, .shift])
-        try await Task.sleep(for: .seconds(0.5))
+        try await Task.sleep(nanoseconds: 500_000_000)
         try assertTitlebarAppearance(.dark, for: app)
     }
 
@@ -125,7 +125,7 @@ final class GhosttyThemeTests: GhosttyCustomConfigCase {
         try updateConfig("title=\(windowTitle) \n theme=light:3024 Day,dark:3024 Night \n window-theme=dark")
         // reload config
         app.typeKey(",", modifierFlags: [.command, .shift])
-        try await Task.sleep(for: .seconds(0.5))
+        try await Task.sleep(nanoseconds: 500_000_000)
         try assertTitlebarAppearance(.dark, for: app)
     }
 
@@ -139,7 +139,7 @@ final class GhosttyThemeTests: GhosttyCustomConfigCase {
         try updateConfig("title=\(windowTitle) \n theme=light:3024 Day,dark:3024 Night")
         // reload config
         app.typeKey(",", modifierFlags: [.command, .shift])
-        try await Task.sleep(for: .seconds(0.5))
+        try await Task.sleep(nanoseconds: 500_000_000)
         try assertTitlebarAppearance(.light, for: app)
     }
 
@@ -157,7 +157,7 @@ final class GhosttyThemeTests: GhosttyCustomConfigCase {
         let title = "Debug builds of Ghostty are very slow and you may experience performance problems. Debug builds are only recommended during development."
         try assertTitlebarAppearance(.light, for: app, title: title, colorLocation: CGPoint(x: 5, y: 5)) // to avoid dark edge
         XCUIDevice.shared.appearance = .dark
-        try await Task.sleep(for: .seconds(0.5))
+        try await Task.sleep(nanoseconds: 500_000_000)
         try assertTitlebarAppearance(.dark, for: app, title: title, colorLocation: CGPoint(x: 5, y: 5))
     }
 }

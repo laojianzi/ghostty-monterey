@@ -26,7 +26,7 @@ final class GhosttyCommandPaletteTests: GhosttyCustomConfigCase {
             .withOffset(.init(dx: -30, dy: 0))
             .click()
 
-        XCTAssertTrue(clearScreenButton.waitForNonExistence(timeout: 5), "Command Palette should disappear after clicking outside")
+        XCTAssertTrue(clearScreenButton.waitUntilAbsent(timeout: 5), "Command Palette should disappear after clicking outside")
 
         app.typeKey("p", modifierFlags: [.command, .shift])
 
@@ -34,7 +34,7 @@ final class GhosttyCommandPaletteTests: GhosttyCustomConfigCase {
 
         app.typeKey(.escape, modifierFlags: [])
 
-        XCTAssertTrue(clearScreenButton.waitForNonExistence(timeout: 5), "Command Palette should disappear after typing escape")
+        XCTAssertTrue(clearScreenButton.waitUntilAbsent(timeout: 5), "Command Palette should disappear after typing escape")
 
         app.typeKey("p", modifierFlags: [.command, .shift])
 
@@ -42,7 +42,7 @@ final class GhosttyCommandPaletteTests: GhosttyCustomConfigCase {
 
         app.typeKey(.enter, modifierFlags: [])
 
-        XCTAssertTrue(clearScreenButton.waitForNonExistence(timeout: 5), "Command Palette should disappear after submitting query")
+        XCTAssertTrue(clearScreenButton.waitUntilAbsent(timeout: 5), "Command Palette should disappear after submitting query")
 
         app.typeKey("p", modifierFlags: [.command, .shift])
 
@@ -51,7 +51,7 @@ final class GhosttyCommandPaletteTests: GhosttyCustomConfigCase {
         app.typeText("Clear Screen")
         app.typeKey(.enter, modifierFlags: [])
 
-        XCTAssertTrue(clearScreenButton.waitForNonExistence(timeout: 5), "Command Palette should disappear after selecting a command by keyboard")
+        XCTAssertTrue(clearScreenButton.waitUntilAbsent(timeout: 5), "Command Palette should disappear after selecting a command by keyboard")
 
         app.typeKey("p", modifierFlags: [.command, .shift])
         app.typeKey(.delete, modifierFlags: [])
@@ -59,7 +59,7 @@ final class GhosttyCommandPaletteTests: GhosttyCustomConfigCase {
         XCTAssertTrue(clearScreenButton.waitForExistence(timeout: 5), "Command Palette should appear")
         clearScreenButton.click()
 
-        XCTAssertTrue(clearScreenButton.waitForNonExistence(timeout: 5), "Command Palette should disappear after selecting a command by mouse")
+        XCTAssertTrue(clearScreenButton.waitUntilAbsent(timeout: 5), "Command Palette should disappear after selecting a command by mouse")
     }
 
     @MainActor func testSelectCommandWithMouse() async throws {
@@ -74,7 +74,7 @@ final class GhosttyCommandPaletteTests: GhosttyCustomConfigCase {
             .containing(NSPredicate(format: "label CONTAINS[c] 'Close All Windows'"))
             .firstMatch.click()
 
-        XCTAssertTrue(app.windows.firstMatch.waitForNonExistence(timeout: 2), "All windows should be closed")
+        XCTAssertTrue(app.windows.firstMatch.waitUntilAbsent(timeout: 2), "All windows should be closed")
     }
 }
 

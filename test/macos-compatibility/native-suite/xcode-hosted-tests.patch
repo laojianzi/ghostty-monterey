@@ -1,0 +1,10 @@
+--- a/macos/Tests/Splits/SplitTreeTests.swift
++++ b/macos/Tests/Splits/SplitTreeTests.swift
+@@ -26,6 +26,7 @@
+     }
+ }
+ 
++@MainActor
+ struct SplitTreeTests {
+     /// Creates a two-view horizontal split tree (view1 | view2).
+     static func makeHorizontalSplit() throws -> (SplitTree<MockView>, MockView, MockView) {

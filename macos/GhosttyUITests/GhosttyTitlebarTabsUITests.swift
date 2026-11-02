@@ -104,7 +104,7 @@ final class GhosttyTitlebarTabsUITests: GhosttyCustomConfigCase {
         // merge into one window, resulting 3 tabs
         app.menuItems["mergeAllWindows:"].firstMatch.click()
 
-        XCTAssertTrue(app.wait(for: \.tabs.count, toEqual: 3, timeout: 1), "There should be 3 tabs")
+        XCTAssertTrue(app.waitUntil(\.tabs.count, equals: 3, timeout: 1), "There should be 3 tabs")
         checkTabsGeometry(app.windows.firstMatch)
     }
 

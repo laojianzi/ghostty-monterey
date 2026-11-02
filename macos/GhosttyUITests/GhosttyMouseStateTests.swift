@@ -74,7 +74,7 @@ final class GhosttyMouseStateTests: GhosttyCustomConfigCase {
         // dismiss
         app.typeKey(.escape, modifierFlags: [])
 
-        XCTAssertTrue(textfield.waitForNonExistence(timeout: 5), "Search field should disappear")
+        XCTAssertTrue(textfield.waitUntilAbsent(timeout: 5), "Search field should disappear")
     }
 }
 
