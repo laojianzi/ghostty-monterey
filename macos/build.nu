@@ -18,8 +18,8 @@ def main [
     let build_dir = ($env.FILE_PWD | path join "build")
     let root = ($env.FILE_PWD | path dirname)
     let package_flags = if $source_packages != "" {
-        let pin = (open ($root | path join "macos/Ghostty.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved")
-            | get pins | where identity == "sparkle" | first | get state.revision)
+        let pin = (open --raw ($root | path join "macos/Ghostty.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved")
+            | from json | get pins | where identity == "sparkle" | first | get state.revision)
         let checkout = ($source_packages | path join "checkouts/Sparkle")
         if (^git -C $checkout rev-parse HEAD | str trim) != $pin or ((^git -C $checkout status --porcelain | str trim) != "") {
             error make {msg: "Dependency cache must contain clean Sparkle at the locked revision."}

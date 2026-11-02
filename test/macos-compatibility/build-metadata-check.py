@@ -81,6 +81,24 @@ def main():
         result, values = invoke(source, "--architecture", "invalid")
         assert result.returncode != 0 and values is None
         print("PASS: Intel release flags and invalid architecture refusal")
+        packages = tmp / "packages"
+        checkout = packages / "checkouts/Sparkle"
+        checkout.mkdir(parents=True)
+        git(checkout, "init", "--quiet")
+        git(checkout, "-c", "user.name=Test", "-c", "user.email=test@example.invalid",
+            "-c", "commit.gpgsign=false", "commit", "--allow-empty", "-qm", "fixture")
+        pin = source / "macos/Ghostty.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved"
+        pin.parent.mkdir(parents=True)
+        pin.write_text(json.dumps({"pins": [{"identity": "sparkle", "state": {
+            "revision": git(checkout, "rev-parse", "HEAD")}}]}))
+        result, values = invoke(source, "--source-packages", str(packages))
+        assert result.returncode == 0, result.stdout + result.stderr
+        assert "-disableAutomaticPackageResolution" in values and str(packages) in values
+        (checkout / "dirty").write_text("dirty")
+        result, values = invoke(source, "--source-packages", str(packages))
+        assert result.returncode != 0 and values is None
+        pin.unlink()
+        print("PASS: locked dependency cache accepted; dirty dependency refused")
 
         (source / "untracked.txt").write_text("local modification\n")
         result, values = invoke(source)
