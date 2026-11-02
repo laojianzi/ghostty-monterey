@@ -18,6 +18,9 @@ python3 test/macos-compatibility/package-check.py macos/build/ReleaseLocal/Ghost
 Record clean source identity before/after both builds. Do not reuse compiled
 core/app outputs, alter a signed bundle's metadata, or run generating tests in
 the release staging tree. Dependency download/source caches may be reused.
+For unavailable package networks, pass `--source-packages /external/SourcePackages`
+to build.nu. It requires a clean Sparkle checkout at the lockfile revision and
+disables package updates/automatic resolution; it does not reuse app objects.
 The packager verifies clean full history, version/SHA/count/build identity,
 ReleaseLocal entitlements and current generated/source resource inventories
 before and after round-trip extraction. This is local consistency verification,

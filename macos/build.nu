@@ -9,6 +9,7 @@ def main [
     --action: string = "build"         # xcodebuild action (build, test, clean, etc.)
     --architecture: string = "universal" # universal or x86_64
     --release                         # Require a clean ReleaseLocal build
+    --source-packages: string = ""     # Pinned Xcode dependency cache (not app objects)
     --update-key: string = ""          # Distributor's Sparkle Ed25519 public key
     --update-stable-url: string = ""   # HTTPS Monterey-only stable appcast
     --update-tip-url: string = ""      # HTTPS Monterey-only tip appcast
@@ -16,6 +17,15 @@ def main [
     let project = ($env.FILE_PWD | path join "Ghostty.xcodeproj")
     let build_dir = ($env.FILE_PWD | path join "build")
     let root = ($env.FILE_PWD | path dirname)
+    let package_flags = if $source_packages != "" {
+        let pin = (open ($root | path join "macos/Ghostty.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved")
+            | get pins | where identity == "sparkle" | first | get state.revision)
+        let checkout = ($source_packages | path join "checkouts/Sparkle")
+        if (^git -C $checkout rev-parse HEAD | str trim) != $pin or ((^git -C $checkout status --porcelain | str trim) != "") {
+            error make {msg: "Dependency cache must contain clean Sparkle at the locked revision."}
+        }
+        [-clonedSourcePackagesDirPath $source_packages -skipPackageUpdates -disableAutomaticPackageResolution]
+    } else { [] }
     let arch_flags = if $architecture == "x86_64" {
         if (^uname -m | str trim) != "x86_64" {
             error make {msg: "The Monterey Intel build requires an x86_64 host."}
@@ -88,6 +98,7 @@ def main [
         $"GHOSTTY_MONTEREY_UPDATE_STABLE_URL=($update_stable_url)"
         $"GHOSTTY_MONTEREY_UPDATE_TIP_URL=($update_tip_url)"
         ...$coverage
+        ...$package_flags
         ...$arch_flags
         ...$signing
         ...$skip_testing
