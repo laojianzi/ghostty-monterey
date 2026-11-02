@@ -188,8 +188,10 @@ with log_path.open("w") as log:
             subprocess.run([sys.executable, str(pathlib.Path(__file__).with_name("lifecycle-app-check.py")),
                             str(app), str(work), str(process.pid)], check=True, timeout=120)
         if args.pixels:
+            # Includes native helper compilation and eleven bounded captures.
+            # The complete sequence can exceed 60s on the Monterey build host.
             subprocess.run([sys.executable, str(pathlib.Path(__file__).with_name("pixels-app-check.py")),
-                            str(app), str(work), str(process.pid)], check=True, timeout=60)
+                            str(app), str(work), str(process.pid)], check=True, timeout=180)
         result_path = work / "pty-result"
         command = f"printf 'monterey-pty-ok\\n' > '{result_path}'"
         script(f'''
