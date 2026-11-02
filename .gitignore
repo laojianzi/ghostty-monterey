@@ -32,3 +32,10 @@ glad.zip
 vgcore.*
 
 /sprite_face_test*
+
+# Local test caches and session-specific compatibility evidence.
+__pycache__/
+*.py[cod]
+/test/macos-compatibility/evidence/
+/test/macos-compatibility/optional-ax/*.snapshot
+/test/macos-compatibility/optional-ax/snapshot.patch
