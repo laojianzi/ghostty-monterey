@@ -1,5 +1,10 @@
 # Final regression, package and resource verification
 
+Historical pre-publication report for build18457. The clean build18465 was
+subsequently published; see [RELEASE-PUBLISHED.md](RELEASE-PUBLISHED.md).
+The pending-release statements and results below belong to this earlier session,
+not the shipped artifact or a requirement to repeat the completed investigation.
+
 2026-11-02. Follow-up to the user's request to verify the first three remaining
 items. Scope is this Intel macOS 12.7.6 host and ReleaseLocal; no publishing,
 commits, Developer ID signing, notarization or security-policy bypass.

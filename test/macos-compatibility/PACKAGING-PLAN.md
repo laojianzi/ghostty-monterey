@@ -1,5 +1,10 @@
 # Recommended Monterey 1.4 packaging
 
+Historical design snapshot. Intel tooling is now implemented in
+[RELEASE-INTEL.md](RELEASE-INTEL.md) and the release is recorded in
+[RELEASE-PUBLISHED.md](RELEASE-PUBLISHED.md). References to main, unimplemented
+options and pending publication below describe the research-time state only.
+
 2026-11-02. Design/research only: no source freeze, commit, tag, packaging-tool
 change, app build or upload is performed by this investigation.
 

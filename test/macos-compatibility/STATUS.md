@@ -1,5 +1,9 @@
 # Monterey 1.4 compatibility work
 
+Published status: [v1.4.0-monterey.1 / build18465](RELEASE-PUBLISHED.md).
+The investigation entries below retain their original artifact/time scope;
+they do not override the published record or its unresolved test disclosures.
+
 ## Status
 
 The reopened AX/automation follow-up is complete on the current Intel Monterey

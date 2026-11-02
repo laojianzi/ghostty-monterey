@@ -1,5 +1,9 @@
 # Intel ReleaseLocal release procedure
 
+The first published output of this procedure is
+[v1.4.0-monterey.1 / build18465](RELEASE-PUBLISHED.md). These are reproducible
+maintenance instructions, not a request to rebuild the frozen release.
+
 This supersedes the unimplemented-tooling statements in PACKAGING-PLAN.md.
 The user explicitly excludes closing the fixed-width UI expectation and the
 incomplete unfiltered Zig suite from this release task. Those results remain

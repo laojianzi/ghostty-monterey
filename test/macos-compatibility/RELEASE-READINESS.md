@@ -1,10 +1,21 @@
 # Monterey release readiness
 
+## Published status
+
+[v1.4.0-monterey.1 / build18465](RELEASE-PUBLISHED.md) is published and installed.
+That record is authoritative for the shipped artifact, delivery checks and
+unresolved expanded-test failures. The remaining sections preserve the
+pre-publication build18457 acceptance index; statements about dirty metadata,
+pending publication or no unresolved blocker describe that earlier checkpoint,
+not the final release. Historical test passes are not reassigned to build18465.
+
+## Pre-publication checkpoint
+
 The reopened AX selection/automation follow-up is complete. AX-AUTOMATION-WORK.md
 records the new artifact-matched acceptance and its explicit limits. Older
 feature/unit/UI evidence below retains its original identity, not a blanket rerun.
 
-Updated 2026-11-02. This is the current acceptance index, not a chronological
+Recorded 2026-11-02 before publication. This was the acceptance index, not a chronological
 backlog. READINESS-HISTORY.md preserves the superseded wording and intermediate
 results. STATUS.md remains the chronological record.
 
