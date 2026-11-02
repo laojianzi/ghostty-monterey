@@ -28,6 +28,9 @@ device: objc.Object,
 /// the "shared" storage mode, instead we have to use the "managed" mode.
 default_storage_mode: mtl.MTLResourceOptions.StorageMode,
 
+/// Intel integrated GPUs have unified memory but do not support shared textures.
+texture_storage_mode: mtl.MTLResourceOptions.StorageMode,
+
 /// The maximum 2D texture width and height supported by the device.
 max_texture_size: u32,
 
@@ -46,6 +49,14 @@ pub fn init(alloc: std.mem.Allocator, options: Options) !*Device {
         .ios => .shared,
         else => if (device.getProperty(bool, "hasUnifiedMemory")) .shared else .managed,
     };
+    const texture_storage_mode: mtl.MTLResourceOptions.StorageMode = switch (comptime builtin.target.os.tag) {
+        .ios => .shared,
+        else => if (device.msgSend(
+            bool,
+            objc.sel("supportsFamily:"),
+            .{mtl.MTLGPUFamily.apple1},
+        )) .shared else .managed,
+    };
     const max_texture_size = queryMaxTextureSize(device);
     log.debug(
         "device properties default_storage_mode={} max_texture_size={}",
@@ -55,6 +66,7 @@ pub fn init(alloc: std.mem.Allocator, options: Options) !*Device {
     self.* = .{
         .device = device,
         .default_storage_mode = default_storage_mode,
+        .texture_storage_mode = texture_storage_mode,
         .max_texture_size = max_texture_size,
     };
     return self;

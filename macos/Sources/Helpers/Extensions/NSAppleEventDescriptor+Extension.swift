@@ -30,8 +30,15 @@ extension NSAppleEventDescriptor {
     /// caller asked for activation and it is absent when an app is opened in the
     /// background.
     var expectsActivation: Bool {
-        paramDescriptor(
-            forKeyword: AEKeyword(kAEApplicationActivationExpected)
-        )?.booleanValue ?? false
+        #if compiler(>=6.0)
+        if #available(macOS 15, *) {
+            return paramDescriptor(
+                forKeyword: AEKeyword(kAEApplicationActivationExpected)
+            )?.booleanValue ?? false
+        }
+        #endif
+        // LaunchServices' explicit activation hint was introduced in macOS 15.
+        // Its absence follows the upstream absent-parameter behavior.
+        return false
     }
 }

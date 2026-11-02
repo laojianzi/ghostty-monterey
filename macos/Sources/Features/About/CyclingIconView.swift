@@ -32,10 +32,7 @@ struct CyclingIconView: View {
 
     @ViewBuilder
     private func iconView(for icon: Ghostty.MacOSIcon?) -> some View {
-        let iconImage: Image = switch icon?.assetName {
-        case let assetName?: Image(assetName)
-        case nil: ghosttyIconImage()
-        }
+        let iconImage: Image = (icon?.assetName).map { Image($0) } ?? ghosttyIconImage()
 
         iconImage
             .resizable()

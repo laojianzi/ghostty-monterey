@@ -2,11 +2,19 @@ const std = @import("std");
 const assert = std.debug.assert;
 const c = @import("c.zig").c;
 
-pub const ComparisonResult = enum(c_int) {
+pub const ComparisonResult = enum(c.CFComparisonResult) {
     less = -1,
     equal = 0,
     greater = 1,
 };
+
+test "comparison result matches CoreFoundation ABI" {
+    try std.testing.expectEqual(@sizeOf(c.CFComparisonResult), @sizeOf(ComparisonResult));
+    try std.testing.expectEqual(@alignOf(c.CFComparisonResult), @alignOf(ComparisonResult));
+    try std.testing.expectEqual(c.kCFCompareLessThan, @backingInt(ComparisonResult.less));
+    try std.testing.expectEqual(c.kCFCompareEqualTo, @backingInt(ComparisonResult.equal));
+    try std.testing.expectEqual(c.kCFCompareGreaterThan, @backingInt(ComparisonResult.greater));
+}
 
 pub const Range = extern struct {
     location: c.CFIndex,

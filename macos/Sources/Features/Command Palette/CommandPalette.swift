@@ -82,19 +82,15 @@ struct CommandPaletteView: View {
 
     var selectedOption: CommandOption? {
         guard let selectedIndex else { return nil }
-        return if selectedIndex < filteredOptions.count {
-            filteredOptions[Int(selectedIndex)]
+        if selectedIndex < filteredOptions.count {
+            return filteredOptions[Int(selectedIndex)]
         } else {
-            filteredOptions.last
+            return filteredOptions.last
         }
     }
 
     var body: some View {
-        let scheme: ColorScheme = if NSColor(backgroundColor).isLightColor {
-            .light
-        } else {
-            .dark
-        }
+        let scheme: ColorScheme = NSColor(backgroundColor).isLightColor ? .light : .dark
 
         VStack(alignment: .leading, spacing: 0) {
             CommandPaletteQuery(query: $rawQuery) { event in
@@ -485,14 +481,15 @@ struct CommandOptionMatch {
     /// Returns nil if the option doesn't match the query at all.
     init?(option: CommandOption, query: String) {
         let colorScore = Self.colorMatchScore(for: option.leadingColor, query: query)
-        let textScore: Int = if option.title.matchedIndices(for: query) != nil {
-            3
+        let textScore: Int
+        if option.title.matchedIndices(for: query) != nil {
+            textScore = 3
         } else if option.subtitle?.matchedIndices(for: query) != nil {
-            2
+            textScore = 2
         } else if option.description?.matchedIndices(for: query) != nil {
-            1
+            textScore = 1
         } else {
-            0
+            textScore = 0
         }
 
         guard colorScore > 0 || textScore > 0 else { return nil }

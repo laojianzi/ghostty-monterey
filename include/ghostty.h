@@ -455,6 +455,23 @@ typedef struct {
   uintptr_t text_len;
 } ghostty_text_s;
 
+// Offsets into snapshot text, in UTF-16 code units (not terminal cells).
+typedef struct {
+  uintptr_t location;
+  uintptr_t length;
+} ghostty_text_range_s;
+
+// One owned, consistent screen/selection snapshot. Read into a fresh result;
+// release exactly once with ghostty_free_text_snapshot, even after surface exit.
+typedef struct {
+  const char* text;
+  uintptr_t text_len;
+  const char* selected_text;
+  uintptr_t selected_text_len;
+  const ghostty_text_range_s* ranges;
+  uintptr_t ranges_len;
+} ghostty_text_snapshot_s;
+
 typedef enum {
   GHOSTTY_POINT_ACTIVE,
   GHOSTTY_POINT_VIEWPORT,
@@ -1240,6 +1257,17 @@ GHOSTTY_API bool ghostty_surface_read_text(ghostty_surface_t,
                                               ghostty_selection_s,
                                               ghostty_text_s*);
 GHOSTTY_API void ghostty_surface_free_text(ghostty_surface_t, ghostty_text_s*);
+// Returns false on allocation/serialization failure, leaving a zeroed result.
+// Text lengths are UTF-8 bytes; selection ranges are UTF-16. Rectangles may
+// produce multiple disjoint ranges. No selection produces an empty range list.
+GHOSTTY_API bool ghostty_surface_read_text_snapshot(ghostty_surface_t,
+                                                   ghostty_text_snapshot_s*);
+GHOSTTY_API void ghostty_free_text_snapshot(ghostty_text_snapshot_s*);
+// Apply a representable contiguous UTF-16 range only if full text still matches.
+// A zero length clears selection; failure leaves the selection unchanged.
+GHOSTTY_API bool ghostty_surface_set_text_selection(ghostty_surface_t,
+                                                    const char*, uintptr_t,
+                                                    ghostty_text_range_s);
 
 #ifdef __APPLE__
 GHOSTTY_API void ghostty_surface_set_display_id(ghostty_surface_t, uint32_t);

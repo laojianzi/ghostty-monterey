@@ -227,7 +227,7 @@ pub fn initTarget(self: *const Metal, width: usize, height: usize) !Target {
             .bgra8unorm_srgb
         else
             .bgra8unorm,
-        .storage_mode = self.device.default_storage_mode,
+        .storage_mode = self.device.texture_storage_mode,
         .width = width,
         .height = height,
     });
@@ -275,7 +275,7 @@ pub inline fn textureOptions(self: Metal) Texture.Options {
         .resource_options = .{
             // Indicate that the CPU writes to this resource but never reads it.
             .cpu_cache_mode = .write_combined,
-            .storage_mode = self.device.default_storage_mode,
+            .storage_mode = self.device.texture_storage_mode,
         },
         .usage = .{
             // textureOptions is currently only used for custom shaders,
@@ -334,7 +334,7 @@ pub inline fn imageTextureOptions(
         .resource_options = .{
             // Indicate that the CPU writes to this resource but never reads it.
             .cpu_cache_mode = .write_combined,
-            .storage_mode = self.device.default_storage_mode,
+            .storage_mode = self.device.texture_storage_mode,
         },
         .usage = .{
             // We only need to read from this texture from a shader.
@@ -361,7 +361,7 @@ pub fn initAtlasTexture(
             .resource_options = .{
                 // Indicate that the CPU writes to this resource but never reads it.
                 .cpu_cache_mode = .write_combined,
-                .storage_mode = self.device.default_storage_mode,
+                .storage_mode = self.device.texture_storage_mode,
             },
             .usage = .{
                 // We only need to read from this texture from a shader.

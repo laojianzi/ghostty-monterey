@@ -387,8 +387,10 @@ vertex BgImageVertexOut bg_image_vertex(
   // We load a fully opaque version of the bg color and combine it with
   // the alpha separately, because we need these as separate values in
   // the framgment shader.
+  // Construct via floats to avoid losing RGB components in the Monterey AMD
+  // compiler when combining a uchar3 uniform with a constant alpha.
   out.bg_color = float4(load_color(
-    uchar4(uniforms.bg_color.rgb, 255),
+    uchar4(float4(float3(uniforms.bg_color.rgb), 255.0)),
     uniforms.use_display_p3,
     uniforms.use_linear_blending
   ).rgb, float(uniforms.bg_color.a) / 255.0);

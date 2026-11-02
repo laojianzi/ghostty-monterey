@@ -7,7 +7,7 @@ class PermissionRequest {
     enum AllowDuration {
         case once
         case forever
-        case duration(Duration)
+        case duration(GhosttyDuration)
     }
 
     /// Shows a permission request dialog with customizable caching behavior
@@ -31,7 +31,7 @@ class PermissionRequest {
         informative: String = "",
         allowText: String = "Allow",
         allowDuration: AllowDuration = .once,
-        rememberDuration: Duration? = .seconds(86400),
+        rememberDuration: GhosttyDuration? = .seconds(86400),
         window: NSWindow? = nil,
         completion: @escaping (Bool) -> Void
     ) {
@@ -88,7 +88,7 @@ class PermissionRequest {
         rememberDecision: Bool,
         key: String,
         allowDuration: AllowDuration,
-        rememberDuration: Duration?,
+        rememberDuration: GhosttyDuration?,
         completion: @escaping (Bool) -> Void) {
 
         let result: Bool
@@ -147,7 +147,7 @@ class PermissionRequest {
     ///   - result: The permission decision to store
     ///   - key: The UserDefaults key to store under
     ///   - duration: How long the decision should be cached
-    private static func storeResult(_ result: Bool, for key: String, duration: Duration) {
+    private static func storeResult(_ result: Bool, for key: String, duration: GhosttyDuration) {
         let expiryDate = Date().addingTimeInterval(duration.timeInterval)
         let storedPermission = StoredPermission(result: result, expiry: expiryDate)
         if let data = try? NSKeyedArchiver.archivedData(withRootObject: storedPermission, requiringSecureCoding: true) {
@@ -159,7 +159,7 @@ class PermissionRequest {
     /// Formats the remember checkbox text based on the duration
     /// - Parameter duration: The duration to format
     /// - Returns: A human-readable string for the checkbox
-    private static func formatRememberText(for duration: Duration) -> String {
+    private static func formatRememberText(for duration: GhosttyDuration) -> String {
         let seconds = duration.timeInterval
 
         // Warning: this probably isn't localization friendly at all so we're

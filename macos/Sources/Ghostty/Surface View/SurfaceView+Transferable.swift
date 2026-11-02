@@ -3,17 +3,14 @@ import CoreTransferable
 import UniformTypeIdentifiers
 
 /// Conformance to `Transferable` enables drag-and-drop.
+@available(macOS 13, *)
 extension Ghostty.SurfaceView: Transferable {
     static var transferRepresentation: some TransferRepresentation {
         DataRepresentation(contentType: .ghosttySurfaceId) { surface in
-            withUnsafeBytes(of: surface.id.uuid) { Data($0) }
+            surface.id.surfaceTransferData
         } importing: { data in
-            guard data.count == 16 else {
+            guard let uuid = UUID(surfaceTransferData: data) else {
                 throw TransferError.invalidData
-            }
-
-            let uuid = data.withUnsafeBytes {
-                $0.load(as: UUID.self)
             }
 
             guard let imported = await Self.find(uuid: uuid) else {
@@ -23,7 +20,9 @@ extension Ghostty.SurfaceView: Transferable {
             return imported
         }
     }
+}
 
+extension Ghostty.SurfaceView {
     enum TransferError: Error {
         case invalidData
     }
@@ -32,6 +31,14 @@ extension Ghostty.SurfaceView: Transferable {
     static func find(uuid: UUID) -> Self? {
         guard let del = NSApp.delegate as? Ghostty.Delegate else { return nil }
         return del.ghosttySurface(id: uuid) as? Self
+    }
+
+    /// AppKit can serve this fixed 16-byte representation directly on Monterey,
+    /// without the asynchronous Transferable bridge and its semaphore.
+    func surfacePasteboardItem() -> NSPasteboardItem {
+        let item = NSPasteboardItem()
+        item.setData(id.surfaceTransferData, forType: .ghosttySurfaceId)
+        return item
     }
 }
 

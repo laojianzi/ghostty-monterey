@@ -1,3 +1,4 @@
+#if compiler(>=6.0)
 import AppKit
 import AppIntents
 
@@ -35,3 +36,5 @@ struct KeybindIntent: AppIntent {
         return .result(value: performed)
     }
 }
+
+#endif

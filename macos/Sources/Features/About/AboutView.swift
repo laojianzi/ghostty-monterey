@@ -104,8 +104,10 @@ struct AboutView: View {
                     if let build {
                         PropertyRow(label: "Build", text: build)
                     }
-                    if let commit, commit != "",
-                       let url = githubURL?.appendingPathComponent("/commits/\(commit)") {
+                    if let commit, commit != "" {
+                        // A dirty build has no corresponding published revision.
+                        let url = commit.hasSuffix("-dirty") ? nil :
+                            githubURL?.appendingPathComponent("/commits/\(commit)")
                         PropertyRow(label: "Commit", text: commit, url: url)
                     }
                 }
@@ -159,7 +161,7 @@ struct AboutView: View {
                 .padding(.leading, 2)
                 .tint(.secondary)
                 .opacity(0.8)
-                .monospaced()
+                .font(.system(.body, design: .monospaced))
         }
 
         var body: some View {

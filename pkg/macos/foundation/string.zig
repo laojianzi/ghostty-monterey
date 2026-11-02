@@ -157,6 +157,8 @@ test "string" {
 
     try testing.expect(str.hasPrefix(prefix));
     try testing.expectEqual(foundation.ComparisonResult.equal, str.compare(str, .{}));
+    try testing.expectEqual(foundation.ComparisonResult.greater, str.compare(prefix, .{}));
+    try testing.expectEqual(foundation.ComparisonResult.less, prefix.compare(str, .{}));
     try testing.expectEqualStrings("hello world", str.cstringPtr(.ascii).?);
 
     {

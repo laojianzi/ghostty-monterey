@@ -1,3 +1,4 @@
+#if compiler(>=6.0)
 import AppIntents
 import Cocoa
 
@@ -34,7 +35,7 @@ struct CommandEntity: AppEntity {
     var displayRepresentation: DisplayRepresentation {
         DisplayRepresentation(
             title: LocalizedStringResource(stringLiteral: command.title),
-            subtitle: LocalizedStringResource(stringLiteral: command.description),
+            subtitle: LocalizedStringResource(stringLiteral: command.description)
         )
     }
 
@@ -122,3 +123,5 @@ struct CommandQuery: EntityQuery {
         return appDelegate.ghostty.config.commandPaletteEntries.map { CommandEntity($0, for: terminal) }
     }
 }
+
+#endif

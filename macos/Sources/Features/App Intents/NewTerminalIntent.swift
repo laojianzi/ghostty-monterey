@@ -1,3 +1,4 @@
+#if compiler(>=6.0)
 import AppKit
 import AppIntents
 import GhosttyKit
@@ -19,7 +20,7 @@ struct NewTerminalIntent: AppIntent {
 
     @Parameter(
         title: "Command",
-        description: "Command to execute within your configured shell.",
+        description: "Command to execute within your configured shell."
     )
     var command: String?
 
@@ -176,3 +177,5 @@ extension NewTerminalLocation: AppEnum {
         .splitDown: .init(title: "Split Down"),
     ]
 }
+
+#endif

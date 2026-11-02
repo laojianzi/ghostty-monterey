@@ -222,6 +222,7 @@ extension Ghostty {
         // The cached contents of the screen.
         private(set) var cachedScreenContents: CachedValue<String>
         private(set) var cachedVisibleContents: CachedValue<String>
+        private(set) var accessibilityText: CachedValue<AccessibilityTextSnapshot>
 
         /// Event monitor (see individual events for why)
         private var eventMonitor: Any?
@@ -244,11 +245,17 @@ extension Ghostty {
             // fix at some point.
             self.cachedScreenContents = .init(duration: .milliseconds(500)) { "" }
             self.cachedVisibleContents = self.cachedScreenContents
+            self.accessibilityText = .init(duration: .milliseconds(500)) { .init() }
 
             // Initialize with some default frame size. The important thing is that this
             // is non-zero so that our layer bounds are non-zero so that our renderer
             // can do SOMETHING.
             super.init(id: uuid, frame: NSRect(x: 0, y: 0, width: 800, height: 600))
+
+            accessibilityText = .init(duration: .milliseconds(500)) { [weak self] in
+                guard let surface = self?.surface else { return .init() }
+                return AccessibilityTextSnapshot(surface: surface)
+            }
 
             // Our cache of screen data
             cachedScreenContents = .init(duration: .milliseconds(500)) { [weak self] in
@@ -311,7 +318,8 @@ extension Ghostty {
                     guard let self else { return false }
                     return notification.object as AnyObject? === self
                 }
-                .map { _ in
+                .map { [weak self] _ in
+                    self?.accessibilityText.invalidate()
                     // Debounce retains its latest upstream value. In this
                     // case its a Notification, which retains its object,
                     // which is a surface. So this creates a retain cycle.
@@ -463,8 +471,8 @@ extension Ghostty {
             }
 
             if focused {
-                // On macOS 13+ we can store our continuous clock...
-                focusInstant = ContinuousClock.now
+                // Record focus using a clock that includes time spent asleep.
+                focusInstant = GhosttyInstant.now
 
                 // We unset our bell state if we gained focus
                 bell = false
@@ -662,15 +670,15 @@ extension Ghostty {
         // MARK: Local Events
 
         private func localEventHandler(_ event: NSEvent) -> NSEvent? {
-            return switch event.type {
+            switch event.type {
             case .keyUp:
-                localEventKeyUp(event)
+                return localEventKeyUp(event)
 
             case .leftMouseDown:
-                localEventLeftMouseDown(event)
+                return localEventLeftMouseDown(event)
 
             default:
-                event
+                return event
             }
         }
 
@@ -1184,11 +1192,7 @@ extension Ghostty {
             // We need to know the keyboard layout before below because some keyboard
             // input events will change our keyboard layout and we don't want those
             // going to the terminal.
-            let keyboardIdBefore: String? = if !markedTextBefore {
-                KeyboardLayout.id
-            } else {
-                nil
-            }
+            let keyboardIdBefore: String? = markedTextBefore ? nil : KeyboardLayout.id
 
             // If we are in a keyDown then we don't need to redispatch a command-modded
             // key event (see docs for this field) so reset this to nil because
@@ -1619,7 +1623,7 @@ extension Ghostty {
             var item: NSMenuItem
 
             // If we have a selection, add copy
-            if let text = self.accessibilitySelectedText(), text.count > 0 {
+            if let text = self.selectedText(), !text.isEmpty {
                 menu.addItem(withTitle: "Copy", action: #selector(copy(_:)), keyEquivalent: "")
             }
             menu.addItem(withTitle: "Paste", action: #selector(paste(_:)), keyEquivalent: "")
@@ -1835,7 +1839,7 @@ extension Ghostty {
                     // in focusDidChange.
                     if focused {
                         // If the suspension is failed, we remove the notification anyway.
-                        try? await Task.sleep(for: .seconds(3))
+                        try? await Task.sleep(nanoseconds: 3_000_000_000)
                         self?.notificationIdentifiers.remove(uuid)
                         // We remove the notification if the surface is deallocated while we wait.
                         UNUserNotificationCenter.current()
@@ -2289,7 +2293,7 @@ extension Ghostty.SurfaceView: NSMenuItemValidation {
 
         case #selector(copy(_:)):
             // We only enable copy menu item when there're actual selected text
-            if let text = self.accessibilitySelectedText(), text.count > 0 {
+            if let text = self.selectedText(), !text.isEmpty {
                 return true
             } else {
                 return false
@@ -2364,19 +2368,43 @@ extension Ghostty.SurfaceView {
     }
 
     override func accessibilityValue() -> Any? {
-        return cachedScreenContents.get()
+        return accessibilityText.get().text
     }
 
     /// Returns the range of text that is currently selected in the terminal.
     /// This allows VoiceOver and other assistive technologies to understand
     /// what text the user has selected.
     override func accessibilitySelectedTextRange() -> NSRange {
-        return selectedRange()
+        return accessibilityText.get().ranges.first ?? NSRange(location: NSNotFound, length: 0)
     }
 
     /// Returns the currently selected text as a string.
     /// This allows assistive technologies to read the selected content.
     override func accessibilitySelectedText() -> String? {
+        let value = accessibilityText.get().selectedText
+        return value.isEmpty ? nil : value
+    }
+
+    override func accessibilitySelectedTextRanges() -> [NSValue]? {
+        return accessibilityText.get().ranges.map { NSValue(range: $0) }
+    }
+
+    override func setAccessibilitySelectedTextRange(_ range: NSRange) {
+        guard let surface, range.location != NSNotFound, range.location >= 0, range.length >= 0 else { return }
+        let snapshot = accessibilityText.get()
+        let accepted = snapshot.text.utf8CString.withUnsafeBufferPointer { bytes in
+            ghostty_surface_set_text_selection(
+                surface, bytes.baseAddress, UInt(bytes.count - 1),
+                ghostty_text_range_s(location: UInt(range.location), length: UInt(range.length)))
+        }
+        accessibilityText.invalidate()
+        if accepted {
+            NSAccessibility.post(element: self, notification: .selectedTextChanged)
+        }
+    }
+
+    // Share upstream's selection-only reader with menus and automation.
+    func selectedText() -> String? {
         guard let surface = self.surface else { return nil }
 
         // Attempt to read the selection
@@ -2391,29 +2419,31 @@ extension Ghostty.SurfaceView {
     /// Returns the number of characters in the terminal content.
     /// This helps assistive technologies understand the size of the content.
     override func accessibilityNumberOfCharacters() -> Int {
-        let content = cachedScreenContents.get()
-        return content.count
+        let content = accessibilityText.get().text
+        // AppKit text offsets use UTF-16, matching NSRange and NSString.
+        return content.utf16.count
     }
 
     /// Returns the visible character range for the terminal.
     /// For terminals, we typically show all content as visible.
     override func accessibilityVisibleCharacterRange() -> NSRange {
-        let content = cachedScreenContents.get()
-        return NSRange(location: 0, length: content.count)
+        let content = accessibilityText.get().text
+        return NSRange(location: 0, length: content.utf16.count)
     }
 
     /// Returns the line number for a given character index.
     /// This helps assistive technologies navigate by line.
     override func accessibilityLine(for index: Int) -> Int {
-        let content = cachedScreenContents.get()
-        let substring = String(content.prefix(index))
+        guard index >= 0 else { return NSNotFound }
+        let content = accessibilityText.get().text
+        let substring = String(decoding: content.utf16.prefix(index), as: UTF16.self)
         return substring.components(separatedBy: .newlines).count - 1
     }
 
     /// Returns a substring for the given range.
     /// This allows assistive technologies to read specific portions of the content.
     override func accessibilityString(for range: NSRange) -> String? {
-        let content = cachedScreenContents.get()
+        let content = accessibilityText.get().text
         guard let swiftRange = Range(range, in: content) else { return nil }
         return String(content[swiftRange])
     }
@@ -2443,6 +2473,34 @@ extension Ghostty.SurfaceView {
 
 }
 
+/// Swift-owned copy: no core allocation or surface lifetime escapes the read.
+struct AccessibilityTextSnapshot {
+    var text = ""
+    var selectedText = ""
+    var ranges: [NSRange] = []
+
+    init() {}
+
+    init(surface: ghostty_surface_t) {
+        var snapshot = ghostty_text_snapshot_s()
+        guard ghostty_surface_read_text_snapshot(surface, &snapshot) else { return }
+        defer { ghostty_free_text_snapshot(&snapshot) }
+        if let bytes = snapshot.text {
+            text = String(decoding: UnsafeRawBufferPointer(start: bytes, count: Int(snapshot.text_len)), as: UTF8.self)
+        }
+        if let bytes = snapshot.selected_text {
+            selectedText = String(
+                decoding: UnsafeRawBufferPointer(start: bytes, count: Int(snapshot.selected_text_len)), as: UTF8.self)
+        }
+        if let values = snapshot.ranges {
+            ranges = UnsafeBufferPointer(start: values, count: Int(snapshot.ranges_len)).map {
+                NSRange(location: Int($0.location), length: Int($0.length))
+            }
+        }
+    }
+
+}
+
 /// Caches a value for some period of time, evicting it automatically when that time expires.
 /// We use this to cache our surface content. This probably should be extracted some day
 /// to a more generic helper.
@@ -2450,10 +2508,12 @@ class CachedValue<T> {
     private let lock = NSLock()
     private var value: T?
     private let fetch: () -> T
-    private let duration: Duration
+    private let duration: GhosttyDuration
     private var expiryTask: Task<Void, Never>?
+    private var fetchedAt: GhosttyInstant?
+    private var generation: UInt64 = 0
 
-    init(duration: Duration, fetch: @escaping () -> T) {
+    init(duration: GhosttyDuration, fetch: @escaping () -> T) {
         self.duration = duration
         self.fetch = fetch
     }
@@ -2468,21 +2528,28 @@ class CachedValue<T> {
         lock.lock()
         defer { lock.unlock() }
 
-        if let value {
+        if let value, let fetchedAt, fetchedAt.duration(to: .now) < duration {
             return value
         }
+        // Task.sleep on Monterey can lag behind the continuous clock across
+        // system sleep. Never serve stale data while waiting for its callback.
+        expiryTask?.cancel()
+        generation &+= 1
+        let generation = self.generation
 
         // We don't have a value (or it expired). Fetch and store.
         let result = fetch()
-        let now = ContinuousClock.now
-        let expires = now + duration
+        let now = GhosttyInstant.now
+        fetchedAt = now
         self.value = result
 
         // Schedule a task to clear the value
+        let nanoseconds = duration.sleepNanoseconds
         expiryTask = Task { [weak self] in
             do {
-                try await Task.sleep(until: expires)
-                self?.expire()
+                let elapsed = now.duration(to: .now).sleepNanoseconds
+                try await Task.sleep(nanoseconds: nanoseconds > elapsed ? nanoseconds - elapsed : 0)
+                self?.expire(generation: generation)
             } catch {
                 // Task was cancelled, do nothing
             }
@@ -2491,11 +2558,23 @@ class CachedValue<T> {
         return result
     }
 
-    private func expire() {
+    func invalidate() {
         lock.lock()
         defer { lock.unlock() }
+        generation &+= 1
+        expiryTask?.cancel()
+        expiryTask = nil
+        value = nil
+        fetchedAt = nil
+    }
+
+    private func expire(generation: UInt64) {
+        lock.lock()
+        defer { lock.unlock() }
+        guard generation == self.generation else { return }
 
         value = nil
+        fetchedAt = nil
         expiryTask = nil
     }
 }

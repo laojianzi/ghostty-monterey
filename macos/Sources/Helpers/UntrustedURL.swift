@@ -14,15 +14,15 @@ struct UntrustedURL: Equatable {
         var message: String {
             switch self {
             case .malformedURL:
-                "The target is not an absolute URL with a scheme."
+                return "The target is not an absolute URL with a scheme."
             case .unsafeCharacters:
-                "The target contains invisible or line-breaking characters."
+                return "The target contains invisible or line-breaking characters."
             case .invalidWebURL:
-                "The web target does not contain a valid host."
+                return "The web target does not contain a valid host."
             case .inaccessibleFile:
-                "The local target does not exist or is not a regular file or directory."
+                return "The local target does not exist or is not a regular file or directory."
             case .unsafeFile:
-                "Opening this local target could execute code."
+                return "Opening this local target could execute code."
             }
         }
     }
@@ -119,11 +119,16 @@ struct UntrustedURL: Equatable {
             normalized = url.isFileURL
                 ? url.standardizedFileURL.resolvingSymlinksInPath().path
                 : string
+        } else if Self.hasScheme(string) {
+            // Older Foundation rejects raw unsafe scalars instead of encoding
+            // them. Keep a rejected URL recognizable; do not display it as a
+            // path relative to the app's working directory. It remains denied.
+            normalized = string
         } else {
             // Scheme-less values are never allowed to open, but they still
             // appear in the blocked-target UI. Standardizing them prevents
             // slash padding and dot traversal from hiding the effective path.
-            normalized = URL(filePath: string).standardizedFileURL.path
+            normalized = URL(fileURLWithPath: string).standardizedFileURL.path
         }
 
         // Escaping happens after normalization so any unsafe scalar that
@@ -143,6 +148,17 @@ struct UntrustedURL: Equatable {
 }
 
 private extension UntrustedURL {
+    static func hasScheme(_ value: String) -> Bool {
+        guard let colon = value.firstIndex(of: ":") else { return false }
+        let scheme = value[..<colon].utf8
+        guard let first = scheme.first,
+              (65...90).contains(first) || (97...122).contains(first) else { return false }
+        return scheme.dropFirst().allSatisfy {
+            (65...90).contains($0) || (97...122).contains($0) || (48...57).contains($0) ||
+                $0 == 43 || $0 == 45 || $0 == 46
+        }
+    }
+
     func fileDecision(for url: URL) -> Decision {
         // Only local file URLs are meaningful here. Queries and fragments do
         // not identify part of a filesystem object and may be interpreted

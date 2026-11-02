@@ -34,7 +34,7 @@ final class ScriptKeyEventCommand: NSScriptCommand {
             keyEvent = try Self.parse(
                 directParameter: directParameter,
                 evaluatedArguments: evaluatedArguments,
-                translationMods: surface.keyTranslationMods,
+                translationMods: { surface.keyTranslationMods($0) }
             )
         } catch ArgumentError.missingKey {
             scriptErrorNumber = errAEParamMissed
@@ -78,7 +78,7 @@ extension ScriptKeyEventCommand {
     static func parse(
         directParameter: Any?,
         evaluatedArguments: [String: Any]?,
-        translationMods: (Ghostty.Input.Mods) -> Ghostty.Input.Mods = { $0 },
+        translationMods: (Ghostty.Input.Mods) -> Ghostty.Input.Mods = { $0 }
     ) throws -> Ghostty.Input.KeyEvent {
         guard let keyName = directParameter as? String else {
             throw ArgumentError.missingKey
@@ -113,7 +113,7 @@ extension ScriptKeyEventCommand {
             synthesizing: key,
             action: action,
             mods: mods,
-            translationMods: translationMods(mods),
+            translationMods: translationMods(mods)
         )
     }
 }

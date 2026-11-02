@@ -1,5 +1,11 @@
 import AppKit
 
+/// Protocol that window controllers must implement to use the tab group close coordinator.
+protocol TabGroupCloseCoordinatorController {
+    /// The tab group close coordinator instance for this controller.
+    var tabGroupCloseCoordinator: TabGroupCloseCoordinator { get }
+}
+
 /// Coordinates close operations for windows that are part of a tab group.
 ///
 /// This coordinator helps distinguish between closing a single tab versus closing
@@ -13,11 +19,7 @@ class TabGroupCloseCoordinator {
         case window
     }
 
-    /// Protocol that window controllers must implement to use the coordinator.
-    protocol Controller {
-        /// The tab group close coordinator instance for this controller.
-        var tabGroupCloseCoordinator: TabGroupCloseCoordinator { get }
-    }
+    typealias Controller = TabGroupCloseCoordinatorController
 
     /// Callback type for close operations.
     typealias Callback = (CloseScope) -> Void
@@ -97,7 +99,7 @@ class TabGroupCloseCoordinator {
 
         // Setup our new timer
         debounceTimer = Timer.scheduledTimer(
-            withTimeInterval: Duration.milliseconds(100).timeInterval,
+            withTimeInterval: 0.1,
             repeats: false
         ) { [weak self] _ in
             self?.trigger(.tab)

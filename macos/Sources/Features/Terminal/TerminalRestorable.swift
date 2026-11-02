@@ -117,6 +117,53 @@ enum TerminalRestoreError: Error {
 /// The NSWindowRestoration implementation that is called when a terminal window needs to be restored.
 /// The encoding of a terminal window is handled elsewhere (usually NSWindowDelegate).
 class TerminalWindowRestoration: NSObject, NSWindowRestoration {
+    static let selectedTabKey = "ghostty.selectedTab"
+    static let windowOrderKey = "ghostty.windowOrder"
+    static let nativeFullscreenFrameKey = "ghostty.nativeFullscreenFrame"
+    static let nonNativeFullscreenFrameKey = "ghostty.nonNativeFullscreenFrame"
+
+    private struct RestoredWindow {
+        weak var window: NSWindow?
+        let order: Int?
+    }
+    private static var pendingWindows: [RestoredWindow] = []
+    private static weak var restoredFrontWindow: NSWindow?
+
+    static func takeRestoredFullscreenWindow() -> NSWindow? {
+        defer { restoredFrontWindow = nil }
+        guard let window = restoredFrontWindow,
+              window.styleMask.contains(.fullScreen) else { return nil }
+        return window
+    }
+
+    private static func restoreSelection(_ window: NSWindow, order: Int?) {
+        if pendingWindows.isEmpty {
+            // Monterey restores tab groups but loses selection and window order.
+            // Batch until AppKit has grouped all windows; no activation or key change.
+            DispatchQueue.main.async {
+                let pending = pendingWindows
+                pendingWindows.removeAll()
+                for entry in pending {
+                    guard let window = entry.window,
+                          let group = window.tabGroup,
+                          group.selectedWindow !== window else { continue }
+                    // Monterey selects a minimized tab by expanding its group.
+                    let minimized = window.isMiniaturized
+                    group.selectedWindow = window
+                    if minimized { window.miniaturize(nil) }
+                }
+                let ordered = pending.filter { $0.order != nil }
+                    .sorted { ($0.order ?? .max) < ($1.order ?? .max) }
+                    .compactMap { $0.window }
+                    .filter { $0.isVisible && !$0.styleMask.contains(.fullScreen) }
+                for (above, below) in zip(ordered, ordered.dropFirst()) {
+                    below.order(.below, relativeTo: above.windowNumber)
+                }
+            }
+        }
+        pendingWindows.append(.init(window: window, order: order))
+    }
+
     static func restoreWindow(
         withIdentifier identifier: NSUserInterfaceItemIdentifier,
         state: NSCoder,
@@ -146,6 +193,12 @@ class TerminalWindowRestoration: NSObject, NSWindowRestoration {
         }
 
         // Decode the state. If we can't decode the state, then we can't restore.
+        let selectedTab = state.containsValue(forKey: selectedTabKey) && state.decodeBool(forKey: selectedTabKey)
+        let windowOrder = state.containsValue(forKey: windowOrderKey) ? state.decodeInteger(forKey: windowOrderKey) : nil
+        let nativeFrame = state.containsValue(forKey: nativeFullscreenFrameKey)
+            ? state.decodeRect(forKey: nativeFullscreenFrameKey) : nil
+        let nonNativeFrame = state.containsValue(forKey: nonNativeFullscreenFrameKey)
+            ? state.decodeRect(forKey: nonNativeFullscreenFrameKey) : nil
         guard let state = TerminalRestorableState(coder: state) else {
             completionHandler(nil, TerminalRestoreError.stateDecodeFailed)
             return
@@ -186,13 +239,34 @@ class TerminalWindowRestoration: NSObject, NSWindowRestoration {
             }
         }
 
+        if state.effectiveFullscreenMode == .native, let frame = nativeFrame,
+           frame.origin.x.isFinite, frame.origin.y.isFinite,
+           frame.size.width.isFinite, frame.size.height.isFinite,
+           frame.size.width > 0, frame.size.height > 0 {
+            // Monterey can use a restored tab's initial frame as its native
+            // fullscreen exit frame. Seed it before handing the window to AppKit.
+            c.nativeFullscreenFrame = frame
+            window.setFrame(frame, display: false)
+        }
         completionHandler(window, nil)
+        if windowOrder == 0 { restoredFrontWindow = window }
+        if selectedTab {
+            restoreSelection(window, order: windowOrder)
+        }
         guard let mode = state.effectiveFullscreenMode, mode != .native else {
             // We let AppKit handle native fullscreen
             return
         }
         // Give the window to AppKit first, then adjust its frame and style
         // to minimise any visible frame changes.
+        if let frame = nonNativeFrame,
+           frame.origin.x.isFinite, frame.origin.y.isFinite,
+           frame.size.width.isFinite, frame.size.height.isFinite,
+           frame.size.width > 0, frame.size.height > 0 {
+            // AppKit archives the borderless fullscreen frame, not the regular
+            // frame needed by NonNativeFullscreen's enter/exit state.
+            window.setFrame(frame, display: false)
+        }
         c.toggleFullscreen(mode: mode)
     }
 

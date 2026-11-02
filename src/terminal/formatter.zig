@@ -1106,30 +1106,38 @@ pub const PageFormatter = struct {
         self: PageFormatter,
         writer: *std.Io.Writer,
     ) std.Io.Writer.Error!TrailingState {
+        const state = if (self.start_y == 0 and self.start_x == 0)
+            self.trailing_state orelse TrailingState.empty
+        else
+            TrailingState.empty;
         // Specialize the hot path on the emitted format so that the
         // per-cell loop contains no per-cell format dispatch.
         switch (self.opts.emit) {
-            inline else => |emit| return self.formatWithStateEmit(writer, emit),
+            inline else => |emit| return self.formatWithStateEmit(writer, emit, state),
         }
+    }
+
+    /// Continue plain-text serialization at a row boundary, even within a page.
+    /// Unlike formatWithState, the caller explicitly supplies the preceding
+    /// rows' deferred whitespace. This is not valid for arbitrary selections.
+    pub fn continuePlain(
+        self: PageFormatter,
+        writer: *std.Io.Writer,
+        state: TrailingState,
+    ) std.Io.Writer.Error!TrailingState {
+        assert(self.opts.emit == .plain and self.start_x == 0);
+        assert(self.point_map == null and !self.rectangle);
+        return self.formatWithStateEmit(writer, .plain, state);
     }
 
     fn formatWithStateEmit(
         self: PageFormatter,
         writer: *std.Io.Writer,
         comptime emit: Format,
+        state: TrailingState,
     ) std.Io.Writer.Error!TrailingState {
-        var blank_rows: usize = 0;
-        var blank_cells: usize = 0;
-
-        // Continue our prior trailing state if we have it, but only if we're
-        // starting from the beginning (start_y and start_x are both 0).
-        // If a non-zero start position is specified, ignore trailing state.
-        if (self.trailing_state) |state| {
-            if (self.start_y == 0 and self.start_x == 0) {
-                blank_rows = state.rows;
-                blank_cells = state.cells;
-            }
-        }
+        var blank_rows = state.rows;
+        var blank_cells = state.cells;
 
         // Setup our starting column and perform some validation for overflows.
         // Note: start_x only applies to the first row, end_x only applies to the last row.
@@ -3877,6 +3885,49 @@ test "Page plain end_x less than start_x single row" {
 
     // Verify point map is empty
     try testing.expectEqual(@as(usize, 0), point_map.items.len);
+}
+
+test "Page plain row continuation matches full prefix" {
+    const testing = std.testing;
+    const alloc = testing.allocator;
+    for ([_][]const u8{
+        "abc\r\n\r\n  def",
+        "abcdefg\u{1f680}e\u{301}\r\nlast",
+        "\x1b[8Gx  z\r\n\r\nend",
+        "\r\n\r\n",
+    }) |input| {
+        var t = try Terminal.init(testing.io, alloc, .{ .cols = 8, .rows = 8 });
+        defer t.deinit(alloc);
+        var stream = t.vtStream();
+        defer stream.deinit();
+        stream.nextSlice(input);
+        const page = t.screens.active.pages.pages.first.?.page();
+        var accumulated: std.Io.Writer.Allocating = .init(alloc);
+        defer accumulated.deinit();
+        var state: PageFormatter.TrailingState = .empty;
+        for (0..page.size.rows) |y| {
+            for (0..page.size.cols) |x| {
+                var whole: PageFormatter = .init(page, .{ .emit = .plain, .unwrap = true, .trim = false });
+                whole.end_y = @intCast(y);
+                whole.end_x = @intCast(x);
+                var expected: std.Io.Writer.Allocating = .init(alloc);
+                defer expected.deinit();
+                const expected_state = try whole.formatWithState(&expected.writer);
+                var partial = whole;
+                partial.start_y = @intCast(y);
+                var actual: std.Io.Writer.Allocating = .init(alloc);
+                defer actual.deinit();
+                try actual.writer.writeAll(accumulated.writer.buffered());
+                const actual_state = try partial.continuePlain(&actual.writer, state);
+                try testing.expectEqualStrings(expected.writer.buffered(), actual.writer.buffered());
+                try testing.expectEqual(expected_state, actual_state);
+            }
+            var row: PageFormatter = .init(page, .{ .emit = .plain, .unwrap = true, .trim = false });
+            row.start_y = @intCast(y);
+            row.end_y = @intCast(y);
+            state = try row.continuePlain(&accumulated.writer, state);
+        }
+    }
 }
 
 test "Page plain start_y non-zero ignores trailing state" {

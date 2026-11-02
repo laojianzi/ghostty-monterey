@@ -43,7 +43,12 @@ class SurfaceScrollView: NSView {
         // surface to draw the background behind non-overlay scrollers
         // (we currently only use overlay scrollers, but might as well
         // configure the views correctly in case we change our mind)
-        scrollView.contentView.clipsToBounds = false
+        #if compiler(>=5.9)
+        if #available(macOS 14, *) {
+            scrollView.contentView.clipsToBounds = false
+        }
+        #endif
+        // NSView's pre-14 default is not to clip its subviews.
 
         // The document view is what the scrollview is actually going
         // to be directly scrolling. We set it up to a "blank" NSView

@@ -280,7 +280,7 @@ enum UpdateSimulator {
             retryTerminatingApplication: {
                 print("Restart button clicked in simulator - resetting to idle")
                 viewModel.state = .idle
-            },
+            }
         ))
     }
 

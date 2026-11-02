@@ -1,3 +1,4 @@
+#if compiler(>=6.0)
 import AppKit
 
 /// Requests permission for Shortcuts app to interact with Ghostty
@@ -47,10 +48,12 @@ func requestIntentPermission() async -> Bool {
                 "com.mitchellh.ghostty.shortcutsPermission",
                 message: "Allow Shortcuts to interact with Ghostty?",
                 allowDuration: .forever,
-                rememberDuration: nil,
+                rememberDuration: nil
             ) { response in
                 continuation.resume(returning: response)
             }
         }
     }
 }
+
+#endif

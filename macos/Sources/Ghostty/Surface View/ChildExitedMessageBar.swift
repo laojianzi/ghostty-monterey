@@ -15,7 +15,7 @@ struct ChildExitedMessageBar: View {
         .frame(maxWidth: .infinity, alignment: .center)
         .background(msg.level.backgroundStyle)
         .foregroundColor(msg.level.foregroundColor)
-        .contentShape(.rect)
+        .contentShape(Rectangle())
         .accessibilityLabel(msg.text)
         .transition(.move(edge: .bottom))
         .opacity(isHovered ? 0 : 1)
@@ -41,9 +41,9 @@ private extension Ghostty.ChildExitedMessage.Level {
     var backgroundStyle: AnyShapeStyle {
         switch self {
         case .success:
-            AnyShapeStyle(.background)
+            return AnyShapeStyle(.background)
         case .error:
-            AnyShapeStyle(.red.opacity(0.5))
+            return AnyShapeStyle(.red.opacity(0.5))
         }
     }
 }

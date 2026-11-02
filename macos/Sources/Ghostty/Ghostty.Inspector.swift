@@ -5,10 +5,14 @@ extension Ghostty {
     /// Represents the inspector for a surface within Ghostty.
     ///
     /// Wraps a `ghostty_inspector_t`
-    final class Inspector: Sendable {
+    final class Inspector {
         /// A inspector is sendable because it is just a reference type. Using the inspector in parameters
         /// may be unsafe but the value itself is safe to send across threads.
+        #if compiler(>=5.10)
         nonisolated(unsafe) private let inspector: ghostty_inspector_t
+        #else
+        private let inspector: ghostty_inspector_t
+        #endif
 
         /// Read the underlying C value for this inspector. This is unsafe because the value will be
         /// freed when the Inspector class is deinitialized.
@@ -100,3 +104,10 @@ extension Ghostty {
         }
     }
 }
+
+#if compiler(>=5.10)
+extension Ghostty.Inspector: Sendable {}
+#else
+// Older compilers cannot express the pointer's unsafe sendability per property.
+extension Ghostty.Inspector: @unchecked Sendable {}
+#endif

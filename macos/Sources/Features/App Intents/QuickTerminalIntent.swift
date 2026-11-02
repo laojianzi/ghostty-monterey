@@ -1,3 +1,4 @@
+#if compiler(>=6.0)
 import AppKit
 import AppIntents
 
@@ -40,3 +41,5 @@ struct QuickTerminalIntent: AppIntent {
         return .result(value: terminals)
     }
 }
+
+#endif

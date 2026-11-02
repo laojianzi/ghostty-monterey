@@ -47,9 +47,9 @@
 		</dict>
 	</array>
 	<key>GhosttyBuild</key>
-	<string></string>
+	<string>$(GHOSTTY_BUILD)</string>
 	<key>GhosttyCommit</key>
-	<string></string>
+	<string>$(GHOSTTY_COMMIT)</string>
 	<key>LSEnvironment</key>
 	<dict>
 		<key>GHOSTTY_MAC_LAUNCH_SOURCE</key>
@@ -104,10 +104,15 @@
 			</array>
 		</dict>
 	</array>
-	<key>SUEnableAutomaticChecks</key>
-	<false/>
 	<key>SUPublicEDKey</key>
-	<string>wsNcGf5hirwtdXMVnYoxRIX/SqZQLMOsYlD3q3imeok=</string>
+	<string>$(GHOSTTY_MONTEREY_UPDATE_KEY)</string>
+	<key>GhosttyMontereyUpdateFeeds</key>
+	<dict>
+		<key>stable</key>
+		<string>$(GHOSTTY_MONTEREY_UPDATE_STABLE_URL)</string>
+		<key>tip</key>
+		<string>$(GHOSTTY_MONTEREY_UPDATE_TIP_URL)</string>
+	</dict>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>

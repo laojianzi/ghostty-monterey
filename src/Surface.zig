@@ -2448,7 +2448,7 @@ fn copySelectionToClipboards(
 /// also copy per `copy_on_select`, use `setSelectionAndCopy`.
 ///
 /// This must be called with the renderer mutex held.
-fn setSelection(self: *Surface, sel_: ?terminal.Selection) !void {
+pub fn setSelection(self: *Surface, sel_: ?terminal.Selection) !void {
     // Compute the transition before `select` below, which untracks (frees)
     // the previous selection's tracked pins; reading them after would be a
     // use-after-free.

@@ -10,11 +10,13 @@ final class ScriptTab: NSObject {
     /// Stable identifier used by AppleScript `tab id "..."` references.
     private let stableID: String
 
-    /// Weak back-reference to the scripting window that owns this tab wrapper.
+    /// The scripting window wrapper must outlive this tab's object specifier.
     ///
     /// We only need this for dynamic properties (`index`, `selected`) and for
     /// building an object specifier path.
-    private weak var window: ScriptWindow?
+    /// ScriptWindow creates tabs on demand and holds no tab wrappers, so this
+    /// does not form a cycle or retain the underlying terminal controller.
+    private let window: ScriptWindow
 
     /// Live terminal controller for this tab.
     ///
@@ -70,7 +72,7 @@ final class ScriptTab: NSObject {
     var index: Int {
         guard NSApp.isAppleScriptEnabled else { return 0 }
         guard let controller else { return 0 }
-        return window?.tabIndex(for: controller) ?? 0
+        return window.tabIndex(for: controller) ?? 0
     }
 
     /// Exposed as the AppleScript `selected` property.
@@ -80,7 +82,7 @@ final class ScriptTab: NSObject {
     var selected: Bool {
         guard NSApp.isAppleScriptEnabled else { return false }
         guard let controller else { return false }
-        return window?.tabIsSelected(controller) ?? false
+        return window.tabIsSelected(controller)
     }
 
     /// Exposed as the AppleScript `focused terminal` property.
@@ -117,7 +119,7 @@ final class ScriptTab: NSObject {
         guard NSApp.isAppleScriptEnabled else { return [] }
         guard let controller else { return [] }
         return (controller.surfaceTree.root?.leaves() ?? [])
-            .map(ScriptTerminal.init)
+            .map { ScriptTerminal(surfaceView: $0) }
     }
 
     /// Enables unique-ID lookup for `terminals` references on a tab.
@@ -127,7 +129,7 @@ final class ScriptTab: NSObject {
         guard let controller else { return nil }
         return (controller.surfaceTree.root?.leaves() ?? [])
             .first(where: { $0.id.uuidString == uniqueID })
-            .map(ScriptTerminal.init)
+            .map { ScriptTerminal(surfaceView: $0) }
     }
 
     /// Handler for `select tab <tab>`.
@@ -174,7 +176,6 @@ final class ScriptTab: NSObject {
     /// Provides Cocoa scripting with a canonical "path" back to this object.
     override var objectSpecifier: NSScriptObjectSpecifier? {
         guard NSApp.isAppleScriptEnabled else { return nil }
-        guard let window else { return nil }
         guard let windowClassDescription = window.classDescription as? NSScriptClassDescription else {
             return nil
         }

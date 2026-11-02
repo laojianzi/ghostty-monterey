@@ -77,7 +77,18 @@ extension NSApplication {
     @objc(valueInScriptWindowsWithUniqueID:)
     func valueInScriptWindows(uniqueID: String) -> ScriptWindow? {
         guard isAppleScriptEnabled else { return nil }
-        return scriptWindows.first(where: { $0.stableID == uniqueID })
+        if let window = scriptWindows.first(where: { $0.stableID == uniqueID }) {
+            return window
+        }
+
+        // AppKit can create the tab group lazily when the first tab is added.
+        // Keep earlier standalone-window specifiers resolvable while that native
+        // window is still alive, including specifiers returned by `new tab`.
+        guard let controller = orderedTerminalControllers.first(where: {
+            guard let window = $0.window else { return false }
+            return ScriptWindow.stableID(window: window) == uniqueID
+        }) else { return nil }
+        return ScriptWindow(primaryController: controller)
     }
 }
 
@@ -91,7 +102,7 @@ extension NSApplication {
     @objc(terminals)
     var terminals: [ScriptTerminal] {
         guard isAppleScriptEnabled else { return [] }
-        return allSurfaceViews.map(ScriptTerminal.init)
+        return allSurfaceViews.map { ScriptTerminal(surfaceView: $0) }
     }
 
     /// Enables AppleScript unique-ID lookup for terminal references.
@@ -106,7 +117,7 @@ extension NSApplication {
         guard isAppleScriptEnabled else { return nil }
         return allSurfaceViews
             .first(where: { $0.id.uuidString == uniqueID })
-            .map(ScriptTerminal.init)
+            .map { ScriptTerminal(surfaceView: $0) }
     }
 }
 
@@ -114,6 +125,21 @@ extension NSApplication {
 
 @MainActor
 extension NSApplication {
+    /// Monterey scripting equivalent of QuickTerminalIntent's idempotent open.
+    @objc(handleOpenQuickTerminalScriptCommand:)
+    func handleOpenQuickTerminalScriptCommand(_ command: NSScriptCommand) -> [ScriptTerminal]? {
+        guard validateScript(command: command) else { return nil }
+        guard let appDelegate = delegate as? AppDelegate else {
+            command.scriptErrorNumber = errAEEventFailed
+            command.scriptErrorString = "Ghostty app delegate is unavailable."
+            return nil
+        }
+
+        let controller = appDelegate.quickController
+        controller.animateIn()
+        return (controller.surfaceTree.root?.leaves() ?? []).map { ScriptTerminal(surfaceView: $0) }
+    }
+
     /// Handler for the `perform action` AppleScript command.
     ///
     /// Required selector name from the command in `sdef`:

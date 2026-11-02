@@ -1,3 +1,4 @@
+#if compiler(>=6.0)
 import AppKit
 import AppIntents
 import Combine
@@ -194,3 +195,5 @@ struct TerminalQuery: EntityStringQuery, EnumerableEntityQuery {
 }
 
 private struct EntityTimeoutError: Error {}
+
+#endif

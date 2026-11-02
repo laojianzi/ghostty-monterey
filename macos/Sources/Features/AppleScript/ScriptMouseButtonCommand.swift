@@ -87,9 +87,9 @@ private enum ScriptMouseButtonValue {
 
     var ghosttyButton: Ghostty.Input.MouseButton {
         switch self {
-        case .left: .left
-        case .right: .right
-        case .middle: .middle
+        case .left: return .left
+        case .right: return .right
+        case .middle: return .middle
         }
     }
 }

@@ -22,6 +22,9 @@
       <responds-to command="new tab">
         <cocoa method="handleNewTabScriptCommand:"/>
       </responds-to>
+      <responds-to command="open quick terminal">
+        <cocoa method="handleOpenQuickTerminalScriptCommand:"/>
+      </responds-to>
       <responds-to command="new surface configuration">
         <cocoa method="handleNewSurfaceConfigurationScriptCommand:"/>
       </responds-to>
@@ -98,6 +101,15 @@
       <property name="working directory" code="Gwdr" type="text" access="r" description="Current working directory for the terminal process."/>
       <property name="pid" code="Gpid" type="integer" access="r" description="PID of the foreground process in this terminal."/>
       <property name="tty" code="Gtty" type="text" access="r" description="TTY device path for this terminal (e.g. /dev/ttys016)."/>
+      <property name="full contents" code="GTfc" type="text" access="r" description="Terminal text including scrollback, without formatting.">
+        <cocoa key="fullContents"/>
+      </property>
+      <property name="visible text" code="GTvt" type="text" access="r" description="Text in the current terminal viewport, without formatting.">
+        <cocoa key="visibleText"/>
+      </property>
+      <property name="selected text" code="GTst" type="text" access="r" description="Selected terminal text, or empty text when there is no selection.">
+        <cocoa key="selectedText"/>
+      </property>
       <responds-to command="split">
         <cocoa method="handleSplitCommand:"/>
       </responds-to>
@@ -187,6 +199,12 @@
         <cocoa key="configuration"/>
       </parameter>
       <result type="tab" description="The newly created tab."/>
+    </command>
+
+    <command name="open quick terminal" code="GhstOpQt" description="Show the quick terminal without hiding it if already open. Returns its live terminal references; child process metadata may still be initializing.">
+      <result description="The terminals in the quick terminal window.">
+        <type type="terminal" list="yes"/>
+      </result>
     </command>
 
     <command name="split" code="GhstSplt" description="Split a terminal in the given direction.">

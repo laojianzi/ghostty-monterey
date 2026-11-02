@@ -167,7 +167,7 @@ private class TerminalGlassView: NSView, ObservableObject {
         glass: Glass,
         backgroundColor: NSColor,
         backgroundOpacity: Double,
-        cornerRadius: CGFloat?,
+        cornerRadius: CGFloat?
     ) {
         glassViewModel.backgroundColor = Color(backgroundColor)
         glassViewModel.backgroundOpacity = backgroundOpacity
@@ -222,7 +222,7 @@ extension TerminalViewContainer {
             glass: derivedConfig.glass.official,
             backgroundColor: derivedConfig.backgroundColor,
             backgroundOpacity: derivedConfig.backgroundOpacity,
-            cornerRadius: derivedConfig.cornerRadius,
+            cornerRadius: derivedConfig.cornerRadius
         )
 #endif // compiler(>=6.2)
     }

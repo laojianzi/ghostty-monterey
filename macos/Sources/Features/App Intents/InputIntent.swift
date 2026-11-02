@@ -1,3 +1,4 @@
+#if compiler(>=6.0)
 import AppKit
 import AppIntents
 
@@ -325,3 +326,5 @@ enum KeyEventMods: String, AppEnum, CaseIterable {
         }
     }
 }
+
+#endif

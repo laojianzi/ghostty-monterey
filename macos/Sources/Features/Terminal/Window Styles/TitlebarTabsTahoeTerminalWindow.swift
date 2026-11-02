@@ -47,7 +47,11 @@ class TitlebarTabsTahoeTerminalWindow: TransparentTitlebarTerminalWindow, NSTool
         // Create a toolbar
         let toolbar = NSToolbar(identifier: "TerminalToolbar")
         toolbar.delegate = self
-        toolbar.centeredItemIdentifiers.insert(.title)
+        if #available(macOS 13, *) {
+            toolbar.centeredItemIdentifiers.insert(.title)
+        } else {
+            toolbar.centeredItemIdentifier = .title
+        }
         self.toolbar = toolbar
         toolbarStyle = .unifiedCompact
     }
@@ -179,9 +183,10 @@ class TitlebarTabsTahoeTerminalWindow: TransparentTitlebarTerminalWindow, NSTool
 
         // The padding for the tab bar. If we're showing window buttons then
         // we need to offset the window buttons.
-        let leftPadding: CGFloat = switch self.derivedConfig.macosWindowButtons {
-        case .hidden: 0
-        case .visible: 70
+        let leftPadding: CGFloat
+        switch self.derivedConfig.macosWindowButtons {
+        case .hidden: leftPadding = 0
+        case .visible: leftPadding = 70
         }
 
         // Constrain the accessory clip view (the parent of the accessory view

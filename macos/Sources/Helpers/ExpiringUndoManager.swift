@@ -26,7 +26,7 @@ class ExpiringUndoManager: UndoManager {
     ///              the target object as its parameter.
     func registerUndo<TargetType: AnyObject>(
         withTarget target: TargetType,
-        expiresAfter duration: Duration,
+        expiresAfter duration: GhosttyDuration,
         handler: @escaping (TargetType) -> Void
     ) {
         // Ignore instantly expiring undos
@@ -77,8 +77,7 @@ class ExpiringUndoManager: UndoManager {
             expiringTargets
                 .filter { $0.target == nil || $0.target === (target as AnyObject) }
                 .forEach {
-                    // Technically they'll always expire when they get deinitialized
-                    // but we want to make sure it happens right now.
+                    // Remove the proxy's undo actions before releasing it.
                     $0.expire()
                     expiringTargets.remove($0)
                 }
@@ -93,7 +92,6 @@ class ExpiringUndoManager: UndoManager {
 /// It holds a weak reference to the actual target and automatically removes
 /// all associated undo operations when either:
 /// - The specified duration expires
-/// - The ExpiringTarget instance is deallocated
 /// - The expire() method is called manually
 private class ExpiringTarget {
     /// The actual target object for the undo operation, held weakly to avoid retain cycles.
@@ -111,7 +109,7 @@ private class ExpiringTarget {
     ///   - target: The target object to hold weakly.
     ///   - duration: The time after which the target should expire.
     ///   - undoManager: The UndoManager from which to remove actions when expired.
-    init(_ target: AnyObject? = nil, expiresAfter duration: Duration, in undoManager: UndoManager) {
+    init(_ target: AnyObject? = nil, expiresAfter duration: GhosttyDuration, in undoManager: UndoManager) {
         self.target = target
         self.undoManager = undoManager
         self.timer = Timer.scheduledTimer(
@@ -133,7 +131,10 @@ private class ExpiringTarget {
     }
 
     deinit {
-        expire()
+        // UndoManager and expiringTargets no longer own this proxy. Calling
+        // back into the manager here can reenter a Set mutation that released
+        // us (notably removeAllActions), violating Swift's exclusive access.
+        timer?.invalidate()
     }
 }
 

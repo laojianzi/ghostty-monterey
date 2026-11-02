@@ -2,6 +2,7 @@ import AppKit
 import CoreTransferable
 import UniformTypeIdentifiers
 
+@available(macOS 13, *)
 extension Transferable {
     /// Converts this Transferable to an NSPasteboardItem with lazy data loading.
     /// Data is only fetched when the pasteboard consumer requests it. This allows

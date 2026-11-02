@@ -52,7 +52,10 @@ pub const PixelFormat = enum(c_int) {
     /// 30 bit RGB, 10-bit big-endian samples, 2 unused padding bits (at least significant end).
     @"30RGB" = c.kCVPixelFormatType_30RGB,
     /// 30 bit RGB, 10-bit big-endian samples, 2 unused padding bits (at most significant end), video-range (64-940).
-    @"30RGB_r210" = c.kCVPixelFormatType_30RGB_r210,
+    @"30RGB_r210" = if (@hasDecl(c, "kCVPixelFormatType_30RGB_r210"))
+        c.kCVPixelFormatType_30RGB_r210
+    else
+        0x72323130, // 'r210'; older SDKs omit this FourCC.
     /// Component Y'CbCr 8-bit 4:2:2, ordered Cb Y'0 Cr Y'1
     @"422YpCbCr8" = c.kCVPixelFormatType_422YpCbCr8,
     /// Component Y'CbCrA 8-bit 4:4:4:4, ordered Cb Y' Cr A
@@ -64,7 +67,10 @@ pub const PixelFormat = enum(c_int) {
     /// Component Y'CbCrA 16-bit 4:4:4:4, ordered A Y' Cb Cr, full range alpha, video range Y'CbCr, 16-bit little-endian samples.
     @"4444AYpCbCr16" = c.kCVPixelFormatType_4444AYpCbCr16,
     /// Component AY'CbCr single precision floating-point 4:4:4:4
-    @"4444AYpCbCrFloat" = c.kCVPixelFormatType_4444AYpCbCrFloat,
+    @"4444AYpCbCrFloat" = if (@hasDecl(c, "kCVPixelFormatType_4444AYpCbCrFloat"))
+        c.kCVPixelFormatType_4444AYpCbCrFloat
+    else
+        0x7234666C, // 'r4fl'; older SDKs omit this FourCC.
     /// Component Y'CbCr 8-bit 4:4:4, ordered Cr Y' Cb, video range Y'CbCr
     @"444YpCbCr8" = c.kCVPixelFormatType_444YpCbCr8,
     /// Component Y'CbCr 10,12,14,16-bit 4:2:2

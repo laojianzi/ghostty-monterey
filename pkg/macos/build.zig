@@ -16,7 +16,9 @@ const frameworks = [_]Framework{
     .{ .tag = .all, .name = "CoreGraphics", .headers = &.{"CoreGraphics.h"} },
     .{ .tag = .all, .name = "CoreText", .headers = &.{"CoreText.h"} },
     .{ .tag = .all, .name = "CoreVideo", .headers = &.{ "CoreVideo.h", "CVPixelBuffer.h" } },
-    .{ .tag = .all, .name = "QuartzCore", .headers = &.{"CALayer.h"} },
+    // CALayer.h is Objective-C in older SDKs and cannot be translated as C.
+    // Our layer access uses objc messaging; animation.zig declares the constants.
+    .{ .tag = .all, .name = "QuartzCore", .headers = &.{} },
     .{ .tag = .all, .name = "IOSurface", .headers = &.{"IOSurfaceRef.h"} },
     .{ .tag = .macos, .name = "Carbon", .headers = &.{"Carbon.h"} },
 };

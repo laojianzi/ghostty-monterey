@@ -1161,3 +1161,67 @@ test "glyphIndex colored vs text" {
         try testing.expect(face.isColorGlyph(glyph));
     }
 }
+
+test "rasterized atlas coverage" {
+    const testing = std.testing;
+    const alloc = testing.allocator;
+
+    inline for (.{ false, true }) |colored| {
+        const name = try macos.foundation.String.createWithBytes(
+            if (colored) "Apple Color Emoji" else "Menlo",
+            .utf8,
+            false,
+        );
+        defer name.release();
+        const desc = try macos.text.FontDescriptor.createWithNameAndSize(name, 24);
+        defer desc.release();
+        const ct_font = try macos.text.Font.createWithFontDescriptor(desc, 24);
+        defer ct_font.release();
+        var face = try Face.initFontCopy(ct_font, .{ .size = .{ .points = 24 } });
+        defer face.deinit();
+
+        const index = face.glyphIndex(if (colored) 0x1F680 else 'A').?;
+        try testing.expectEqual(colored, face.isColorGlyph(index));
+        const options: font.Glyph.RenderOptions = .{
+            .grid_metrics = font.Metrics.calc(face.getMetrics()),
+        };
+        var atlas = try font.Atlas.init(alloc, 256, if (colored) .bgra else .grayscale);
+        defer atlas.deinit(alloc);
+        const glyph = try face.renderGlyph(alloc, &atlas, index, options);
+        try testing.expect(glyph.width > 0 and glyph.height > 0);
+        try testing.expect(glyph.atlas_x + glyph.width <= atlas.size);
+        try testing.expect(glyph.atlas_y + glyph.height <= atlas.size);
+
+        var covered = false;
+        var antialiased = false;
+        var chromatic = false;
+        const depth: usize = atlas.format.depth();
+        for (0..glyph.height) |y| {
+            for (0..glyph.width) |x| {
+                const offset = ((glyph.atlas_y + y) * atlas.size + glyph.atlas_x + x) * depth;
+                const alpha = atlas.data[offset + depth - 1];
+                covered = covered or alpha > 0;
+                antialiased = antialiased or (alpha > 0 and alpha < 255);
+                if (colored) {
+                    const b = atlas.data[offset];
+                    const g = atlas.data[offset + 1];
+                    const r = atlas.data[offset + 2];
+                    try testing.expect(b <= alpha and g <= alpha and r <= alpha);
+                    chromatic = chromatic or (alpha > 0 and (b != g or g != r));
+                }
+            }
+        }
+        try testing.expect(covered);
+        try testing.expect(antialiased);
+        if (colored) try testing.expect(chromatic);
+
+        var wrong_atlas = try font.Atlas.init(alloc, 256, if (colored) .grayscale else .bgra);
+        defer wrong_atlas.deinit(alloc);
+        try testing.expectError(error.InvalidAtlasFormat, face.renderGlyph(alloc, &wrong_atlas, index, options));
+        if (!colored) {
+            const space = try face.renderGlyph(alloc, &atlas, face.glyphIndex(' ').?, options);
+            try testing.expectEqual(0, space.width);
+            try testing.expectEqual(0, space.height);
+        }
+    }
+}

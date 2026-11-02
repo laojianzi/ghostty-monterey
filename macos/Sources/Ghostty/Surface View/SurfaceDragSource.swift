@@ -105,7 +105,28 @@ extension Ghostty {
         /// Whether the current drag was cancelled by pressing escape.
         private var dragCancelledByEscape: Bool = false
 
+        private weak var movementWindow: NSWindow?
+        private var savedMovable: Bool?
+
+        private func suspendWindowMovement() {
+            guard #unavailable(macOS 13),
+                  savedMovable == nil,
+                  let window = window as? HiddenTitlebarTerminalWindow else { return }
+            movementWindow = window
+            savedMovable = window.isMovable
+            window.isMovable = false
+        }
+
+        private func restoreWindowMovement() {
+            if let savedMovable = savedMovable {
+                movementWindow?.isMovable = savedMovable
+            }
+            savedMovable = nil
+            movementWindow = nil
+        }
+
         deinit {
+            restoreWindowMovement()
             if let escapeMonitor {
                 NSEvent.removeMonitor(escapeMonitor)
             }
@@ -143,18 +164,27 @@ extension Ghostty {
         }
 
         override func mouseEntered(with event: NSEvent) {
+            // Monterey starts hidden-titlebar window dragging before mouseDown
+            // reaches this view. Suppress it while the pointer is over the handle.
+            suspendWindowMovement()
             onHoverChanged?(true)
         }
 
         override func mouseExited(with event: NSEvent) {
+            if !isTracking { restoreWindowMovement() }
             onHoverChanged?(false)
+        }
+
+        override func viewWillMove(toWindow newWindow: NSWindow?) {
+            if newWindow !== window { restoreWindowMovement() }
+            super.viewWillMove(toWindow: newWindow)
         }
 
         override func mouseDragged(with event: NSEvent) {
             guard !isTracking, let surfaceView = surfaceView else { return }
 
             // Create our dragging item from our transferable
-            guard let pasteboardItem = surfaceView.pasteboardItem() else { return }
+            let pasteboardItem = surfaceView.surfacePasteboardItem()
             let item = NSDraggingItem(pasteboardWriter: pasteboardItem)
 
             // Create a scaled preview image from the surface snapshot
@@ -225,7 +255,17 @@ extension Ghostty {
             _ session: NSDraggingSession,
             movedTo screenPoint: NSPoint
         ) {
+            recordEscapeKeyState()
             NSCursor.closedHand.set()
+        }
+
+        private func recordEscapeKeyState() {
+            // Monterey can consume Escape in the native drag loop before our
+            // local key monitor sees it. Remember cancellation before tear-off.
+            if #unavailable(macOS 13),
+               CGEventSource.keyState(.combinedSessionState, key: 53) {
+                dragCancelledByEscape = true
+            }
         }
 
         func draggingSession(
@@ -233,6 +273,7 @@ extension Ghostty {
             endedAt screenPoint: NSPoint,
             operation: NSDragOperation
         ) {
+            recordEscapeKeyState()
             if let escapeMonitor {
                 NSEvent.removeMonitor(escapeMonitor)
                 self.escapeMonitor = nil
@@ -252,6 +293,7 @@ extension Ghostty {
             }
 
             isTracking = false
+            restoreWindowMovement()
             onDragStateChanged?(false)
         }
     }

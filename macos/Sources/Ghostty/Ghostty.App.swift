@@ -369,11 +369,7 @@ extension Ghostty {
             if let contents = c.contents {
                 for i in 0..<c.contents_len {
                     let content = contents[i]
-                    let data: Data = if content.len > 0 {
-                        Data(bytes: content.data, count: content.len)
-                    } else {
-                        Data()
-                    }
+                    let data: Data = content.len > 0 ? Data(bytes: content.data, count: content.len) : Data()
                     reps.append(.init(mime: String(cString: content.mime), data: data))
                 }
             }
@@ -828,7 +824,7 @@ extension Ghostty {
                 // Expand ~ to the user's home directory so that file paths
                 // like ~/Documents/file.txt resolve correctly.
                 let expandedPath = NSString(string: action.url).standardizingPath
-                url = URL(filePath: expandedPath)
+                url = URL(fileURLWithPath: expandedPath)
             }
 
             // Unknown URLs are as untrusted as OSC 8 but may be plain paths,
@@ -1667,8 +1663,8 @@ extension Ghostty {
                 }
 
                 // Determine if the command was slow enough
-                let duration = Duration.nanoseconds(v.duration)
-                guard Duration.nanoseconds(v.duration) >= config.notifyOnCommandFinishAfter else { return }
+                let duration = GhosttyDuration.nanoseconds(v.duration)
+                guard GhosttyDuration.nanoseconds(v.duration) >= config.notifyOnCommandFinishAfter else { return }
 
                 let actions = config.notifyOnCommandFinishAction
 
@@ -1690,13 +1686,7 @@ extension Ghostty {
                     }
 
                     let body: String
-                    let formattedDuration = duration.formatted(
-                        .units(
-                            allowed: [.hours, .minutes, .seconds, .milliseconds],
-                            width: .abbreviated,
-                            fractionalPart: .hide
-                        )
-                    )
+                    let formattedDuration = duration.abbreviatedDescription
                     if v.exit_code < 0 {
                         body = "Command took \(formattedDuration)."
                     } else {
@@ -1866,7 +1856,7 @@ extension Ghostty {
         private static func showChildExited(
             _ app: ghostty_app_t,
             target: ghostty_target_s,
-            v: ghostty_surface_message_childexited_s,
+            v: ghostty_surface_message_childexited_s
         ) -> Bool {
             switch target.tag {
             case GHOSTTY_TARGET_SURFACE:

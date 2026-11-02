@@ -1,3 +1,4 @@
+#if compiler(>=6.0)
 import AppKit
 import AppIntents
 
@@ -38,3 +39,5 @@ struct CommandPaletteIntent: AppIntent {
         return .result(value: performed)
     }
 }
+
+#endif

@@ -10,7 +10,7 @@ extension Ghostty {
         let text: String
         let level: Level
 
-        init(_ message: ghostty_surface_message_childexited_s, threshold abnormalCommandExitRuntime: Duration) {
+        init(_ message: ghostty_surface_message_childexited_s, threshold abnormalCommandExitRuntime: GhosttyDuration) {
             var level: Level
             switch Int(message.exit_code) {
             case Int(EXIT_SUCCESS):

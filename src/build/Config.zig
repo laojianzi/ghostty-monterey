@@ -816,10 +816,10 @@ pub fn omitFramePointer(self: *const Config) bool {
 /// be used generally, it should only be used for Darwin-based OS currently.
 pub fn osVersionMin(tag: std.Target.Os.Tag) ?std.Target.Query.OsVersion {
     return switch (tag) {
-        // We support back to the earliest officially supported version
-        // of macOS by Apple. EOL versions are not supported.
+        // This fork supports Monterey. Newer OS-only features must be
+        // runtime-gated without changing their behavior on supported systems.
         .macos => .{ .semver = .{
-            .major = 13,
+            .major = 12,
             .minor = 0,
             .patch = 0,
         } },

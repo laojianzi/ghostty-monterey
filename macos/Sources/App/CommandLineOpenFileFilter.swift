@@ -13,8 +13,8 @@ final class CommandLineOpenFileFilter {
         fileExists: (String) -> Bool
     ) {
         let workingDirectory = URL(
-            filePath: workingDirectory,
-            directoryHint: .isDirectory
+            fileURLWithPath: workingDirectory,
+            isDirectory: true
         ).absoluteURL.standardizedFileURL
         self.workingDirectory = workingDirectory
 
@@ -51,8 +51,8 @@ final class CommandLineOpenFileFilter {
     private static func fileURL(_ path: String, relativeTo workingDirectory: URL) -> URL {
         let expanded = (path as NSString).expandingTildeInPath
         return URL(
-            filePath: expanded,
-            directoryHint: .notDirectory,
+            fileURLWithPath: expanded,
+            isDirectory: false,
             relativeTo: workingDirectory
         ).absoluteURL.standardizedFileURL
     }

@@ -27,7 +27,13 @@ extension NSApplication {
     }
 }
 
-extension NSApplication.PresentationOptions.Element: @retroactive Hashable {
+#if compiler(>=6.0)
+extension NSApplication.PresentationOptions.Element: @retroactive Hashable {}
+#else
+extension NSApplication.PresentationOptions.Element: Hashable {}
+#endif
+
+extension NSApplication.PresentationOptions.Element {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(rawValue)
     }

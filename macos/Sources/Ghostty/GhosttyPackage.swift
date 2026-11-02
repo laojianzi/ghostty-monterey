@@ -252,11 +252,7 @@ extension Ghostty {
                 return nil
             }
 
-            let data: Data = if content.len > 0 {
-                Data(bytes: dataPtr, count: content.len)
-            } else {
-                Data()
-            }
+            let data: Data = content.len > 0 ? Data(bytes: dataPtr, count: content.len) : Data()
 
             return ClipboardContent(
                 mime: String(cString: mimePtr),
@@ -405,4 +401,8 @@ extension Ghostty.Notification {
 }
 
 // Make the input enum hashable.
+#if compiler(>=6.0)
 extension ghostty_input_key_e: @retroactive Hashable {}
+#else
+extension ghostty_input_key_e: Hashable {}
+#endif

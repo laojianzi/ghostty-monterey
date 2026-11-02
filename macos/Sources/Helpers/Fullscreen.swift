@@ -152,6 +152,9 @@ class NonNativeFullscreen: FullscreenBase, FullscreenStyle {
 
     private var savedState: SavedState?
 
+    /// The regular window frame to preserve across application restoration.
+    var restorationFrame: NSRect? { savedState?.frame }
+
     required init?(_ window: NSWindow) {
         super.init(window)
 
@@ -221,6 +224,9 @@ class NonNativeFullscreen: FullscreenBase, FullscreenStyle {
             object: window)
 
         // Being untitled let's our content take up the full frame.
+        // Monterey rejects a toolbar on the untitled frame. SavedState retains
+        // it for exit; detach before changing the window style.
+        window.toolbar = nil
         window.styleMask.remove(.titled)
 
         // We don't want the non-native fullscreen window to be resizable
@@ -267,7 +273,6 @@ class NonNativeFullscreen: FullscreenBase, FullscreenStyle {
 
         // Restore our saved state
         window.styleMask = savedState.styleMask
-        window.setFrame(window.frameRect(forContentRect: savedState.contentFrame), display: true)
 
         // Removing the "titled" style also derefs all our accessory view controllers
         // so we need to restore those.
@@ -286,6 +291,10 @@ class NonNativeFullscreen: FullscreenBase, FullscreenStyle {
         // Removing "titled" also clears our toolbar
         window.toolbar = savedState.toolbar
         window.toolbarStyle = savedState.toolbarStyle
+
+        // Compute the frame after restoring chrome: Monterey otherwise adds
+        // the toolbar height again, growing titlebar-tabs windows on each exit.
+        window.setFrame(window.frameRect(forContentRect: savedState.contentFrame), display: true)
 
         // If the window was previously in a tab group that isn't empty now,
         // we re-add it. We have to do this because our process of doing non-native
@@ -394,6 +403,7 @@ class NonNativeFullscreen: FullscreenBase, FullscreenStyle {
         let tabGroup: NSWindowTabGroup?
         let tabGroupIndex: Int?
         let contentFrame: NSRect
+        let frame: NSRect
         let styleMask: NSWindow.StyleMask
         let toolbar: NSToolbar?
         let toolbarStyle: NSWindow.ToolbarStyle
@@ -408,17 +418,14 @@ class NonNativeFullscreen: FullscreenBase, FullscreenStyle {
             self.tabGroup = window.tabGroup
             self.tabGroupIndex = window.tabGroup?.windows.firstIndex(of: window)
             self.contentFrame = window.convertToScreen(contentView.frame)
+            self.frame = window.frame
             self.styleMask = window.styleMask
             self.toolbar = window.toolbar
             self.toolbarStyle = window.toolbarStyle
             self.dock = window.screen?.hasDock ?? false
 
-            self.titlebarAccessoryViewControllers = if window.hasTitleBar {
-                // Accessing titlebarAccessoryViewControllers without a titlebar triggers a crash.
-                window.titlebarAccessoryViewControllers
-            } else {
-                []
-            }
+            // Accessing titlebarAccessoryViewControllers without a titlebar triggers a crash.
+            self.titlebarAccessoryViewControllers = window.hasTitleBar ? window.titlebarAccessoryViewControllers : []
 
             if let cgWindowId = window.cgWindowId {
                 // We hide the menu only if this window is not on any fullscreen

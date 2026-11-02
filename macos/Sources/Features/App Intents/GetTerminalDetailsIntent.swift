@@ -1,3 +1,4 @@
+#if compiler(>=6.0)
 import AppKit
 import AppIntents
 
@@ -40,7 +41,7 @@ struct GetTerminalDetailsIntent: AppIntent {
             return .result(value: view.cachedScreenContents.get())
         case .selectedText:
             guard let view = terminal.surfaceView else { throw GhosttyIntentError.surfaceNotFound }
-            return .result(value: view.accessibilitySelectedText())
+            return .result(value: view.selectedText())
         case .visibleText:
             guard let view = terminal.surfaceView else { throw GhosttyIntentError.surfaceNotFound }
             return .result(value: view.cachedVisibleContents.get())
@@ -69,3 +70,5 @@ extension TerminalDetail: AppEnum {
         .visibleText: .init(title: "Visible Text"),
     ]
 }
+
+#endif

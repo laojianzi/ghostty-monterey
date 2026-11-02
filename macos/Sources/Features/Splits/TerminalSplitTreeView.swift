@@ -1,4 +1,5 @@
 import SwiftUI
+import UniformTypeIdentifiers
 
 /// A single operation within the split tree.
 ///
@@ -57,10 +58,7 @@ private struct TerminalSplitSubtreeView: View {
             TerminalSplitLeaf(surfaceView: leafView, isSplit: !isRoot, action: action)
 
         case .split(let split):
-            let splitViewDirection: SplitViewDirection = switch split.direction {
-            case .horizontal: .horizontal
-            case .vertical: .vertical
-            }
+            let splitViewDirection: SplitViewDirection = split.direction == .horizontal ? .horizontal : .vertical
 
             SplitView(
                 splitViewDirection,
@@ -166,23 +164,18 @@ private struct TerminalSplitLeaf: View {
             let zone = TerminalSplitDropZone.calculate(at: info.location, in: viewSize)
             dropState = .idle
 
-            // Load the dropped surface asynchronously using Transferable
+            // The native item provider preserves asynchronous loading on Monterey.
             let providers = info.itemProviders(for: [.ghosttySurfaceId])
             guard let provider = providers.first else { return false }
 
             // Capture action before the async closure
-            _ = provider.loadTransferable(type: Ghostty.SurfaceView.self) { [weak destinationSurface] result in
-                switch result {
-                case .success(let sourceSurface):
-                    DispatchQueue.main.async {
-                        // Don't allow dropping on self
-                        guard let destinationSurface else { return }
-                        guard sourceSurface !== destinationSurface else { return }
-                        action(.drop(.init(payload: sourceSurface, destination: destinationSurface, zone: zone)))
-                    }
-
-                case .failure:
-                    break
+            _ = provider.loadDataRepresentation(forTypeIdentifier: UTType.ghosttySurfaceId.identifier) { [weak destinationSurface] data, _ in
+                guard let data, let uuid = UUID(surfaceTransferData: data) else { return }
+                DispatchQueue.main.async {
+                    guard let destinationSurface,
+                          let sourceSurface = Ghostty.SurfaceView.find(uuid: uuid),
+                          sourceSurface !== destinationSurface else { return }
+                    action(.drop(.init(payload: sourceSurface, destination: destinationSurface, zone: zone)))
                 }
             }
 

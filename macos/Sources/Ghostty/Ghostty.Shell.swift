@@ -17,6 +17,7 @@ extension Ghostty {
             return result
         }
 
+        @available(macOS 13, *)
         private static let quoteUnsafe = /[^\w@%+=:,.\/-]/
 
         /// Returns a copy of the string quoted so that a shell treats it as a
@@ -50,7 +51,22 @@ extension Ghostty {
         /// - Parameter str: The string to quote.
         /// - Returns: A version of `str` that a shell reads as one argument.
         static func quote(_ str: String) -> String {
-            guard str.isEmpty || str.contains(Self.quoteUnsafe) else { return str }
+            if #available(macOS 13, *) {
+                guard str.isEmpty || str.contains(Self.quoteUnsafe) else { return str }
+            } else {
+                // Keep shell metacharacters quoted without the Swift Regex runtime.
+                // Non-ASCII arguments are conservatively quoted on Monterey;
+                // single quoting preserves their bytes just like the modern path.
+                let safe = str.utf8.allSatisfy { byte in
+                    switch byte {
+                    case 65...90, 97...122, 48...57, 95, 64, 37, 43, 61, 58, 44, 46, 47, 45:
+                        return true
+                    default:
+                        return false
+                    }
+                }
+                if !str.isEmpty && safe { return str }
+            }
             return "'" + str.replacingOccurrences(of: "'", with: #"'"'"'"#) + "'"
         }
 

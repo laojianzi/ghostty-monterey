@@ -41,7 +41,7 @@ class QuickTerminalController: BaseTerminalController {
     init(_ ghostty: Ghostty.App,
          position: QuickTerminalPosition = .top,
          baseConfig base: Ghostty.SurfaceConfiguration? = nil,
-         restorationState: QuickTerminalRestorableState? = nil,
+         restorationState: QuickTerminalRestorableState? = nil
     ) {
         self.position = position
         self.derivedConfig = DerivedConfig(ghostty.config)
@@ -637,10 +637,10 @@ class QuickTerminalController: BaseTerminalController {
 
     override func confirmCloseAsync(messageText: String, informativeText: String, confirmButtonTitle: String = "Close") async -> NSApplication.ModalResponse? {
 
-        let waitTime = visible ? 0 : 0.25
+        let waitNanoseconds: UInt64 = visible ? 0 : 250_000_000
         animateIn()
 
-        try? await Task.sleep(for: .seconds(waitTime))
+        try? await Task.sleep(nanoseconds: waitNanoseconds)
 
         return await super.confirmCloseAsync(messageText: messageText, informativeText: informativeText, confirmButtonTitle: confirmButtonTitle)
     }

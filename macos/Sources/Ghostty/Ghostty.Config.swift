@@ -170,7 +170,7 @@ extension Ghostty {
             return .init(rawValue: v)
         }
 
-        var notifyOnCommandFinishAfter: Duration {
+        var notifyOnCommandFinishAfter: GhosttyDuration {
             guard let config = self.config else { return .seconds(5) }
             var v: UInt = 0
             let key = "notify-on-command-finish-after"
@@ -291,19 +291,19 @@ extension Ghostty {
             guard ghostty_config_get(config, &v, key, UInt(key.lengthOfBytes(using: .utf8))) else { return nil }
             guard let ptr = v else { return nil }
             let str = String(cString: ptr)
-            return switch str {
+            switch str {
             case "false":
-                nil
+                return nil
             case "true":
-                .native
+                return .native
             case "non-native":
-                .nonNative
+                return .nonNative
             case "non-native-visible-menu":
-                .nonNativeVisibleMenu
+                return .nonNativeVisibleMenu
             case "non-native-padded-notch":
-                .nonNativePaddedNotch
+                return .nonNativePaddedNotch
             default:
-                nil
+                return nil
             }
         }
 
@@ -317,17 +317,17 @@ extension Ghostty {
             guard ghostty_config_get(config, &v, key, UInt(key.lengthOfBytes(using: .utf8))) else { return defaultValue }
             guard let ptr = v else { return defaultValue }
             let str = String(cString: ptr)
-            return switch str {
+            switch str {
             case "false":
-                    .native
+                return .native
             case "true":
-                    .nonNative
+                return .nonNative
             case "visible-menu":
-                    .nonNativeVisibleMenu
+                return .nonNativeVisibleMenu
             case "padded-notch":
-                    .nonNativePaddedNotch
+                return .nonNativePaddedNotch
             default:
-                defaultValue
+                return defaultValue
             }
         }
 
@@ -618,7 +618,7 @@ extension Ghostty {
             return v
         }
 
-        var undoTimeout: Duration {
+        var undoTimeout: GhosttyDuration {
             guard let config = self.config else { return .seconds(5) }
             var v: UInt = 0
             let key = "undo-timeout"
@@ -690,13 +690,12 @@ extension Ghostty {
             return MacShortcuts(rawValue: str) ?? defaultValue
         }
 
-        var abnormalCommandExitRuntime: Duration {
-            let defaultValue: Duration = .milliseconds(250)
+        var abnormalCommandExitRuntime: GhosttyDuration {
+            let defaultValue: GhosttyDuration = .milliseconds(250)
             guard let config = self.config else { return defaultValue }
-            var v: UInt32?
+            var v: UInt32 = 0
             let key = "abnormal-command-exit-runtime"
             guard ghostty_config_get(config, &v, key, UInt(key.lengthOfBytes(using: .utf8))) else { return defaultValue }
-            guard let v else { return defaultValue }
             return .milliseconds(v)
         }
 

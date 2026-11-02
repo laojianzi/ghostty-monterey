@@ -1610,6 +1610,34 @@ pub const CAPI = struct {
         }
     };
 
+    // ghostty_text_snapshot_s
+    const TextSnapshot = extern struct {
+        text: ?[*:0]const u8 = null,
+        text_len: usize = 0,
+        selected_text: ?[*:0]const u8 = null,
+        selected_text_len: usize = 0,
+        ranges: ?[*]const terminal.AccessibilityText.Utf16Range = null,
+        ranges_len: usize = 0,
+
+        fn init(snapshot: terminal.AccessibilityText.TextSnapshot) TextSnapshot {
+            return .{
+                .text = snapshot.text.ptr,
+                .text_len = snapshot.text.len,
+                .selected_text = snapshot.selected_text.ptr,
+                .selected_text_len = snapshot.selected_text.len,
+                .ranges = snapshot.ranges.ptr,
+                .ranges_len = snapshot.ranges.len,
+            };
+        }
+
+        fn deinit(self: *TextSnapshot, alloc: Allocator) void {
+            if (self.text) |ptr| alloc.free(ptr[0..self.text_len :0]);
+            if (self.selected_text) |ptr| alloc.free(ptr[0..self.selected_text_len :0]);
+            if (self.ranges) |ptr| alloc.free(ptr[0..self.ranges_len]);
+            self.* = .{};
+        }
+    };
+
     // ghostty_point_s
     const Point = extern struct {
         tag: Tag,
@@ -1978,6 +2006,65 @@ pub const CAPI = struct {
 
     export fn ghostty_surface_free_text(_: *Surface, ptr: *Text) void {
         ptr.deinit();
+    }
+
+    export fn ghostty_surface_read_text_snapshot(surface: *Surface, result: *TextSnapshot) bool {
+        result.* = .{};
+        const core = &surface.core_surface;
+        core.renderer_state.mutex.lockUncancelable(global.io());
+        defer core.renderer_state.mutex.unlock(global.io());
+        const snapshot = terminal.AccessibilityText.textSnapshot(core.io.terminal.screens.active, global.alloc()) catch |err| {
+            log.warn("error reading accessibility snapshot err={}", .{err});
+            return false;
+        };
+        result.* = TextSnapshot.init(snapshot);
+        return true;
+    }
+
+    export fn ghostty_free_text_snapshot(ptr: *TextSnapshot) void {
+        ptr.deinit(global.alloc());
+    }
+
+    export fn ghostty_surface_set_text_selection(
+        surface: *Surface,
+        expected: [*]const u8,
+        expected_len: usize,
+        range: terminal.AccessibilityText.Utf16Range,
+    ) bool {
+        const core = &surface.core_surface;
+        {
+            core.renderer_state.mutex.lockUncancelable(global.io());
+            defer core.renderer_state.mutex.unlock(global.io());
+            const selection = terminal.AccessibilityText.selectionForRange(
+                core.io.terminal.screens.active,
+                global.alloc(),
+                expected[0..expected_len],
+                range,
+            ) catch return false;
+            core.setSelection(selection) catch return false;
+        }
+        surface.refresh();
+        return true;
+    }
+
+    test "embedded text snapshot ownership" {
+        const testing = std.testing;
+        const alloc = testing.allocator;
+        var t = try terminal.Terminal.init(testing.io, alloc, .{ .cols = 10, .rows = 3 });
+        defer t.deinit(alloc);
+        var stream = t.vtStream();
+        defer stream.deinit();
+        stream.nextSlice("abc\r\ndef");
+        const screen = t.screens.active;
+        try screen.select(.init(screen.pages.getTopLeft(.screen), screen.pages.getBottomRight(.screen).?, false));
+        var result = TextSnapshot.init(try terminal.AccessibilityText.textSnapshot(screen, alloc));
+        try testing.expectEqualStrings("abc\ndef", result.text.?[0..result.text_len]);
+        try testing.expectEqualStrings("abc\ndef", result.selected_text.?[0..result.selected_text_len]);
+        try testing.expectEqual(@as(usize, 1), result.ranges_len);
+        try testing.expectEqual(@as(usize, 7), result.ranges.?[0].length);
+        result.deinit(alloc);
+        try testing.expect(result.text == null and result.selected_text == null and result.ranges == null);
+        result.deinit(alloc);
     }
 
     /// Tell the surface that it needs to schedule a render

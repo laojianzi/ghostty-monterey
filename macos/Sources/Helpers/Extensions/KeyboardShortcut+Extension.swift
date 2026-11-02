@@ -1,6 +1,12 @@
 import SwiftUI
 
-extension KeyboardShortcut: @retroactive CustomStringConvertible {
+#if compiler(>=6.0)
+extension KeyboardShortcut: @retroactive CustomStringConvertible {}
+#else
+extension KeyboardShortcut: CustomStringConvertible {}
+#endif
+
+extension KeyboardShortcut {
     public var keyList: [String] {
         var result: [String] = []
 
@@ -47,7 +53,13 @@ extension KeyboardShortcut: @retroactive CustomStringConvertible {
 }
 
 // This is available in macOS 14 so this only applies to early macOS versions.
-extension KeyEquivalent: @retroactive Equatable {
+#if compiler(>=6.0)
+extension KeyEquivalent: @retroactive Equatable {}
+#else
+extension KeyEquivalent: Equatable {}
+#endif
+
+extension KeyEquivalent {
     public static func == (lhs: KeyEquivalent, rhs: KeyEquivalent) -> Bool {
         lhs.character == rhs.character
     }

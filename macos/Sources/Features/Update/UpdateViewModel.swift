@@ -234,23 +234,23 @@ enum UpdateState: Equatable {
     private var cancelAction: (() -> Void)? {
         switch self {
         case .idle:
-            nil
+            return nil
         case .permissionRequest:
-            nil
+            return nil
         case .checking(let checking):
-            checking.cancel
+            return checking.cancel
         case .updateAvailable(let available):
-            { available.reply(.dismiss) }
+            return { available.reply(.dismiss) }
         case .downloading(let downloading):
-            downloading.cancel
+            return downloading.cancel
         case .notFound(let notFound):
-            notFound.acknowledgement
+            return notFound.acknowledgement
         case .error(let err):
-            err.dismiss
+            return err.dismiss
         case .extracting:
-            nil
+            return nil
         case .installing:
-            nil
+            return nil
         }
     }
 

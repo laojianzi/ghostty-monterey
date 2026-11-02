@@ -94,7 +94,7 @@ final class ScriptWindow: NSObject {
         guard NSApp.isAppleScriptEnabled else { return [] }
         return controllers
             .flatMap { $0.surfaceTree.root?.leaves() ?? [] }
-            .map(ScriptTerminal.init)
+            .map { ScriptTerminal(surfaceView: $0) }
     }
 
     /// Enables unique-ID lookup for `terminals` references on a window.
@@ -104,7 +104,7 @@ final class ScriptWindow: NSObject {
         return controllers
             .flatMap { $0.surfaceTree.root?.leaves() ?? [] }
             .first(where: { $0.id.uuidString == uniqueID })
-            .map(ScriptTerminal.init)
+            .map { ScriptTerminal(surfaceView: $0) }
     }
 
     /// AppleScript tab indexes are 1-based, so we add one to Swift's 0-based

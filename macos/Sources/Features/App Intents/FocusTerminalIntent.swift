@@ -1,3 +1,4 @@
+#if compiler(>=6.0)
 import AppKit
 import AppIntents
 import GhosttyKit
@@ -8,7 +9,7 @@ struct FocusTerminalIntent: AppIntent {
 
     @Parameter(
         title: "Terminal",
-        description: "The terminal to focus.",
+        description: "The terminal to focus."
     )
     var terminal: TerminalEntity
 
@@ -35,3 +36,5 @@ struct FocusTerminalIntent: AppIntent {
         return .result()
     }
 }
+
+#endif

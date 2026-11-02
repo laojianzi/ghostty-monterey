@@ -38,9 +38,9 @@ extension Ghostty {
         // The current search state. When non-nil, the search overlay should be shown.
         @Published var searchState: SearchState?
 
-        // The time this surface last became focused. This is a ContinuousClock.Instant
+        // The time this surface last became focused. This is a GhosttyInstant
         // on supported platforms.
-        @Published var focusInstant: ContinuousClock.Instant?
+        @Published var focusInstant: GhosttyInstant?
 
         // Returns sizing information for the surface. This is the raw C
         // structure because I'm lazy.
@@ -70,7 +70,7 @@ extension Ghostty {
                 self,
                 selector: #selector(ghosttyDidChangeReadonly(_:)),
                 name: .ghosttyDidChangeReadonly,
-                object: self,
+                object: self
             )
         }
 

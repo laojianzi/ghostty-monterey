@@ -52,7 +52,7 @@ extension QuickTerminalRestorableState.InternalState where ViewType == Ghostty.S
         self.init(
             focusedSurface: controller.focusedSurface?.id.uuidString,
             surfaceTree: controller.surfaceTree,
-            screenStateEntries: controller.screenStateCache.stateByDisplay,
+            screenStateEntries: controller.screenStateCache.stateByDisplay
         )
     }
 }

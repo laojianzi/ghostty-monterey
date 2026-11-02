@@ -1,3 +1,4 @@
+#if compiler(>=6.0)
 enum GhosttyIntentError: Error, CustomLocalizedStringResourceConvertible {
     case appUnavailable
     case surfaceNotFound
@@ -11,3 +12,5 @@ enum GhosttyIntentError: Error, CustomLocalizedStringResourceConvertible {
         }
     }
 }
+
+#endif

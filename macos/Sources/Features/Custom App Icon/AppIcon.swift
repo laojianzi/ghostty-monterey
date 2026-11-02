@@ -38,7 +38,7 @@ enum AppIcon: Equatable, Codable, Sendable {
         case .xray:
             self = .xray
         case .custom:
-            if let data = try? Data(contentsOf: URL(filePath: config.macosCustomIcon, relativeTo: nil)) {
+            if let data = try? Data(contentsOf: URL(fileURLWithPath: config.macosCustomIcon)) {
                 self = .custom(data)
             } else {
                 return nil
@@ -96,12 +96,12 @@ actor AppIconUpdater {
                 .ghosttyIconDidChange,
                 object: nil,
                 userInfo: nil,
-                deliverImmediately: true,
+                deliverImmediately: true
             )
 
         NSWorkspace.shared.setIcon(
             icon?.image(in: .main),
-            forFile: Bundle.main.bundlePath,
+            forFile: Bundle.main.bundlePath
         )
         NSWorkspace.shared.noteFileSystemChanged(Bundle.main.bundlePath)
     }

@@ -14,6 +14,9 @@ import AppKit
 /// - `property working directory` -> `@objc(workingDirectory)` getter below.
 /// - `property pid` -> `@objc(pid)` getter below.
 /// - `property tty` -> `@objc(tty)` getter below.
+/// - `property full contents` -> `@objc(fullContents)` getter below.
+/// - `property visible text` -> `@objc(visibleText)` getter below.
+/// - `property selected text` -> `@objc(selectedText)` getter below.
 ///
 /// We keep only a weak reference to the underlying `SurfaceView` so this
 /// wrapper never extends the terminal's lifetime.
@@ -84,6 +87,27 @@ final class ScriptTerminal: NSObject {
     var tty: String {
         guard NSApp.isAppleScriptEnabled else { return "" }
         return surfaceView?.surfaceModel?.ttyName ?? ""
+    }
+
+    // Expose the existing terminal-detail readers on systems without App Intents.
+    // Reading through AX methods here does not require or grant AX permissions;
+    // these are in-process calls protected by the normal scripting policy.
+    @objc(fullContents)
+    var fullContents: String {
+        guard NSApp.isAppleScriptEnabled else { return "" }
+        return surfaceView?.cachedScreenContents.get() ?? ""
+    }
+
+    @objc(visibleText)
+    var visibleText: String {
+        guard NSApp.isAppleScriptEnabled else { return "" }
+        return surfaceView?.cachedVisibleContents.get() ?? ""
+    }
+
+    @objc(selectedText)
+    var selectedText: String {
+        guard NSApp.isAppleScriptEnabled else { return "" }
+        return surfaceView?.selectedText() ?? ""
     }
 
     /// Used by command handling (`perform action ... on <terminal>`).
@@ -230,10 +254,10 @@ enum ScriptSplitDirection {
 
     var splitDirection: SplitTree<Ghostty.SurfaceView>.NewDirection {
         switch self {
-        case .right: .right
-        case .left: .left
-        case .down: .down
-        case .up: .up
+        case .right: return .right
+        case .left: return .left
+        case .down: return .down
+        case .up: return .up
         }
     }
 }

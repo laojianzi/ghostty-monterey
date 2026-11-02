@@ -9,10 +9,14 @@ extension Ghostty {
     /// all over.
     ///
     /// Wraps a `ghostty_surface_t`
-    final class Surface: Sendable {
+    final class Surface {
         /// A surface is sendable because it is just a reference type. Using the surface in parameters
         /// may be unsafe but the value itself is safe to send across threads.
+        #if compiler(>=5.10)
         nonisolated(unsafe) private let surface: ghostty_surface_t
+        #else
+        private let surface: ghostty_surface_t
+        #endif
 
         /// Read the underlying C value for this surface. This is unsafe because the value will be
         /// freed when the Surface class is deinitialized.
@@ -206,3 +210,10 @@ extension Ghostty {
         }
     }
 }
+
+#if compiler(>=5.10)
+extension Ghostty.Surface: Sendable {}
+#else
+// Older compilers cannot express the pointer's unsafe sendability per property.
+extension Ghostty.Surface: @unchecked Sendable {}
+#endif

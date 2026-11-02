@@ -40,6 +40,9 @@ class UpdateController {
     /// This must be called before the updater can check for updates. If starting fails,
     /// the error will be shown to the user.
     func startUpdater() {
+        // Do not start Sparkle (including saved background schedules) without
+        // a distributor-provided Monterey feed/key. Manual checks explain why.
+        guard updateConfigurationError == nil else { return }
         do {
             try updater.start()
         } catch {
@@ -60,6 +63,12 @@ class UpdateController {
     ///
     /// This is typically connected to a menu item action.
     func checkForUpdates() {
+        if let error = updateConfigurationError {
+            userDriver.showUpdaterError(error, acknowledgement: { [weak self] in
+                self?.userDriver.viewModel.state = .idle
+            })
+            return
+        }
         // If we're already idle, then just check for updates immediately.
         if viewModel.state == .idle {
             updater.checkForUpdates()
@@ -98,6 +107,16 @@ class UpdateController {
         // one loop tick it seems.
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) { [weak self] in
             self?.updater.checkForUpdates()
+        }
+    }
+
+    private var updateConfigurationError: Error? {
+        let channel = (NSApp.delegate as? AppDelegate)?.ghostty.config.autoUpdateChannel == .tip ? "tip" : "stable"
+        do {
+            _ = try MontereyUpdateConfiguration(info: Bundle.main.infoDictionary ?? [:]).feedURL(channel: channel)
+            return nil
+        } catch {
+            return error
         }
     }
 }

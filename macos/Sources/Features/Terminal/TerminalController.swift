@@ -18,19 +18,20 @@ class TerminalController: BaseTerminalController, TabGroupCloseCoordinator.Contr
             return defaultValue
         }
 
-        let nib = switch config.macosTitlebarStyle {
-        case .native: "Terminal"
-        case .hidden: "TerminalHiddenTitlebar"
-        case .transparent: "TerminalTransparentTitlebar"
+        let nib: String
+        switch config.macosTitlebarStyle {
+        case .native: nib = "Terminal"
+        case .hidden: nib = "TerminalHiddenTitlebar"
+        case .transparent: nib = "TerminalTransparentTitlebar"
         case .tabs:
 #if compiler(>=6.2)
             if #available(macOS 26.0, *) {
-                "TerminalTabsTitlebarTahoe"
+                nib = "TerminalTabsTitlebarTahoe"
             } else {
-                "TerminalTabsTitlebarVentura"
+                nib = "TerminalTabsTitlebarVentura"
             }
 #else
-            "TerminalTabsTitlebarVentura"
+            nib = "TerminalTabsTitlebarVentura"
 #endif
         }
 
@@ -157,7 +158,7 @@ class TerminalController: BaseTerminalController, TabGroupCloseCoordinator.Contr
         scheduledWorkItem = DispatchWorkItem { [weak self] in
             guard let self else { return }
             defer { self.pendingInitialPresentation = nil }
-            guard pendingInitialPresentation?.isCancelled == false else { return }
+            guard self.pendingInitialPresentation?.isCancelled == false else { return }
             block()
         }
 
@@ -1033,7 +1034,15 @@ class TerminalController: BaseTerminalController, TabGroupCloseCoordinator.Contr
         self.init(ghostty, withSurfaceTree: undoState.surfaceTree)
 
         // Show the window and restore its frame
-        showWindow(nil)
+        // awakeFromNib temporarily prefers tabbing for session restoration.
+        // Undo owns its saved group explicitly; letting AppKit auto-tab here
+        // can turn a restored standalone window into a tab of another window.
+        if let window {
+            let tabbingMode = window.tabbingMode
+            window.tabbingMode = .disallowed
+            showWindowSafely(nil)
+            window.tabbingMode = tabbingMode
+        }
         if let window {
             window.setFrame(undoState.frame, display: true)
             if let terminalWindow = window as? TerminalWindow {
@@ -1182,12 +1191,12 @@ class TerminalController: BaseTerminalController, TabGroupCloseCoordinator.Contr
         // style) don't change the frame after the position is restored.
         let originChanged = terminalWindow.setInitialWindowPosition(
             x: derivedConfig.windowPositionX,
-            y: derivedConfig.windowPositionY,
+            y: derivedConfig.windowPositionY
         )
         let restored = LastWindowPosition.shared.restore(
             terminalWindow,
             origin: !originChanged,
-            size: defaultSize == nil,
+            size: defaultSize == nil
         )
 
         // If nothing is changed for the frame,
@@ -1218,10 +1227,10 @@ class TerminalController: BaseTerminalController, TabGroupCloseCoordinator.Contr
         tabGroupCloseCoordinator.windowShouldClose(sender) { [weak self] scope in
             guard let self else { return }
             switch scope {
-            case .tab: closeTab(nil)
+            case .tab: self.closeTab(nil)
             case .window:
                 guard self.window?.isFirstWindowInTabGroup ?? false else { return }
-                closeWindow(nil)
+                self.closeWindow(nil)
             }
         }
 
@@ -1268,6 +1277,11 @@ class TerminalController: BaseTerminalController, TabGroupCloseCoordinator.Contr
         super.windowDidBecomeKey(notification)
         self.relabelTabs()
         self.fixTabBar()
+
+        // Selecting a tab changes both its siblings' selection and window order.
+        for controller in Self.all {
+            controller.window?.invalidateRestorableState()
+        }
     }
 
     override func windowDidMove(_ notification: Notification) {
@@ -1302,10 +1316,37 @@ class TerminalController: BaseTerminalController, TabGroupCloseCoordinator.Contr
         Self.lastMain = self
     }
 
+    var nativeFullscreenFrame: NSRect?
+
+    func windowWillEnterFullScreen(_ notification: Notification) {
+        guard let window = notification.object as? NSWindow,
+              !window.styleMask.contains(.fullScreen) else { return }
+        let tabs = window.tabGroup?.windows ?? [window]
+        let frame = tabs.first(where: { $0 !== window && $0.styleMask.contains(.fullScreen) })
+            .flatMap { ($0.windowController as? TerminalController)?.nativeFullscreenFrame } ?? window.frame
+        // Every tab needs the same exit frame, including tabs not selected when
+        // AppKit restores the group. Capture before the transition changes it.
+        for tab in tabs {
+            (tab.windowController as? TerminalController)?.nativeFullscreenFrame = frame
+        }
+    }
+
     // Called when the window will be encoded. We handle the data encoding here in the
     // window controller.
     func window(_ window: NSWindow, willEncodeRestorableState state: NSCoder) {
+        // Untitled/non-native fullscreen windows may have no tab group.
+        state.encode(window.tabGroup == nil || window.tabGroup?.selectedWindow === window,
+                     forKey: TerminalWindowRestoration.selectedTabKey)
+        if let index = NSApp.orderedWindows.firstIndex(of: window) {
+            state.encode(index, forKey: TerminalWindowRestoration.windowOrderKey)
+        }
         let data = TerminalRestorableState(from: self)
+        if window.styleMask.contains(.fullScreen), let frame = nativeFullscreenFrame {
+            state.encode(frame, forKey: TerminalWindowRestoration.nativeFullscreenFrameKey)
+        }
+        if let frame = (fullscreenStyle as? NonNativeFullscreen)?.restorationFrame {
+            state.encode(frame, forKey: TerminalWindowRestoration.nonNativeFullscreenFrameKey)
+        }
         data.encode(with: state)
     }
 
@@ -1457,7 +1498,7 @@ class TerminalController: BaseTerminalController, TabGroupCloseCoordinator.Contr
             // attached to the window that needs confirmation.
             confirmControllers[0].confirmClose(
                 messageText: "Close Window?",
-                informativeText: "All terminal sessions in this window will be terminated.",
+                informativeText: "All terminal sessions in this window will be terminated."
             ) {
                 self.closeWindowImmediately()
             }
@@ -1484,7 +1525,7 @@ class TerminalController: BaseTerminalController, TabGroupCloseCoordinator.Contr
         for controller in controllers {
             let response = await controller.confirmCloseAsync(
                 messageText: "Close Window?",
-                informativeText: "All terminal sessions in this window will be terminated.",
+                informativeText: "All terminal sessions in this window will be terminated."
             )
 
             if [.OK, .alertFirstButtonReturn].contains(response) {

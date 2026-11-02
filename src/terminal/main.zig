@@ -49,6 +49,7 @@ pub const Parser = @import("Parser.zig");
 pub const Pin = PageList.Pin;
 pub const Point = point.Point;
 pub const RenderState = render.RenderState;
+pub const AccessibilityText = @import("AccessibilityText.zig");
 pub const Screen = @import("Screen.zig");
 pub const ScreenSet = @import("ScreenSet.zig");
 pub const Scrollbar = PageList.Scrollbar;
