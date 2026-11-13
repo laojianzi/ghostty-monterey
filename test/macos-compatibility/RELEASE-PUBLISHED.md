@@ -1,5 +1,9 @@
 # Published Monterey release
 
+Historical revision-1 record. The current release is documented in
+[RELEASE-MONTEREY-2.md](RELEASE-MONTEREY-2.md); results below retain their original
+artifact identity.
+
 Published 2026-11-02:
 [v1.4.0-monterey.1](https://github.com/laojianzi/ghostty-monterey/releases/tag/v1.4.0-monterey.1),
 marked Latest at publication. This record supersedes earlier statements that

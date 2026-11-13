@@ -25,15 +25,16 @@
 
 This repository is a community macOS Monterey adaptation of official Ghostty
 **v1.4.0**, not an official Ghostty distribution. The current release is
-[v1.4.0-monterey.1](https://github.com/laojianzi/ghostty-monterey/releases/tag/v1.4.0-monterey.1),
-build **18465**, distributed as **ReleaseLocal for Intel x86_64 only**.
+[v1.4.0-monterey.2](https://github.com/laojianzi/ghostty-monterey/releases/tag/v1.4.0-monterey.2),
+build **18467**, distributed as **ReleaseLocal for Intel x86_64 only**.
 Runtime verification is limited to an Intel Mac running macOS 12.7.6; ARM,
 other macOS versions and Japanese/Korean input layouts are not certified.
 
 The port retains the upstream core while adapting native window/input handling,
 AppleScript automation and accessibility selection for Monterey. AppIntents
 is unavailable on macOS 12; AppleScript alternatives do not provide full
-Shortcuts parity. See the [published release record](test/macos-compatibility/RELEASE-PUBLISHED.md)
+Shortcuts parity. Revision 2 fixes native-tab flashing while retaining hidden
+render-target reclamation. See the [published release record](test/macos-compatibility/RELEASE-MONTEREY-2.md)
 for artifact identity, verification scope and unresolved test results.
 
 ## About
@@ -59,9 +60,9 @@ For more details, see [About Ghostty](https://ghostty.org/docs/about).
 ## Download
 
 For this Monterey port, use the
-[release page](https://github.com/laojianzi/ghostty-monterey/releases/tag/v1.4.0-monterey.1)
+[release page](https://github.com/laojianzi/ghostty-monterey/releases/tag/v1.4.0-monterey.2)
 or download the
-[Intel ReleaseLocal ZIP](https://github.com/laojianzi/ghostty-monterey/releases/download/v1.4.0-monterey.1/Ghostty-macos12-1.4.0-monterey.1-18465-releaselocal-x86_64.zip).
+[Intel ReleaseLocal ZIP](https://github.com/laojianzi/ghostty-monterey/releases/download/v1.4.0-monterey.2/Ghostty-macos12-1.4.0-monterey.2-18467-releaselocal-x86_64.zip).
 The separate symbols ZIP is for debugging, not installation.
 
 1. Quit Ghostty and back up your existing application.

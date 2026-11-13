@@ -6,7 +6,9 @@ certificates. Read the artifact identity and scope of each result.
 
 ## Current entry points
 
-- [RELEASE-PUBLISHED.md](RELEASE-PUBLISHED.md): published 1.4.0-monterey.1/build18465,
+- [RELEASE-MONTEREY-2.md](RELEASE-MONTEREY-2.md): current 1.4.0-monterey.2/build18467,
+  issue #4 fix, final-archive targeted checks and delivery verification.
+- [RELEASE-PUBLISHED.md](RELEASE-PUBLISHED.md): historical 1.4.0-monterey.1/build18465,
   delivery verification and disclosed unresolved test results.
 - BUILDING.md: build and verification commands and tool prerequisites.
 - RELEASE-READINESS.md: current acceptance index and unresolved boundaries.
