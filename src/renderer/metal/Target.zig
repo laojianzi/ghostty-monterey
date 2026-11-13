@@ -103,6 +103,9 @@ pub fn init(opts: Options) !Self {
 }
 
 pub fn deinit(self: *Self) void {
-    self.surface.deinit();
+    // CALayer.contents or a queued presentation may still retain this surface
+    // after the hidden tab releases its swapchain. Drop our reference without
+    // purging the pixels that the compositor still needs until the next frame.
+    self.surface.release();
     self.texture.release();
 }

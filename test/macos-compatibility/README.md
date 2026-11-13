@@ -15,6 +15,7 @@ certificates. Read the artifact identity and scope of each result.
 - AUTOMATION.md and automation-examples/: scripting alternatives and policies.
 - UPDATES.md: safe manual updates and requirements for a fork update service.
 - RELEASE-INTEL.md: implemented Intel-only build and packaging procedure.
+- TAB-FLASH.md: issue #4 ownership fix, compositor regression and local results.
 - PACKAGING-PLAN.md: historical design, superseded by the release procedure.
 - native-suite/README.md: isolated Swift toolchain/test adaptations.
 
